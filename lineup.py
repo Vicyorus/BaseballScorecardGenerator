@@ -1,0 +1,24 @@
+class Lineup:
+    def __init__(self, data, roster):
+        self.lineup = []
+        self.roster = roster # TODO: May want to remove this when the debugging stage is done
+
+        for lineup_player in data:
+            player = roster.get_player(lineup_player[0])
+            player.set_lineup_position(lineup_player[1], 1)
+
+            self.lineup.append([lineup_player[0]])
+
+    def add_player(self, order, player_id):
+        self.lineup[order - 1].append(player_id)
+
+    def __str__(self):
+        result = ""
+        for order in self.lineup:
+            for player_idx in range(len(order)):
+                if player_idx != 0:
+                    result += f'    {self.roster.get_player(order[player_idx])}\n'
+                else:
+                    result += f'{self.roster.get_player(order[player_idx])}\n'
+
+        return result
