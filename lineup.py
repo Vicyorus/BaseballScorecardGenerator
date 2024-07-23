@@ -1,6 +1,7 @@
 class Lineup:
     def __init__(self, data, roster):
         self.lineup = []
+        self.current_batter = 1
         self.roster = roster # TODO: May want to remove this when the debugging stage is done
 
         for lineup_player in data:
@@ -11,6 +12,14 @@ class Lineup:
 
     def add_player(self, order, player_id):
         self.lineup[order - 1].append(player_id)
+
+    def get_batter(self):
+        player_id = self.lineup[self.current_batter - 1][-1]
+        return self.roster.get_player(player_id)
+
+    def next_batter(self):
+        self.current_batter += 1
+        self.current_batter %= 9
 
     def __str__(self):
         result = ""

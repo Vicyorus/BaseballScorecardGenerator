@@ -17,17 +17,12 @@ class Team:
 
         self.reserves = Reserves(data["bullpen"], data["bench"], self.roster)
 
-        # TODO: Should these live inside the respective lineups?
-        self.current_batter = 1
-        self.current_pitcher = data["starter"]
-    
     def add_pitcher(self, pitcher_id, inning):
         # Sanity check, ensure the pitcher is in the roster.
         pitcher = self.roster.get_player(pitcher_id)
         if not pitcher:
             raise Exception(f'No pitcher found with the ID {pitcher_id} for team {self.team}')
 
-        # TODO: Mark the pitcher as out of the bullpen/bench.
         pitcher.set_lineup_position("1", inning)
         self.pitcher_lineup.add_pitcher(pitcher_id)
 
@@ -36,11 +31,19 @@ class Team:
         player = self.roster.get_player(player_id)
         if not player:
             raise Exception(f'No player found with the ID {player_id} for team {self.team}')
-        
-        # TODO: Mark the player as out of the bench/bullpen.
+
         player.set_lineup_position(position, inning)
 
         self.lineup.add_player(order, player_id)
+
+    def get_batter(self):
+        return self.lineup.get_batter()
+
+    def get_pitcher(self):
+        return self.pitcher_lineup.get_pitcher()
+
+    def next_batter(self):
+        return self.lineup.next_batter()
 
     def __str__(self):
         result = f"{self.team}\n\n"

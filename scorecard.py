@@ -20,6 +20,8 @@ class Scorecard:
         self.home = self.__create_team(data["home"], data["extended_roster"])
 
         self.innings = []
+        self.current_inning = 1
+        self.is_top_inning = True
 
         if "umpires" in data.keys():
             self.umpires = self.__create_umpires(data["umpires"])
@@ -38,9 +40,16 @@ class Scorecard:
 
         return umpire_list
 
-    def new_inning(self, number=1, top=True):
-        inning = Inning(number, top, self.away, self.home)
+    def new_inning(self):
+
+        # Create the new inning and add it to the list of innings.
+        inning = Inning(self.current_inning, self.is_top_inning, self.away, self.home)
         self.innings.append(inning)
+
+        # Move the inning counters.
+        self.is_top_inning = not self.is_top_inning
+        if self.is_top_inning:
+            self.current_inning += 1
 
         return inning
 
@@ -54,7 +63,7 @@ class Scorecard:
             result += str(ump)
 
         result += "\n"
-    
+
         for inn in self.innings:
             result += str(inn)
 

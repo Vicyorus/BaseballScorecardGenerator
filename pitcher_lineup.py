@@ -7,6 +7,10 @@ class PitcherLineup:
     def add_pitcher(self, player_id):
         self.pitchers.append(player_id)
 
+    def get_pitcher(self):
+        pitcher_id = self.pitchers[-1]
+        return self.roster.get_player(pitcher_id)
+
     def __str__(self):
         result = ""
         for pitcher in self.pitchers:

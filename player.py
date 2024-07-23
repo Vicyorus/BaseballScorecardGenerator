@@ -18,7 +18,7 @@ class Player:
 
     def set_primary_position(self, position):
         self.primary_position = position
-    
+
     def set_as_bullpen(self):
         self.set_primary_position("P")
         self.is_bullpen = True
