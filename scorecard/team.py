@@ -1,8 +1,8 @@
-from player import Player
-from roster import Roster
-from lineup import Lineup
-from pitcher_lineup import PitcherLineup
-from reserves import Reserves
+from scorecard.player import Player
+from scorecard.roster import Roster
+from scorecard.lineup import Lineup
+from scorecard.pitcher_lineup import PitcherLineup
+from scorecard.reserves import Reserves
 
 class Team:
     def __init__(self, data, use_extended_roster):

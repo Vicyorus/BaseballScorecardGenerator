@@ -1,4 +1,4 @@
-from player import Player
+from scorecard.player import Player
 
 class Roster:
     def __init__(self, roster, use_extended_roster):

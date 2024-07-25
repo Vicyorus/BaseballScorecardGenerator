@@ -1,6 +1,6 @@
-from inning import Inning
-from umpire import Umpire
-from team import Team
+from scorecard.inning import Inning
+from scorecard.umpire import Umpire
+from scorecard.team import Team
 
 class Scorecard:
     def __init__(self, data):

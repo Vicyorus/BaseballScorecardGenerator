@@ -1,4 +1,4 @@
-from pitch import Pitch
+from scorecard.pitch import Pitch
 
 class AtBat():
     def __init__(self, batter, pitcher):

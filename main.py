@@ -1,5 +1,5 @@
 #!/usr/bin/python3.10
-from scorecard import Scorecard
+from scorecard.scorecard import Scorecard
 
 # BOS @ PHI, 2018-08-14
 # https://www.baseball-reference.com/boxes/PHI/PHI201808140.shtml
