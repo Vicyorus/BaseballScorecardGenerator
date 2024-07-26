@@ -89,7 +89,18 @@ class Inning:
 
     # Runner results.
     def advance(self, end_base, play):
-        return None
+        # Check if the runner reached home plate, add the corresponding
+        # statistics to the team.
+        if end_base == 4 or end_base == "U":
+            self.batting_team.stats.runs += 1
+            self.batting_team.stats.left_on_base -= 1
+
+        # Check if the batter stole a base, and if so, add a stolen base for
+        # the batting team.
+        if "SB" in play:
+            self.batting_team.stats.stolen_bases += 1
+
+        self.current_ab.advance(end_base, play)
 
     def thrown_out(self, out_base, play, out_number, pitcher_id):
         return None

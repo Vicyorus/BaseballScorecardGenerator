@@ -128,7 +128,15 @@ class AtBat():
 
     # Runner results.
     def advance(self, end_base, play):
-        return None
+        # Check if the runner reached home plate, add the corresponding
+        # statistics to the batter/pitcher.
+        if end_base == 4 or end_base == "U":
+            self.batter.batter_stats.runs += 1
+            self.pitcher.pitcher_stats.runs += 1
+            if end_base == 4:
+                self.pitcher.pitcher_stats.earned_runs += 1
+
+        # TODO: Add play to the list of plays for this batter.
 
     def thrown_out(self, out_base, play, out_number, pitcher_id):
         return None

@@ -28,6 +28,7 @@ class TeamStats:
         result += f'SAC: {self.sac_bunts}\n'
         result += f'SF: {self.sac_flys}\n'
         result += f'DP: {self.double_plays}\n'
+        result += f'SB: {self.stolen_bases}\n'
         result += f'LOB: {self.left_on_base}\n'
 
         return result
