@@ -6,6 +6,7 @@ class AtBat():
         self.pitcher = pitcher
 
         self.pitches = []
+        self.plays = []
         self.count = {"b": 0, "s": 0, "f": 0}
         self.rbis = 0
 
@@ -51,16 +52,28 @@ class AtBat():
 
     def out(self, play):
         # Check the play code to determine if additional stats have to be registered.
-        if play == "K" or play == "!K":
-            None # TODO: Add statistics, namely strikeouts and sacrifices
+        has_at_bat = True
+
+        # Award strikeouts to the pitcher and batter.
+        if play.startswith("K") or play.startswith("!K"):
+            self.pitcher.pitcher_stats.strikeouts += 1
+            self.batter.batter_stats.strikeouts += 1
+
+        # On sac flys or sac bunts, no AB is to be awarded to the batter.
+        if "SAC" in play or "SF" in play:
+            has_at_bat = False
+
+        if has_at_bat:
+            self.batter.batter_stats.at_bats += 1
 
         # Since all outs to the batter require a swing of the bat,
         # add a strike to the pitch list.
         self.pitches.append(Pitch('X', inc_pitch_count=True, is_strike=True))
 
-        # TODO: Register the out to the pitcher when stats are available.
+        # Add an out made to the pitcher.
+        self.pitcher.pitcher_stats.outs += 1
 
-        return None
+        # TODO: Add play to the list of plays for this batter.
 
     def advance(self, end_base, play):
         return None

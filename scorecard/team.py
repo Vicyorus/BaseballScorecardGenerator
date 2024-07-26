@@ -3,6 +3,7 @@ from scorecard.roster import Roster
 from scorecard.lineup import Lineup
 from scorecard.pitcher_lineup import PitcherLineup
 from scorecard.reserves import Reserves
+from scorecard.stats.team_stats import TeamStats
 
 class Team:
     def __init__(self, data, use_extended_roster):
@@ -14,8 +15,8 @@ class Team:
         self.roster = Roster(data["roster"], use_extended_roster)
         self.lineup = Lineup(data["lineup"], self.roster)
         self.pitcher_lineup = PitcherLineup(data["starter"], self.roster)
-
         self.reserves = Reserves(data["bullpen"], data["bench"], self.roster)
+        self.stats = TeamStats()
 
     def add_pitcher(self, pitcher_id, inning):
         # Sanity check, ensure the pitcher is in the roster.
@@ -36,19 +37,24 @@ class Team:
 
         self.lineup.add_player(order, player_id)
 
+    def next_batter(self):
+        return self.lineup.next_batter()
+
     def get_batter(self):
         return self.lineup.get_batter()
 
     def get_pitcher(self):
         return self.pitcher_lineup.get_pitcher()
 
-    def next_batter(self):
-        return self.lineup.next_batter()
+    def get_stats(self):
+        return self.stats
 
     def __str__(self):
         result = f"{self.team}\n\n"
         result += f"{str(self.lineup)}\n"
         result += f"{str(self.pitcher_lineup)}\n"
         result += f"{str(self.reserves)}\n"
+        result += f"{str(self.stats)}\n"
+        result += "\n"
 
         return result

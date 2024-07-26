@@ -31,6 +31,5 @@ class Reserves:
             else:
                 result += f'{str(self.roster.get_player(pitcher_id).get_reserves_str())}\n'
 
-        result += "\n"
         return result
 

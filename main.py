@@ -427,7 +427,7 @@ t7 = game.new_inning()
 
 # Pitching substitution (PHI): #93 Pat Neshek replaces #43 Nick Pivetta, batting 9th
 t7.pitching_substitution(93)
-t7.defensive_substitution(9, 93, 1)
+t7.defensive_substitution(9, 93, "1")
 
 # 4. BOS #28 J.D. Martinez (X - X - X)
 t7.new_ab()
@@ -478,7 +478,7 @@ t8 = game.new_inning()
 
 # Pitching substitution (PHI): #96 Tommy Hunter replaces #93 Pat Neshek, batting 9th
 t8.pitching_substitution(96)
-t8.defensive_substitution(9, 96, 1)
+t8.defensive_substitution(9, 96, "1")
 
 # 8. BOS #3  Sandy León (X - X - X)
 t8.new_ab()
@@ -514,7 +514,7 @@ b8 = game.new_inning()
 
 # Pitching substitution (BOS): #37 Heath Hembree replaces #22 Rick Porcello, batting 9th
 b8.pitching_substitution(37)
-b8.defensive_substitution(9, 37, 1)
+b8.defensive_substitution(9, 37, "1")
 
 # 6. PHI #7  Maikel Franco (X - X - X)
 b8.new_ab()
@@ -541,7 +541,7 @@ t9 = game.new_inning()
 
 # Pitching substitution (PHI): #64 Víctor Arano replaces #96 Tommy Hunter, batting 9th
 t9.pitching_substitution(64)
-t9.defensive_substitution(9, 64, 1)
+t9.defensive_substitution(9, 64, "1")
 
 # 4. BOS #28 J.D. Martinez (X - X - X)
 t9.new_ab()
@@ -571,7 +571,7 @@ b9 = game.new_inning()
 
 # Pitching substitution (BOS): #46 Craig Kimbrel replaces #37 Heath Hembree, batting 9th
 b9.pitching_substitution(46)
-b9.defensive_substitution(9, 46, 1)
+b9.defensive_substitution(9, 46, "1")
 
 # Offensive substitution (PHI): Pinch-hitter #33 Justin Bour replaces #64 Víctor Arano, batting 9th
 b9.offensive_substitution(9, 33, 'PH')

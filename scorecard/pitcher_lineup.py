@@ -14,7 +14,7 @@ class PitcherLineup:
     def __str__(self):
         result = ""
         for pitcher in self.pitchers:
-            result += f'{str(self.roster.get_player(pitcher))}\n'
+            result += f'{str(self.roster.get_player(pitcher).get_pitcher_str())}\n'
 
         return result
 

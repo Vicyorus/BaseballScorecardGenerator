@@ -1,5 +1,7 @@
+from scorecard.stats.batter_stats import BatterStats
+from scorecard.stats.pitcher_stats import PitcherStats
+
 class Player:
-    # TODO: Add inning when the player entered the game.
     # TODO: Currently this model only allows for one inning to be specified per player, should we expand to support switches?
     def __init__(self, id, number, name):
         self.id = id
@@ -10,6 +12,9 @@ class Player:
         self.is_bullpen = False
         self.in_lineup = False
         self.inning_entered = 0
+
+        self.batter_stats = BatterStats()
+        self.pitcher_stats = PitcherStats()
 
     def set_lineup_position(self, position, inning):
         self.in_lineup = True
@@ -29,5 +34,30 @@ class Player:
     def get_reserves_str(self):
         return f'#{self.number} {self.name} ({self.primary_position})'
 
+    def get_lineup_str(self):
+        return f'{self.__code_to_position(self.lineup_position)} {str(self)} ({self.inning_entered}) {str(self.batter_stats)}'
+
+    def __code_to_position(self, code):
+        codes = {
+            "1": "P",
+            "2": "C",
+            "3": "1B",
+            "4": "2B",
+            "5": "3B",
+            "6": "SS",
+            "7": "LF",
+            "8": "CF",
+            "9": "RF",
+            "0": "DH",
+            "10": "DH",
+            "PH": "PH",
+            "PR": "PR",
+        }
+
+        return codes[code]
+
+    def get_pitcher_str(self):
+        return f'{str(self)} ({self.inning_entered}) {str(self.pitcher_stats)}'
+
     def __str__(self):
-        return f'{self.lineup_position} #{self.number} {self.name} ({self.inning_entered})'
+        return f'#{self.number} {self.name}'

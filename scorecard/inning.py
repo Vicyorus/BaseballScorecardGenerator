@@ -41,11 +41,14 @@ class Inning:
                 self.outs[i] = True
                 out_added = True
                 break
-
         if not out_added:
             raise Exception("More than 3 outs in inning")
 
-        # TODO: Add statistics for double plays to the team.
+        # Add double and triple play stats to the batter team.
+        if "DP" in play:
+            self.batting_team.get_stats().double_plays += 1
+        if "TP" in play:
+            self.batting_team.get_stats().triple_plays += 1
 
         self.current_ab.out(play)
 

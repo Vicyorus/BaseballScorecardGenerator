@@ -26,8 +26,8 @@ class Lineup:
         for order in self.lineup:
             for player_idx in range(len(order)):
                 if player_idx != 0:
-                    result += f'    {self.roster.get_player(order[player_idx])}\n'
+                    result += f'    {self.roster.get_player(order[player_idx]).get_lineup_str()}\n'
                 else:
-                    result += f'{self.roster.get_player(order[player_idx])}\n'
+                    result += f'{self.roster.get_player(order[player_idx]).get_lineup_str()}\n'
 
         return result
