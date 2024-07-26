@@ -36,7 +36,7 @@ class Inning:
         self.current_ab.pitch_list(pitches)
 
     # Batter results.
-    def out(self, play):
+    def out(self, play, rbis=0):
         # Sanity check, ensure the user isn't adding more than 3 outs.
         out_added = False
         for i in range(1, 4):
@@ -57,7 +57,7 @@ class Inning:
         if "SF" in play:
             self.batting_team.get_stats().sac_flys += 1
 
-        self.current_ab.out(play)
+        self.current_ab.out(play, rbis=rbis)
 
     def hit(self, bases, rbis=0):
         # Add the corresponding type of hit for the batting team.
@@ -81,11 +81,11 @@ class Inning:
 
         self.current_ab.hit(bases, rbis=rbis_to_add)
 
-    def reach(self, play, end_base=1):
+    def reach(self, play, end_base=1, rbis=0):
         # Since a batter reached base, mark them as left on base.
         # If they get thrown out or advance to home, they will be removed.
         self.batting_team.stats.left_on_base += 1
-        self.current_ab.reach(play, end_base=end_base)
+        self.current_ab.reach(play, end_base=end_base, rbis=rbis)
 
     # Runner results.
     def advance(self, end_base, play):

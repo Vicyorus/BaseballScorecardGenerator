@@ -51,7 +51,7 @@ class AtBat():
         self.pitches.append(Pitch(pitch_type, inc_pitch_count))
 
     # Batter results.
-    def out(self, play):
+    def out(self, play, rbis=0):
         # Check the play code to determine if additional stats have to be registered.
         has_at_bat = True
 
@@ -66,6 +66,9 @@ class AtBat():
 
         if has_at_bat:
             self.batter.batter_stats.at_bats += 1
+
+        # If there are any RBIs, add them to the batter's stats.
+        self.batter.batter_stats.rbis += rbis
 
         # Since all outs to the batter require a swing of the bat,
         # add a strike to the pitch list.
@@ -98,7 +101,7 @@ class AtBat():
 
         # TODO: Add play to the list of plays for this batter.
 
-    def reach(self, play, end_base=1):
+    def reach(self, play, end_base=1, rbis=0):
         # Some reach codes will not count as an at-bat, toggle this variable
         # when it's not applicable.
         add_at_bat = True
@@ -123,6 +126,9 @@ class AtBat():
 
         if add_at_bat:
             self.batter.batter_stats.at_bats += 1
+
+        # If there are any RBIs, add them to the batter's stats.
+        self.batter.batter_stats.rbis += rbis
 
         # TODO: Add play to the list of plays for this batter.
 
