@@ -65,7 +65,7 @@ class Inning:
         self.batting_team.stats.hits[hit_type] += 1
 
         # Unless the hit is not a home run, add a batter left on the basepaths.
-        # If they get thrown out or reach home, they will be removed.
+        # If they get thrown out or advance to home, they will be removed.
         if hit_type != 4:
             self.batting_team.stats.left_on_base += 1
 
@@ -81,8 +81,11 @@ class Inning:
 
         self.current_ab.hit(bases, rbis=rbis_to_add)
 
-    def reach(self, play, end_base=None):
-        return None
+    def reach(self, play, end_base=1):
+        # Since a batter reached base, mark them as left on base.
+        # If they get thrown out or advance to home, they will be removed.
+        self.batting_team.stats.left_on_base += 1
+        self.current_ab.reach(play, end_base=end_base)
 
     # Runner results.
     def advance(self, end_base, play):

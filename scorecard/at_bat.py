@@ -98,8 +98,33 @@ class AtBat():
 
         # TODO: Add play to the list of plays for this batter.
 
-    def reach(self, play, end_base=None):
-        return None
+    def reach(self, play, end_base=1):
+        # Some reach codes will not count as an at-bat, toggle this variable
+        # when it's not applicable.
+        add_at_bat = True
+
+        if play == "K":
+            self.batter.batter_stats.strikeouts += 1
+            self.pitcher.pitcher_stats.strikeouts += 1
+
+        if play == "BB":
+            self.batter.batter_stats.walks += 1
+            self.pitcher.pitcher_stats.walks += 1
+            add_at_bat = False
+
+        if play == "IBB":
+            self.batter.batter_stats.walks += 1
+            self.pitcher.pitcher_stats.intent_walks += 1
+            add_at_bat = False
+
+        if play == "HP" or play == "HBP":
+            self.pitcher.pitcher_stats.hits_by_pitch += 1
+            add_at_bat = False
+
+        if add_at_bat:
+            self.batter.batter_stats.at_bats += 1
+
+        # TODO: Add play to the list of plays for this batter.
 
     # Runner results.
     def advance(self, end_base, play):
