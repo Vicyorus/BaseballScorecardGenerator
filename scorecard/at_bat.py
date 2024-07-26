@@ -8,8 +8,8 @@ class AtBat():
         self.pitches = []
         self.plays = []
         self.count = {"b": 0, "s": 0, "f": 0}
-        self.rbis = 0
 
+    # Pitches.
     def pitch_list(self, pitches):
         for pitch in pitches.split(" "):
             # TODO: Consider supporting "ball in play" codes.
@@ -50,6 +50,7 @@ class AtBat():
         self.count["f"] += 1
         self.pitches.append(Pitch(pitch_type, inc_pitch_count))
 
+    # Batter results.
     def out(self, play):
         # Check the play code to determine if additional stats have to be registered.
         has_at_bat = True
@@ -75,21 +76,39 @@ class AtBat():
 
         # TODO: Add play to the list of plays for this batter.
 
+    def hit(self, bases, rbis=0):
+        # Record the hit for both the batter and the pitcher, and the at-bat
+        # for the batter.
+        self.batter.batter_stats.hits += 1
+        self.batter.batter_stats.at_bats += 1
+        self.pitcher.pitcher_stats.hits += 1
+
+        # If there are any RBIs, add them to the batter's stats.
+        self.batter.batter_stats.rbis += rbis
+
+        # If the hit is a home run, add a run to the batter and
+        # the pitcher, a home run to the pitcher, and an earned run
+        # if it applies.
+        if bases == 4 or bases == "U":
+            self.batter.batter_stats.runs += 1
+            self.pitcher.pitcher_stats.runs += 1
+            self.pitcher.pitcher_stats.home_runs += 1
+            if bases == 4:
+                self.pitcher.pitcher_stats.earned_runs += 1
+
+        # TODO: Add play to the list of plays for this batter.
+
+    def reach(self, play, end_base=None):
+        return None
+
+    # Runner results.
     def advance(self, end_base, play):
         return None
 
     def thrown_out(self, out_base, play, out_number, pitcher_id):
         return None
 
-    def hit(self, bases):
-        return None
-
-    def reach(self, play, end_base=None):
-        return None
-
-    def error(self, fielder):
-        return None
-
+    # Miscelaneous functions to detail additional events for the at-bat.
     def atbase(self, label):
         return None
 

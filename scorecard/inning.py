@@ -21,6 +21,7 @@ class Inning:
         self.plays.append(ab)
         self.current_ab = ab
 
+    # Substitutions.
     def pitching_substitution(self, pitcher_id):
         self.fielding_team.add_pitcher(pitcher_id, self.number)
 
@@ -30,9 +31,11 @@ class Inning:
     def defensive_substitution(self, order, player_id, position):
         self.fielding_team.add_player(order, player_id, position, self.number)
 
+    # Pitches.
     def pitch_list(self, pitches):
         self.current_ab.pitch_list(pitches)
 
+    # Batter results.
     def out(self, play):
         # Sanity check, ensure the user isn't adding more than 3 outs.
         out_added = False
@@ -44,26 +47,51 @@ class Inning:
         if not out_added:
             raise Exception("More than 3 outs in inning")
 
-        # Add double and triple play stats to the batter team.
+        # Add team stats for the batting team.
         if "DP" in play:
             self.batting_team.get_stats().double_plays += 1
         if "TP" in play:
             self.batting_team.get_stats().triple_plays += 1
+        if "SAC" in play:
+            self.batting_team.get_stats().sac_bunts += 1
+        if "SF" in play:
+            self.batting_team.get_stats().sac_flys += 1
 
         self.current_ab.out(play)
 
+    def hit(self, bases, rbis=0):
+        # Add the corresponding type of hit for the batting team.
+        hit_type = 4 if bases == "U" else bases
+        self.batting_team.stats.hits[hit_type] += 1
+
+        # Unless the hit is not a home run, add a batter left on the basepaths.
+        # If they get thrown out or reach home, they will be removed.
+        if hit_type != 4:
+            self.batting_team.stats.left_on_base += 1
+
+        # If the hit is a home run, check if the user gave a number of RBIs and
+        # use that, otherwise add one RBI by default.
+        rbis_to_add = rbis
+        if hit_type == 4 and rbis_to_add == 0:
+            rbis_to_add = 1
+
+        # If the hit is a home run, add a run to the batting team.
+        if hit_type == 4:
+            self.batting_team.stats.runs += 1
+
+        self.current_ab.hit(bases, rbis=rbis_to_add)
+
+    def reach(self, play, end_base=None):
+        return None
+
+    # Runner results.
     def advance(self, end_base, play):
         return None
 
     def thrown_out(self, out_base, play, out_number, pitcher_id):
         return None
 
-    def hit(self, bases):
-        return None
-
-    def reach(self, play, end_base=None):
-        return None
-
+    # Miscelaneous functions to detail additional events for the at-bat.
     def error(self, fielder):
         return None
 
