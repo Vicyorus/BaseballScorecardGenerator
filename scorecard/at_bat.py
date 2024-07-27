@@ -124,6 +124,9 @@ class AtBat():
             self.pitcher.pitcher_stats.hits_by_pitch += 1
             add_at_bat = False
 
+        if play == "CI":
+            add_at_bat = False
+
         if add_at_bat:
             self.batter.batter_stats.at_bats += 1
 
@@ -144,7 +147,11 @@ class AtBat():
 
         # TODO: Add play to the list of plays for this batter.
 
-    def thrown_out(self, out_base, play, out_number, pitcher_id):
+    def thrown_out(self, out_base, play, out_number=None, pitcher=None):
+        # Add the out for the pitcher.
+        responsible_pitcher = pitcher if pitcher else self.pitcher
+        responsible_pitcher.pitcher_stats.outs += 1
+
         return None
 
     # Miscelaneous functions to detail additional events for the at-bat.

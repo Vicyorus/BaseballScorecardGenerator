@@ -102,8 +102,43 @@ class Inning:
 
         self.current_ab.advance(end_base, play)
 
-    def thrown_out(self, out_base, play, out_number, pitcher_id):
-        return None
+    def thrown_out(self, out_base, play, out_number=None, pitcher_id=None):
+        # Runner is no longer in the basepaths, remove them from the LOB count.
+        self.batting_team.stats.left_on_base -= 1
+
+        # Add stats to the team if the batter was thrown out caught stealing or picked off.
+        if "CS" in play:
+            self.batting_team.stats.caught_stealing += 1
+
+        if "POCS" in play:
+            self.batting_team.stats.caught_stealing += 1
+            self.batting_team.stats.picked_off += 1
+
+        # Record the out in either the first available out, or in the indicated out number.
+        if out_number:
+            if self.outs[out_number]:
+                raise Exception("Indicated out for thrown_out call has already been used.")
+
+            self.outs[out_number] = True
+        else:
+            out_added = False
+            for i in range(1, 4):
+                if not self.outs[i]:
+                    self.outs[i] = True
+                    out_added = True
+                    break
+            if not out_added:
+                raise Exception("More than 3 outs in inning")
+
+        # If the pitcher_id is passed, pass the pitcher to the at-bat object.
+        responsible_pitcher = None
+        if pitcher_id:
+            if self.fielding_team.pitcher_lineup.is_in_lineup(pitcher_id):
+                responsible_pitcher = self.fielding_team.roster.get_player(pitcher_id)
+            else:
+                raise Exception("Credited pitcher in thrown_out call not added as a pitcher.")
+
+        self.current_ab.thrown_out(out_base, play, out_number, responsible_pitcher)
 
     # Miscelaneous functions to detail additional events for the at-bat.
     def error(self, fielder):

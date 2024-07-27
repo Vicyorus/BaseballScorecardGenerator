@@ -11,10 +11,16 @@ class PitcherLineup:
         pitcher_id = self.pitchers[-1]
         return self.roster.get_player(pitcher_id)
 
+    def is_in_lineup(self, pitcher_id):
+        for id in self.pitchers:
+            if id == pitcher_id:
+                return True
+
+        return False
+
     def __str__(self):
         result = ""
         for pitcher in self.pitchers:
             result += f'{str(self.roster.get_player(pitcher).get_pitcher_str())}\n'
 
         return result
-

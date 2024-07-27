@@ -29,6 +29,8 @@ class TeamStats:
         result += f'SF: {self.sac_flys}\n'
         result += f'DP: {self.double_plays}\n'
         result += f'SB: {self.stolen_bases}\n'
+        result += f'CS: {self.caught_stealing}\n'
+        result += f'PO: {self.picked_off}\n'
         result += f'LOB: {self.left_on_base}\n'
 
         return result
