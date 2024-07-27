@@ -5,6 +5,9 @@ class AtBat():
         self.batter = batter
         self.pitcher = pitcher
 
+        # Add a batter faced to the pitcher.
+        self.pitcher.pitcher_stats.batters_faced += 1
+
         self.pitches = []
         self.plays = []
         self.count = {"b": 0, "s": 0, "f": 0}
@@ -175,10 +178,15 @@ class AtBat():
 
     # Miscelaneous functions to detail additional events for the at-bat.
     def atbase(self, label):
+        # TODO: Add play to the list of plays for this batter.
         return None
 
     def no_ab(self, label):
-        return None
+        # Since the at-bat ended in an out that does not count as an appereance,
+        # remove a batter faced from the pitcher.
+        self.pitcher.pitcher_stats.batters_faced -= 1
+
+        # TODO: Add play to the list of plays for this batter.
 
     def __str__(self):
         result = f'{self.batter} vs {self.pitcher}\n'

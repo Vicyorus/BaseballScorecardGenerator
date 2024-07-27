@@ -21,6 +21,12 @@ class Lineup:
         self.current_batter += 1
         self.current_batter %= 9
 
+    def no_ab(self):
+        if self.current_batter == 1:
+            self.current_batter = 9
+        else:
+            self.current_batter -= 1
+
     def __str__(self):
         result = ""
         for order in self.lineup:

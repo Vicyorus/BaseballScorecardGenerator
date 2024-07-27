@@ -142,13 +142,29 @@ class Inning:
 
     # Miscelaneous functions to detail additional events for the at-bat.
     def error(self, fielder):
+        self.fielding_team.stats.errors += 1
+
+    def balk(self):
+        # Add a balk to the current pitcher. Advancements are to be handled
+        # by calls to the advance method.
+        self.fielding_team.get_pitcher().pitching_stats.balks += 1
+
+    def wp(self, quantity=1):
+        self.fielding_team.get_pitcher().pitching_stats.wild_pitches += quantity
+        return None
+
+    def pb(self, quantity=1):
+        self.batting_team.stats.passed_balls += quantity
         return None
 
     def atbase(self, label):
-        return None
+        self.current_ab.atbase(label)
 
     def no_ab(self, label):
-        return None
+        # Since no at-bat occurred, when a new at-bat for the current batting
+        # team is created, it should use the current batter.
+        self.batting_team.no_ab()
+        self.current_ab.no_ab(label)
 
     def __str__(self):
         inn = "Top" if self.top else "Bottom"

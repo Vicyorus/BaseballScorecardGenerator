@@ -40,6 +40,9 @@ class Team:
     def next_batter(self):
         return self.lineup.next_batter()
 
+    def no_ab(self):
+        self.lineup.no_ab()
+
     def get_batter(self):
         return self.lineup.get_batter()
 
