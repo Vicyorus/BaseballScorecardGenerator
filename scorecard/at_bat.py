@@ -38,16 +38,19 @@ class AtBat():
         if self.count["b"] >= 3:
             raise Exception("Ball 4 listed in pitches for at bat.")
         self.count["b"] += 1
+        self.pitcher.add_pitch(is_strike=False)
         self.pitches.append(Pitch(pitch_type, inc_pitch_count, is_strike=False))
 
     def __strike(self, pitch_type, inc_pitch_count=True):
         if self.count["s"] >= 2:
             raise Exception("Strike 3 listed in pitches for at bat.")
         self.count["s"] += 1
+        self.pitcher.add_pitch(is_strike=True)
         self.pitches.append(Pitch(pitch_type, inc_pitch_count))
 
     def __foul(self, pitch_type, inc_pitch_count=True):
         self.count["f"] += 1
+        self.pitcher.add_pitch(is_strike=True)
         self.pitches.append(Pitch(pitch_type, inc_pitch_count))
 
     # Batter results.
@@ -72,7 +75,8 @@ class AtBat():
 
         # Since all outs to the batter require a swing of the bat,
         # add a strike to the pitch list.
-        self.pitches.append(Pitch('X', inc_pitch_count=True, is_strike=True))
+        self.pitcher.add_pitch(is_strike=True)
+        self.pitches.append(Pitch('X', inc_pitch_count=True))
 
         # Add an out made to the pitcher.
         self.pitcher.pitcher_stats.outs += 1
@@ -99,6 +103,10 @@ class AtBat():
             if bases == 4:
                 self.pitcher.pitcher_stats.earned_runs += 1
 
+        # Since all hits require a swing of the bat, add a strike to the pitch list.
+        self.pitcher.add_pitch(is_strike=True)
+        self.pitches.append(Pitch('H', inc_pitch_count=True))
+
         # TODO: Add play to the list of plays for this batter.
 
     def reach(self, play, end_base=1, rbis=0):
@@ -113,21 +121,32 @@ class AtBat():
         if play == "BB":
             self.batter.batter_stats.walks += 1
             self.pitcher.pitcher_stats.walks += 1
+            self.pitcher.add_pitch(is_strike=False)
+            self.pitches.append(Pitch('R', inc_pitch_count=True, is_strike=False))
             add_at_bat = False
 
         if play == "IBB":
             self.batter.batter_stats.walks += 1
             self.pitcher.pitcher_stats.intent_walks += 1
+            self.pitcher.add_pitch(is_strike=False)
+            self.pitches.append(Pitch('R', inc_pitch_count=True, is_strike=False))
             add_at_bat = False
 
         if play == "HP" or play == "HBP":
             self.pitcher.pitcher_stats.hits_by_pitch += 1
+            self.pitcher.add_pitch(is_strike=False)
+            self.pitches.append(Pitch('R', inc_pitch_count=True, is_strike=False))
             add_at_bat = False
 
         if play == "CI":
             add_at_bat = False
 
+        # If an at-bat needs to be added, add the at-bat, and a strike.
+        # Barring walks and catcher's interference, reach cases imply the ball
+        # has been put to play (or is a dropped strike 3).
         if add_at_bat:
+            self.pitcher.add_pitch(is_strike=True)
+            self.pitches.append(Pitch('R', inc_pitch_count=True))
             self.batter.batter_stats.at_bats += 1
 
         # If there are any RBIs, add them to the batter's stats.

@@ -31,6 +31,11 @@ class Player:
     def is_in_lineup(self):
         return self.in_lineup
 
+    def add_pitch(self, is_strike=True):
+        self.pitcher_stats.pitches += 1
+        if is_strike:
+            self.pitcher_stats.strikes += 1
+
     def get_reserves_str(self):
         return f'#{self.number} {self.name} ({self.primary_position})'
 
