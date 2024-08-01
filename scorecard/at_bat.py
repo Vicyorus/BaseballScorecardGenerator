@@ -1,4 +1,9 @@
 from scorecard.pitch import Pitch
+from scorecard.plays.out import Out
+from scorecard.plays.thrown_out import ThrownOut
+from scorecard.plays.advance import Advance
+from scorecard.plays.at_base import AtBase
+from scorecard.plays.no_ab import NoAtBat
 
 class AtBat():
     def __init__(self, batter, pitcher):
@@ -11,6 +16,7 @@ class AtBat():
         self.pitches = []
         self.plays = []
         self.count = {"b": 0, "s": 0, "f": 0}
+        self.last_base_reached = 0
 
     # Pitches.
     def pitch_list(self, pitches):
@@ -57,7 +63,7 @@ class AtBat():
         self.pitches.append(Pitch(pitch_type, inc_pitch_count))
 
     # Batter results.
-    def out(self, play, rbis=0):
+    def out(self, play, out_number, rbis=0):
         # Check the play code to determine if additional stats have to be registered.
         has_at_bat = True
 
@@ -84,7 +90,8 @@ class AtBat():
         # Add an out made to the pitcher.
         self.pitcher.pitcher_stats.outs += 1
 
-        # TODO: Add play to the list of plays for this batter.
+        # Append the play to the list of plays.
+        self.plays.append(Out(play, out_number))
 
     def hit(self, bases, rbis=0):
         # Record the hit for both the batter and the pitcher, and the at-bat
@@ -110,7 +117,9 @@ class AtBat():
         self.pitcher.add_pitch(is_strike=True)
         self.pitches.append(Pitch('H', inc_pitch_count=True))
 
-        # TODO: Add play to the list of plays for this batter.
+        # Append the play to the list of plays.
+        self.plays.append(Advance("Hit", self.last_base_reached, bases))
+        self.last_base_reached = bases
 
     def reach(self, play, end_base=1, rbis=0):
         # Some reach codes will not count as an at-bat, toggle this variable
@@ -155,7 +164,9 @@ class AtBat():
         # If there are any RBIs, add them to the batter's stats.
         self.batter.batter_stats.rbis += rbis
 
-        # TODO: Add play to the list of plays for this batter.
+        # Append the play to the list of plays.
+        self.plays.append(Advance(f"Reach on {play}", self.last_base_reached, end_base))
+        self.last_base_reached = end_base
 
     # Runner results.
     def advance(self, end_base, play):
@@ -167,29 +178,38 @@ class AtBat():
             if end_base == 4:
                 self.pitcher.pitcher_stats.earned_runs += 1
 
-        # TODO: Add play to the list of plays for this batter.
+        # Append the play to the list of plays.
+        self.plays.append(Advance(f"Advance on {play}", self.last_base_reached, end_base))
+        self.last_base_reached = end_base
 
-    def thrown_out(self, out_base, play, out_number=None, pitcher=None):
+    def thrown_out(self, out_base, play, out_number, pitcher=None):
         # Add the out for the pitcher.
         responsible_pitcher = pitcher if pitcher else self.pitcher
         responsible_pitcher.pitcher_stats.outs += 1
 
-        return None
+        # Append the play to the list of plays.
+        self.plays.append(ThrownOut(play, self.last_base_reached, out_base, out_number))
 
     # Miscelaneous functions to detail additional events for the at-bat.
-    def atbase(self, label):
-        # TODO: Add play to the list of plays for this batter.
-        return None
+    def atbase(self, label, base):
+        labeled_base = base if base else self.last_base_reached
+
+        # Append the play to the list of plays.
+        self.plays.append(AtBase(label, labeled_base))
 
     def no_ab(self, label):
         # Since the at-bat ended in an out that does not count as an appereance,
         # remove a batter faced from the pitcher.
         self.pitcher.pitcher_stats.batters_faced -= 1
 
-        # TODO: Add play to the list of plays for this batter.
+        # Append the play to the list of plays.
+        self.plays.append(NoAtBat(label))
 
     def __str__(self):
         result = f'{self.batter} vs {self.pitcher}\n'
         result += f'Pitches: {len(self.pitches)}\n'
+        for play in self.plays:
+            result += f'{play}\n'
 
+        result += "\n"
         return result

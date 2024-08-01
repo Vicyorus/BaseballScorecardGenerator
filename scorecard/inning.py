@@ -38,13 +38,13 @@ class Inning:
     # Batter results.
     def out(self, play, rbis=0):
         # Sanity check, ensure the user isn't adding more than 3 outs.
-        out_added = False
+        out_added = 0
         for i in range(1, 4):
             if not self.outs[i]:
                 self.outs[i] = True
-                out_added = True
+                out_added = i
                 break
-        if not out_added:
+        if out_added == 0:
             raise Exception("More than 3 outs in inning")
 
         # Add team stats for the batting team.
@@ -57,7 +57,7 @@ class Inning:
         if "SF" in play:
             self.batting_team.get_stats().sac_flys += 1
 
-        self.current_ab.out(play, rbis=rbis)
+        self.current_ab.out(play, out_added, rbis=rbis)
 
     def hit(self, bases, rbis=0):
         # Add the corresponding type of hit for the batting team.
@@ -120,14 +120,15 @@ class Inning:
                 raise Exception("Indicated out for thrown_out call has already been used.")
 
             self.outs[out_number] = True
+            out_added = out_number
         else:
-            out_added = False
+            out_added = 0
             for i in range(1, 4):
                 if not self.outs[i]:
                     self.outs[i] = True
-                    out_added = True
+                    out_added = i
                     break
-            if not out_added:
+            if out_added == 0:
                 raise Exception("More than 3 outs in inning")
 
         # If the pitcher_id is passed, pass the pitcher to the at-bat object.
@@ -135,7 +136,7 @@ class Inning:
         if pitcher_id:
             responsible_pitcher = self.fielding_team.roster.get_player(pitcher_id)
 
-        self.current_ab.thrown_out(out_base, play, out_number, responsible_pitcher)
+        self.current_ab.thrown_out(out_base, play, out_added, responsible_pitcher)
 
     # Miscelaneous functions to detail additional events for the at-bat.
     def error(self, fielder):
@@ -154,8 +155,8 @@ class Inning:
         self.batting_team.stats.passed_balls += quantity
         return None
 
-    def atbase(self, label):
-        self.current_ab.atbase(label)
+    def atbase(self, label, base=None):
+        self.current_ab.atbase(label, base)
 
     def no_ab(self, label):
         # Since no at-bat occurred, when a new at-bat for the current batting
