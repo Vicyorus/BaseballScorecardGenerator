@@ -1,8 +1,8 @@
-from scorecard.player import Player
-from scorecard.roster import Roster
-from scorecard.lineup import Lineup
-from scorecard.pitcher_lineup import PitcherLineup
-from scorecard.reserves import Reserves
+from scorecard.team.player import Player
+from scorecard.team.roster import Roster
+from scorecard.team.lineup import Lineup
+from scorecard.team.pitcher_lineup import PitcherLineup
+from scorecard.team.reserves import Reserves
 from scorecard.stats.team_stats import TeamStats
 
 class Team:

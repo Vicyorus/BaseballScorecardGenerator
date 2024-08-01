@@ -1,4 +1,4 @@
-from scorecard.pitch import Pitch
+from scorecard.plays.pitch import Pitch
 from scorecard.plays.out import Out
 from scorecard.plays.thrown_out import ThrownOut
 from scorecard.plays.advance import Advance

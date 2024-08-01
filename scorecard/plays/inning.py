@@ -1,4 +1,4 @@
-from scorecard.at_bat import AtBat
+from scorecard.plays.at_bat import AtBat
 
 class Inning:
     def __init__(self, number, top, away_team, home_team):
