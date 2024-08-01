@@ -133,10 +133,7 @@ class Inning:
         # If the pitcher_id is passed, pass the pitcher to the at-bat object.
         responsible_pitcher = None
         if pitcher_id:
-            if self.fielding_team.pitcher_lineup.is_in_lineup(pitcher_id):
-                responsible_pitcher = self.fielding_team.roster.get_player(pitcher_id)
-            else:
-                raise Exception("Credited pitcher in thrown_out call not added as a pitcher.")
+            responsible_pitcher = self.fielding_team.roster.get_player(pitcher_id)
 
         self.current_ab.thrown_out(out_base, play, out_number, responsible_pitcher)
 
@@ -147,10 +144,10 @@ class Inning:
     def balk(self):
         # Add a balk to the current pitcher. Advancements are to be handled
         # by calls to the advance method.
-        self.fielding_team.get_pitcher().pitching_stats.balks += 1
+        self.fielding_team.get_pitcher().pitcher_stats.balks += 1
 
     def wp(self, quantity=1):
-        self.fielding_team.get_pitcher().pitching_stats.wild_pitches += quantity
+        self.fielding_team.get_pitcher().pitcher_stats.wild_pitches += quantity
         return None
 
     def pb(self, quantity=1):
