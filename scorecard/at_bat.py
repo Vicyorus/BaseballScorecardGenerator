@@ -209,7 +209,7 @@ class AtBat():
         result = f'{self.batter} vs {self.pitcher}\n'
         result += f'Pitches: {len(self.pitches)}\n'
         for play in self.plays:
-            result += f'{play}\n'
+            result += f'    {play}\n'
 
         result += "\n"
         return result

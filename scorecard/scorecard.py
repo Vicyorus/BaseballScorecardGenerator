@@ -56,17 +56,18 @@ class Scorecard:
     def __str__(self):
         result = ""
 
-        result += str(self.away)
-        result += str(self.home)
+        result += f"Away team: {self.away}"
+        result += f"Home team: {self.home}"
 
+        result += "Umpires:\n"
         for ump in self.umpires:
             result += str(ump)
 
         result += "\n"
+        result += "Play ball!\n"
+        result += "\n"
 
         for inn in self.innings:
             result += str(inn)
-
-
 
         return result
