@@ -1,8 +1,12 @@
+from scorecard.stats.pitcher_stats import PitcherStats
+
 class PitcherLineup:
     def __init__(self, starting_pitcher, roster):
         self.pitchers = [starting_pitcher]
-        self.roster = roster # TODO: May want to remove this when the debugging stage is done
+        self.roster = roster
         self.roster.get_player(starting_pitcher).set_lineup_position("1", 1)
+
+        self.total_pitcher_stats = None
 
     def add_pitcher(self, player_id):
         self.pitchers.append(player_id)
@@ -17,6 +21,39 @@ class PitcherLineup:
                 return True
 
         return False
+
+    def get_pitching_totals(self):
+        if not self.total_pitcher_stats:
+            self.total_pitcher_stats = PitcherStats()
+            for pitcher_id in self.pitchers:
+                pitcher = self.roster.get_player(pitcher_id)
+                self.total_pitcher_stats.add_stats(pitcher.pitcher_stats)
+
+        return self.total_pitcher_stats
+
+    def get_pitcher_info_metapost_data(self):
+        result = ""
+        for idx, pitcher_id in enumerate(self.pitchers, start=1):
+            pitcher = self.roster.get_player(pitcher_id)
+            result += pitcher.get_pitcher_metapost_data(idx)
+
+        return result
+
+    def get_pitcher_stats_metapost_data(self):
+        result = ""
+
+        for idx, pitcher_id in enumerate(self.pitchers, start=1):
+            pitcher = self.roster.get_player(pitcher_id)
+            result += pitcher.pitcher_stats.get_metapost_data(idx)
+
+        # Call the pitching totals function to ensure the totals are
+        # properly set before printing them.
+        self.get_pitching_totals()
+
+        # Add the totals for all pitchers.
+        result += self.total_pitcher_stats.get_metapost_data(13)
+
+        return result
 
     def __str__(self):
         result = ""

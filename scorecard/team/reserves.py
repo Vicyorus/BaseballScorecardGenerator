@@ -12,6 +12,24 @@ class Reserves:
             self.roster.get_player(player[0]).set_primary_position(player[1])
             self.bench.append(player[0])
 
+    def get_bench_metapost_data(self):
+        result = "    % bench info\n"
+
+        for idx, player_id in enumerate(self.bench, start=1):
+            player = self.roster.get_player(player_id)
+            result += player.get_bench_metapost_data(idx)
+
+        return result
+
+    def get_bullpen_metapost_data(self):
+        result = "    % bullpen info\n"
+
+        for idx, player_id in enumerate(self.bullpen, start=1):
+            player = self.roster.get_player(player_id)
+            result += player.get_bullpen_metapost_data(idx)
+
+        return result
+
     def __str__(self):
         result = ""
 

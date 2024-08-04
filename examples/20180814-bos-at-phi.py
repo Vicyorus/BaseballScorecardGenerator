@@ -1,11 +1,12 @@
 #!/usr/bin/python3.10
+import os
 from scorecard.scorecard import Scorecard
 
 # BOS @ PHI, 2018-08-14
 # https://www.baseball-reference.com/boxes/PHI/PHI201808140.shtml
 # https://www.mlb.com/gameday/red-sox-vs-phillies/2018/08/14/531196/final
 
-game = Scorecard(
+game = Scorecard(os.path.dirname(os.path.abspath(__file__)),
 {
     "scorer": "Vicyorus",
     "date": "2018-08-14 19:08-21:48",
@@ -600,4 +601,5 @@ b9.new_ab()
 b9.pitch_list("b c s f b")
 b9.out('K2-3')
 
-print(game)
+#print(game)
+game.generate_scorecard()

@@ -1,10 +1,11 @@
 #!/usr/bin/python3.10
+import os
 from scorecard.scorecard import Scorecard
 
 # SEA @ BOS, 2024-07-29
 # https://www.mlb.com/gameday/mariners-vs-red-sox/2024/07/29/746928/final
 
-game = Scorecard(
+game = Scorecard(os.path.dirname(os.path.abspath(__file__)),
 {
     "extended_roster": True,
     "scorer": "Vicyorus",
@@ -731,4 +732,5 @@ inn.out("F7")
 inn.new_ab()
 inn.out("(F)P5")
 
-print(game)
+#print(game)
+game.generate_scorecard()
