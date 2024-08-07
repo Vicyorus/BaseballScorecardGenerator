@@ -4,7 +4,7 @@ class Inning:
     def __init__(self, number, top, away_team, home_team):
         self.number = number
         self.top = top
-        self.plays = []
+        self.at_bats = []
         self.current_ab = None
         self.outs = {1: False, 2: False, 3: False}
 
@@ -16,12 +16,17 @@ class Inning:
             self.batting_team = home_team
 
     def new_ab(self):
-        ab = AtBat(self.batting_team.get_batter(), self.fielding_team.get_pitcher())
+        ab = AtBat(
+            self.batting_team.lineup.current_batter,
+            self.batting_team.get_batter(),
+            self.fielding_team.get_pitcher()
+        )
         self.batting_team.next_batter()
-        self.plays.append(ab)
+        self.at_bats.append(ab)
         self.current_ab = ab
 
     # Substitutions.
+    # TODO: Generate the metapost code for pitcher substitutions and batter/fielder substitutions.
     def pitching_substitution(self, pitcher_id):
         self.fielding_team.add_pitcher(pitcher_id, self.number)
 
@@ -164,10 +169,40 @@ class Inning:
         self.batting_team.no_ab()
         self.current_ab.no_ab(label)
 
+    def get_metapost_data(self):
+        result = f"    % inning #{self.number}\n"
+
+        x_start = 128 * (self.number - 1)
+        result += f"    xstart := {x_start};\n"
+        result += "    set_inning_num_label_vars(xstart);\n"
+        result += f"    label(btex {{\\bigsf {self.number}}} etex, top_inn_label) withcolor clr;\n"
+        result += "\n"
+
+        at_bats_printed = 1
+        for at_bat in self.at_bats:
+            # Move the X start if the lineup has rolled over.
+            # TODO: Check how to return that there's been a rollover back to the metapost builder.
+            if at_bats_printed > 9:
+                at_bats_printed = 1
+                x_start += 128
+                result += f"    xstart := {x_start};\n"
+                result += "    set_inning_num_label_vars(xstart);\n"
+                result += "\n"
+
+            result += at_bat.get_metapost_data(self.number)
+            at_bats_printed += 1
+
+        result += f"    label(btex {{\\bigsf {self.number}}} etex, bot_inn_label) withcolor clr;\n"
+
+        # TODO: Put the inning totals here.
+
+        result += "\n"
+        return result
+
     def __str__(self):
         inn = "Top" if self.top else "Bottom"
         result = f"{inn} of the {self.__ordinal(self.number)}\n"
-        for ab in self.plays:
+        for ab in self.at_bats:
             result += f'{ab}'
 
         result += "\n"

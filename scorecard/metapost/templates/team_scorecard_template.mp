@@ -908,6 +908,14 @@ def draw_dot(expr loc, clr) =
     endgroup
 enddef;
 
+def draw_cross(expr loc, clr) =
+    begingroup
+        pickup pencircle scaled dotsize;
+        label(btex {\sf X} etex, loc) withcolor clr;
+        pickup pencircle scaled playline_t;
+    endgroup
+enddef;
+
 def draw_circle(expr centerpoint, clr) =
     begingroup
         pickup pencircle scaled playline_t;

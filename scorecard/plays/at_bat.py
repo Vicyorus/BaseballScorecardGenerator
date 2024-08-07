@@ -6,7 +6,8 @@ from scorecard.plays.at_base import AtBase
 from scorecard.plays.no_ab import NoAtBat
 
 class AtBat():
-    def __init__(self, batter, pitcher):
+    def __init__(self, lineup_position, batter, pitcher):
+        self.lineup_position = lineup_position
         self.batter = batter
         self.pitcher = pitcher
 
@@ -17,6 +18,7 @@ class AtBat():
         self.plays = []
         self.count = {"b": 0, "s": 0, "f": 0}
         self.last_base_reached = 0
+        self.rbis = 0
 
     # Pitches.
     def pitch_list(self, pitches):
@@ -79,8 +81,10 @@ class AtBat():
         if has_at_bat:
             self.batter.batter_stats.at_bats += 1
 
-        # If there are any RBIs, add them to the batter's stats.
+        # If there are any RBIs, add them to the batter's stats,
+        # and the at-bat's stats.
         self.batter.batter_stats.rbis += rbis
+        self.rbis = rbis
 
         # Since all outs to the batter require a swing of the bat,
         # add a strike to the pitch list.
@@ -94,14 +98,19 @@ class AtBat():
         self.plays.append(Out(play, out_number))
 
     def hit(self, bases, rbis=0):
+        # Set the advance label as a hit. This can be overridden if there's a home run.
+        advance_label = "Hit"
+
         # Record the hit for both the batter and the pitcher, and the at-bat
         # for the batter.
         self.batter.batter_stats.hits += 1
         self.batter.batter_stats.at_bats += 1
         self.pitcher.pitcher_stats.hits += 1
 
-        # If there are any RBIs, add them to the batter's stats.
+        # If there are any RBIs, add them to the batter's stats,
+        # and the at-bat's stats.
         self.batter.batter_stats.rbis += rbis
+        self.rbis = rbis
 
         # If the hit is a home run, add a run to the batter and
         # the pitcher, a home run to the pitcher, and an earned run
@@ -118,39 +127,51 @@ class AtBat():
         self.pitches.append(Pitch('H', inc_pitch_count=True))
 
         # Append the play to the list of plays.
-        self.plays.append(Advance("Hit", self.last_base_reached, bases))
+        self.plays.append(Advance(advance_label, bases, self.last_base_reached, bases))
         self.last_base_reached = bases
 
     def reach(self, play, end_base=1, rbis=0):
         # Some reach codes will not count as an at-bat, toggle this variable
         # when it's not applicable.
+        reach_label = "Reach"
         add_at_bat = True
 
-        if play == "K":
+        # Reach on error.
+        if play.upper().startswith("E"):
+            reach_label = "Error"
+
+        # Reach on strikeout.
+        if play.upper() == "K":
             self.batter.batter_stats.strikeouts += 1
             self.pitcher.pitcher_stats.strikeouts += 1
 
-        if play == "BB":
+        # Reach on walk.
+        if play.upper() == "BB":
+            reach_label = "Walk"
             self.batter.batter_stats.walks += 1
             self.pitcher.pitcher_stats.walks += 1
             self.pitcher.add_pitch(is_strike=False)
             self.pitches.append(Pitch('R', inc_pitch_count=True, is_strike=False))
             add_at_bat = False
 
-        if play == "IBB":
+        if play.upper() == "IBB":
+            reach_label = "Intent Walk"
             self.batter.batter_stats.walks += 1
             self.pitcher.pitcher_stats.intent_walks += 1
             self.pitcher.add_pitch(is_strike=False)
             self.pitches.append(Pitch('R', inc_pitch_count=True, is_strike=False))
             add_at_bat = False
 
-        if play == "HP" or play == "HBP":
+        # Hit by pitch.
+        if play.upper() == "HP" or play.upper() == "HBP":
             self.pitcher.pitcher_stats.hits_by_pitch += 1
             self.pitcher.add_pitch(is_strike=False)
             self.pitches.append(Pitch('R', inc_pitch_count=True, is_strike=False))
             add_at_bat = False
 
-        if play == "CI":
+        # Catcher's interference.
+        if play.upper() == "CI":
+            reach_label = "Error"
             add_at_bat = False
 
         # If an at-bat needs to be added, add the at-bat, and a strike.
@@ -161,11 +182,13 @@ class AtBat():
             self.pitches.append(Pitch('R', inc_pitch_count=True))
             self.batter.batter_stats.at_bats += 1
 
-        # If there are any RBIs, add them to the batter's stats.
+        # If there are any RBIs, add them to the batter's stats,
+        # and the at-bat's stats.
         self.batter.batter_stats.rbis += rbis
+        self.rbis = rbis
 
         # Append the play to the list of plays.
-        self.plays.append(Advance(f"Reach on {play}", self.last_base_reached, end_base))
+        self.plays.append(Advance(reach_label, play, self.last_base_reached, end_base))
         self.last_base_reached = end_base
 
     # Runner results.
@@ -179,7 +202,7 @@ class AtBat():
                 self.pitcher.pitcher_stats.earned_runs += 1
 
         # Append the play to the list of plays.
-        self.plays.append(Advance(f"Advance on {play}", self.last_base_reached, end_base))
+        self.plays.append(Advance("Advance", play, self.last_base_reached, end_base))
         self.last_base_reached = end_base
 
     def thrown_out(self, out_base, play, out_number, pitcher=None):
@@ -205,8 +228,34 @@ class AtBat():
         # Append the play to the list of plays.
         self.plays.append(NoAtBat(label))
 
+    def get_metapost_data(self, inn_number):
+        result = f"    %% inning {inn_number}, batter {self.lineup_position}\n"
+        y_start = 128 * (9 - self.lineup_position)
+        result += f"    ystart := {y_start};\n"
+        result += "    set_vars(xstart,ystart);\n"
+
+        # TODO: Print the pitches.
+
+        # Print the run dot/cross for either earned or unearned runs, respectively.
+        if self.last_base_reached == 4:
+            result += "    draw_dot(rundot, clr);"
+        if self.last_base_reached == "U":
+            result += "    draw_cross(rundot, clr);"
+
+        # Print the RBIs.
+        rbi_labels = ["rbione", "rbitwo", "rbithree", "rbifour"]
+        for i in range(self.rbis):
+            result += f"    draw_dot({rbi_labels[i]}, clr);\n"
+
+        # Print the plays.
+        for play in self.plays:
+            result += play.get_metapost_data()
+
+        result += "\n"
+        return result
+
     def __str__(self):
-        result = f'{self.batter} vs {self.pitcher}\n'
+        result = f'{self.lineup_position}. {self.batter} vs {self.pitcher}\n'
         result += f'Pitches: {len(self.pitches)}\n'
         for play in self.plays:
             result += f'    {play}\n'

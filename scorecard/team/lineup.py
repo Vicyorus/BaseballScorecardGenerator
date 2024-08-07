@@ -25,7 +25,9 @@ class Lineup:
 
     def next_batter(self):
         self.current_batter += 1
-        self.current_batter %= 9
+        self.current_batter %= 10
+        if self.current_batter == 0:
+            self.current_batter = 1
 
     def no_ab(self):
         if self.current_batter == 1:

@@ -66,7 +66,8 @@ class MetapostBuilder:
             scorecard_fd.write(fielding_team.get_pitcher_metapost_data())
 
             # Print the innings.
-            # TODO: Make this function.
+            for inning in innings:
+                scorecard_fd.write(inning.get_metapost_data())
 
             # Print the batter stats data.
             scorecard_fd.write(batting_team.get_batter_stats_metapost_data())
