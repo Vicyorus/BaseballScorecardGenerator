@@ -3,8 +3,7 @@ class NoAtBat:
         self.play = play
 
     def get_metapost_data(self):
-        # TODO: Implement me!
-        return ""
+        return f"    label(btex {{\\bigsf {self.play}}} etex, outlabel) withcolor clr;\n"
 
     def __str__(self):
         return f'No AB: {self.play}'
