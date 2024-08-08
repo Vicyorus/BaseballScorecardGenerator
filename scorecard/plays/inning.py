@@ -205,7 +205,7 @@ class Inning:
 
         result += self.stats.get_metapost_data()
 
-        result += "draw_inning_end(xstart,ystart,innendclr);\n"
+        result += "    draw_inning_end(xstart,ystart,innendclr);\n"
         return result
 
     def __str__(self):

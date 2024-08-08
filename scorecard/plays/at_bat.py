@@ -256,7 +256,7 @@ class AtBat():
         result += f"    ystart := {y_start};\n"
         result += "    set_vars(xstart,ystart);\n"
 
-        # TODO: Print the pitches.
+        result += self.__get_pitches_metapost_data()
 
         # Print the run dot/cross for either earned or unearned runs, respectively.
         if self.last_base_reached == 4:
@@ -274,6 +274,45 @@ class AtBat():
             result += play.get_metapost_data()
 
         result += "\n"
+        return result
+
+    def __get_pitches_metapost_data(self):
+        result = "    % pitches\n"
+        ball_locations = ["ballone", "balltwo", "ballthree"]
+        strike_locations = ["strikeone", "striketwo"]
+        foul_locations = ["foulone", "foultwo", "foulthree", "foulfour"]
+
+        pitch_template = "    label(btex {{\\sf {}}} etex, {}) withcolor clr;\n"
+        pitch_count = 1
+        count_status = {
+            "b": 0,
+            "s": 0,
+            "f": 0
+        }
+
+        for pitch in self.pitches:
+            # Break when the hit/out/reach code is found.
+            if pitch.pitch_code in ["X", "H", "R"]:
+                break
+
+            # Check whether a strike, ball or foul needs to be added.
+            if pitch.is_strike:
+                if count_status["s"] < 2:
+                    result += pitch_template.format(pitch_count, strike_locations[count_status["s"]])
+                    count_status["s"] += 1
+                else:
+                    if count_status["f"] < 4:
+                        result += pitch_template.format("x", foul_locations[count_status["f"]])
+                        count_status["f"] += 1
+            else:
+                if count_status["b"] < 3:
+                    result += pitch_template.format(pitch_count, ball_locations[count_status["b"]])
+                    count_status["b"] += 1
+
+            # Increment the pitch count if needed.
+            if pitch.inc_pitch_count:
+                pitch_count += 1
+
         return result
 
     def __str__(self):
