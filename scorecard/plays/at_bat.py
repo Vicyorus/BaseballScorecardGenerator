@@ -6,10 +6,11 @@ from scorecard.plays.at_base import AtBase
 from scorecard.plays.no_ab import NoAtBat
 
 class AtBat():
-    def __init__(self, lineup_position, batter, pitcher):
+    def __init__(self, lineup_position, batter, pitcher, inning_stats):
         self.lineup_position = lineup_position
         self.batter = batter
         self.pitcher = pitcher
+        self.inning_stats = inning_stats
 
         # Add a batter faced to the pitcher.
         self.pitcher.pitcher_stats.batters_faced += 1
@@ -50,6 +51,7 @@ class AtBat():
             raise Exception("Ball 4 listed in pitches for at bat.")
         self.count["b"] += 1
         self.pitcher.add_pitch(is_strike=False)
+        self.inning_stats.pitches += 1
         self.pitches.append(Pitch(pitch_type, inc_pitch_count, is_strike=False))
 
     def __strike(self, pitch_type, inc_pitch_count=True):
@@ -57,11 +59,15 @@ class AtBat():
             raise Exception("Strike 3 listed in pitches for at bat.")
         self.count["s"] += 1
         self.pitcher.add_pitch(is_strike=True)
+        self.inning_stats.pitches += 1
+        self.inning_stats.strikes += 1
         self.pitches.append(Pitch(pitch_type, inc_pitch_count))
 
     def __foul(self, pitch_type, inc_pitch_count=True):
         self.count["f"] += 1
         self.pitcher.add_pitch(is_strike=True)
+        self.inning_stats.pitches += 1
+        self.inning_stats.strikes += 1
         self.pitches.append(Pitch(pitch_type, inc_pitch_count))
 
     # Batter results.
@@ -73,6 +79,7 @@ class AtBat():
         if play.startswith("K") or play.startswith("!K"):
             self.pitcher.pitcher_stats.strikeouts += 1
             self.batter.batter_stats.strikeouts += 1
+            self.inning_stats.strikeouts += 1
 
         # On sac flys or sac bunts, no AB is to be awarded to the batter.
         if "SAC" in play or "SF" in play:
@@ -89,6 +96,8 @@ class AtBat():
         # Since all outs to the batter require a swing of the bat,
         # add a strike to the pitch list.
         self.pitcher.add_pitch(is_strike=True)
+        self.inning_stats.pitches += 1
+        self.inning_stats.strikes += 1
         self.pitches.append(Pitch('X', inc_pitch_count=True))
 
         # Add an out made to the pitcher.
@@ -106,6 +115,7 @@ class AtBat():
         self.batter.batter_stats.hits += 1
         self.batter.batter_stats.at_bats += 1
         self.pitcher.pitcher_stats.hits += 1
+        self.inning_stats.hits += 1
 
         # If there are any RBIs, add them to the batter's stats,
         # and the at-bat's stats.
@@ -119,11 +129,14 @@ class AtBat():
             self.batter.batter_stats.runs += 1
             self.pitcher.pitcher_stats.runs += 1
             self.pitcher.pitcher_stats.home_runs += 1
+            self.inning_stats.runs += 1
             if bases == 4:
                 self.pitcher.pitcher_stats.earned_runs += 1
 
         # Since all hits require a swing of the bat, add a strike to the pitch list.
         self.pitcher.add_pitch(is_strike=True)
+        self.inning_stats.pitches += 1
+        self.inning_stats.strikes += 1
         self.pitches.append(Pitch('H', inc_pitch_count=True))
 
         # Append the play to the list of plays.
@@ -144,13 +157,16 @@ class AtBat():
         if play.upper() == "K":
             self.batter.batter_stats.strikeouts += 1
             self.pitcher.pitcher_stats.strikeouts += 1
+            self.inning_stats.strikeouts += 1
 
         # Reach on walk.
         if play.upper() == "BB":
             reach_label = "Walk"
             self.batter.batter_stats.walks += 1
             self.pitcher.pitcher_stats.walks += 1
+            self.inning_stats.walks += 1
             self.pitcher.add_pitch(is_strike=False)
+            self.inning_stats.pitches += 1
             self.pitches.append(Pitch('R', inc_pitch_count=True, is_strike=False))
             add_at_bat = False
 
@@ -158,7 +174,9 @@ class AtBat():
             reach_label = "Intent Walk"
             self.batter.batter_stats.walks += 1
             self.pitcher.pitcher_stats.intent_walks += 1
+            self.inning_stats.walks += 1
             self.pitcher.add_pitch(is_strike=False)
+            self.inning_stats.pitches += 1
             self.pitches.append(Pitch('R', inc_pitch_count=True, is_strike=False))
             add_at_bat = False
 
@@ -166,6 +184,7 @@ class AtBat():
         if play.upper() == "HP" or play.upper() == "HBP":
             self.pitcher.pitcher_stats.hits_by_pitch += 1
             self.pitcher.add_pitch(is_strike=False)
+            self.inning_stats.pitches += 1
             self.pitches.append(Pitch('R', inc_pitch_count=True, is_strike=False))
             add_at_bat = False
 
@@ -179,6 +198,8 @@ class AtBat():
         # has been put to play (or is a dropped strike 3).
         if add_at_bat:
             self.pitcher.add_pitch(is_strike=True)
+            self.inning_stats.pitches += 1
+            self.inning_stats.strikes += 1
             self.pitches.append(Pitch('R', inc_pitch_count=True))
             self.batter.batter_stats.at_bats += 1
 
@@ -198,6 +219,7 @@ class AtBat():
         if end_base == 4 or end_base == "U":
             self.batter.batter_stats.runs += 1
             self.pitcher.pitcher_stats.runs += 1
+            self.inning_stats.runs += 1
             if end_base == 4:
                 self.pitcher.pitcher_stats.earned_runs += 1
 

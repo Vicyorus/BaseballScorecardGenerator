@@ -115,7 +115,7 @@ class TeamStats:
         result += "\n"
 
         # Generate the proof strings.
-        basepath_totals = "{}+{}+{}+{}+{}~~==~~{}".format(
+        basepath_totals = "{}+{}+{}+{}+{}~~=~~{}".format(
             self.at_bats,
             self.walks + self.intent_walks,
             self.hit_by_pitch,

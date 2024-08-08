@@ -1,4 +1,5 @@
 from scorecard.plays.at_bat import AtBat
+from scorecard.stats.inning_stats import InningStats
 
 class Inning:
     def __init__(self, number, top, away_team, home_team):
@@ -7,6 +8,7 @@ class Inning:
         self.at_bats = []
         self.current_ab = None
         self.outs = {1: False, 2: False, 3: False}
+        self.stats = InningStats()
 
         if self.top:
             self.fielding_team = home_team
@@ -19,7 +21,8 @@ class Inning:
         ab = AtBat(
             self.batting_team.lineup.current_batter,
             self.batting_team.get_batter(),
-            self.fielding_team.get_pitcher()
+            self.fielding_team.get_pitcher(),
+            self.stats,
         )
         self.batting_team.next_batter()
         self.at_bats.append(ab)
@@ -27,6 +30,7 @@ class Inning:
 
     # Substitutions.
     # TODO: Generate the metapost code for pitcher substitutions and batter/fielder substitutions.
+    # TODO: Add a defensive switch method.
     def pitching_substitution(self, pitcher_id):
         self.fielding_team.add_pitcher(pitcher_id, self.number)
 
@@ -73,6 +77,7 @@ class Inning:
         # If they get thrown out or advance to home, they will be removed.
         if hit_type != 4:
             self.batting_team.stats.left_on_base += 1
+            self.stats.left_on_base += 1
 
         # If the hit is a home run, check if the user gave a number of RBIs and
         # use that, otherwise add one RBI by default.
@@ -90,6 +95,7 @@ class Inning:
         # Since a batter reached base, mark them as left on base.
         # If they get thrown out or advance to home, they will be removed.
         self.batting_team.stats.left_on_base += 1
+        self.stats.left_on_base += 1
         self.current_ab.reach(play, end_base=end_base, rbis=rbis)
 
     # Runner results.
@@ -99,6 +105,7 @@ class Inning:
         if end_base == 4 or end_base == "U":
             self.batting_team.stats.runs += 1
             self.batting_team.stats.left_on_base -= 1
+            self.stats.left_on_base -= 1
 
         # Check if the batter stole a base, and if so, add a stolen base for
         # the batting team.
@@ -110,6 +117,7 @@ class Inning:
     def thrown_out(self, out_base, play, out_number=None, pitcher_id=None):
         # Runner is no longer in the basepaths, remove them from the LOB count.
         self.batting_team.stats.left_on_base -= 1
+        self.stats.left_on_base -= 1
 
         # Add stats to the team if the batter was thrown out caught stealing or picked off.
         if "CS" in play:
@@ -146,6 +154,7 @@ class Inning:
     # Miscelaneous functions to detail additional events for the at-bat.
     def error(self, fielder):
         self.fielding_team.stats.errors += 1
+        self.stats.errors += 1
 
     def balk(self):
         # Add a balk to the current pitcher. Advancements are to be handled
@@ -194,9 +203,9 @@ class Inning:
 
         result += f"    label(btex {{\\bigsf {self.number}}} etex, bot_inn_label) withcolor clr;\n"
 
-        # TODO: Put the inning totals here.
+        result += self.stats.get_metapost_data()
 
-        result += "\n"
+        result += "draw_inning_end(xstart,ystart,innendclr);\n"
         return result
 
     def __str__(self):
@@ -205,6 +214,7 @@ class Inning:
         for ab in self.at_bats:
             result += f'{ab}'
 
+        result += f"{self.stats}"
         result += "\n"
         return result
 
