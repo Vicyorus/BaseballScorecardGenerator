@@ -9,11 +9,11 @@ class Player:
     bench_info_template = "    label(btex {{\\bigsf {}}} etex, {}) withcolor clr;\n"
     pitcher_info_template = "    label.urt(btex {{\\bigsf {}}} etex, {}) withcolor clr;\n"
 
-    def __init__(self, id, number, name, is_lefty=False):
+    def __init__(self, id, number, name, is_lefty):
         self.id = id
         self.number = number
         self.name = name
-        self.handedness = "L" if is_lefty else "R" # TODO: Fix me!
+        self.handedness = "L" if is_lefty else "R"
         self.lineup_position = ""
         self.primary_position = ""
         self.is_bullpen = False

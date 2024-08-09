@@ -12,11 +12,8 @@ class Team:
 
     def __init__(self, data, use_extended_roster):
         self.team = data["team"]
-        self.lefties = data["lefties"]
-        self.bench = data["bench"]
-        self.bullpen = data["bullpen"]
 
-        self.roster = Roster(data["roster"], use_extended_roster)
+        self.roster = Roster(data["roster"], data["lefties"], use_extended_roster)
         self.lineup = Lineup(data["lineup"], self.roster)
         self.pitcher_lineup = PitcherLineup(data["starter"], self.roster)
         self.reserves = Reserves(data["bullpen"], data["bench"], self.roster)
