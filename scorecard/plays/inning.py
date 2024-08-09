@@ -1,11 +1,12 @@
 from scorecard.plays.at_bat import AtBat
+from scorecard.plays.substitution.pitching import PitchingSubstitution
 from scorecard.stats.inning_stats import InningStats
 
 class Inning:
     def __init__(self, number, top, away_team, home_team):
         self.number = number
         self.top = top
-        self.at_bats = []
+        self.events = []
         self.current_ab = None
         self.outs = {1: False, 2: False, 3: False}
         self.stats = InningStats()
@@ -25,7 +26,7 @@ class Inning:
             self.stats,
         )
         self.batting_team.next_batter()
-        self.at_bats.append(ab)
+        self.events.append(ab)
         self.current_ab = ab
 
     # Substitutions.
@@ -33,6 +34,11 @@ class Inning:
     # TODO: Add a defensive switch method.
     def pitching_substitution(self, pitcher_id):
         self.fielding_team.add_pitcher(pitcher_id, self.number)
+        self.events.append(PitchingSubstitution(
+                self.batting_team.lineup.current_batter,
+                self.fielding_team.get_pitcher()
+            )
+        )
 
     def offensive_substitution(self, order, player_id, position):
         self.batting_team.add_player(order, player_id, position, self.number)
@@ -188,18 +194,21 @@ class Inning:
         result += "\n"
 
         at_bats_printed = 1
-        for at_bat in self.at_bats:
-            # Move the X start if the lineup has rolled over.
-            if at_bats_printed > 9:
-                at_bats_printed = 1
-                overflow += 1
-                x_start += 128
-                result += f"    xstart := {x_start};\n"
-                result += "    set_inning_num_label_vars(xstart);\n"
-                result += "\n"
+        for event in self.events:
+            # Check for overflow only in at-bats, substitutions don't need to do this check.
+            if type(event) is AtBat:
+                # Move the X start if the lineup has rolled over.
+                if at_bats_printed > 9:
+                    at_bats_printed = 1
+                    overflow += 1
+                    x_start += 128
+                    result += f"    xstart := {x_start};\n"
+                    result += "    set_inning_num_label_vars(xstart);\n"
+                    result += "\n"
 
-            result += at_bat.get_metapost_data(self.number)
-            at_bats_printed += 1
+                at_bats_printed += 1
+
+            result += event.get_metapost_data(self.number)
 
         result += f"    label(btex {{\\bigsf {self.number}}} etex, bot_inn_label) withcolor clr;\n"
 
@@ -211,8 +220,8 @@ class Inning:
     def __str__(self):
         inn = "Top" if self.top else "Bottom"
         result = f"{inn} of the {self.__ordinal(self.number)}\n"
-        for ab in self.at_bats:
-            result += f'{ab}'
+        for event in self.events:
+            result += f'{event}'
 
         result += f"{self.stats}"
         result += "\n"
