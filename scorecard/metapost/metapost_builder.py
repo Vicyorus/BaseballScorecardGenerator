@@ -66,8 +66,10 @@ class MetapostBuilder:
             scorecard_fd.write(fielding_team.get_pitcher_metapost_data())
 
             # Print the innings.
+            overflow = 0
             for inning in innings:
-                scorecard_fd.write(inning.get_metapost_data())
+                inning_txt, overflow = inning.get_metapost_data(overflow)
+                scorecard_fd.write(inning_txt)
 
             # Print the batter stats data.
             scorecard_fd.write(batting_team.get_batter_stats_metapost_data())

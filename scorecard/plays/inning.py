@@ -178,10 +178,10 @@ class Inning:
         self.batting_team.no_ab()
         self.current_ab.no_ab(label)
 
-    def get_metapost_data(self):
+    def get_metapost_data(self, overflow):
         result = f"    % inning #{self.number}\n"
 
-        x_start = 128 * (self.number - 1)
+        x_start = 128 * (self.number + overflow - 1)
         result += f"    xstart := {x_start};\n"
         result += "    set_inning_num_label_vars(xstart);\n"
         result += f"    label(btex {{\\bigsf {self.number}}} etex, top_inn_label) withcolor clr;\n"
@@ -190,9 +190,9 @@ class Inning:
         at_bats_printed = 1
         for at_bat in self.at_bats:
             # Move the X start if the lineup has rolled over.
-            # TODO: Check how to return that there's been a rollover back to the metapost builder.
             if at_bats_printed > 9:
                 at_bats_printed = 1
+                overflow += 1
                 x_start += 128
                 result += f"    xstart := {x_start};\n"
                 result += "    set_inning_num_label_vars(xstart);\n"
@@ -206,7 +206,7 @@ class Inning:
         result += self.stats.get_metapost_data()
 
         result += "    draw_inning_end(xstart,ystart,innendclr);\n"
-        return result
+        return (result, overflow)
 
     def __str__(self):
         inn = "Top" if self.top else "Bottom"

@@ -5,12 +5,16 @@ class WayBase:
         "0-2": {"location": "waysecond", "reversed": True, "label_offset": ".urt"},
         "0-3": {"location": "waythird", "reversed": True, "label_offset": ".ulft"},
         "0-4": {"location": "wayhome", "reversed": True, "label_offset": ".llft"},
+        "0-U": {"location": "wayhome", "reversed": True, "label_offset": ".llft"},
         "1-2": {"location": "waysecond", "reversed": True, "number_offset": ".urt", "label_offset": ".urt"},
         "1-3": {"location": "waythird", "reversed": True, "number_offset": ".ulft", "label_offset": ".ulft"},
         "1-4": {"location": "wayhome", "reversed": True, "number_offset": ".lft", "label_offset": ".llft"},
+        "1-U": {"location": "wayhome", "reversed": True, "number_offset": ".lft", "label_offset": ".llft"},
         "2-3": {"location": "waythird", "reversed": True, "number_offset": ".ulft", "label_offset": ".ulft"},
         "2-4": {"location": "wayhome", "reversed": True, "number_offset": ".lft", "label_offset": ".llft"},
+        "2-U": {"location": "wayhome", "reversed": True, "number_offset": ".lft", "label_offset": ".llft"},
         "3-4": {"location": "wayhome", "reversed": True, "number_offset": ".lft", "label_offset": ".llft"},
+        "3-U": {"location": "wayhome", "reversed": True, "number_offset": ".lft", "label_offset": ".llft"},
     }
 
     waybase_template = "    label{}(btex {{\\sf {}}} etex, {}) withcolor clr;\n"
