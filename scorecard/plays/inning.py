@@ -31,7 +31,6 @@ class Inning:
 
     # Substitutions.
     # TODO: Generate the metapost code for pitcher substitutions and batter/fielder substitutions.
-    # TODO: Add a defensive switch method.
     def pitching_substitution(self, pitcher_id):
         self.fielding_team.add_pitcher(pitcher_id, self.number)
         self.events.append(PitchingSubstitution(
@@ -45,6 +44,9 @@ class Inning:
 
     def defensive_substitution(self, order, player_id, position):
         self.fielding_team.add_player(order, player_id, position, self.number)
+
+    def defensive_switch(self, player_id, position):
+        self.fielding_team.defensive_switch(player_id, position)
 
     # Pitches.
     def pitch_list(self, pitches):

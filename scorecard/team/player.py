@@ -14,7 +14,7 @@ class Player:
         self.number = number
         self.name = name
         self.handedness = "L" if is_lefty else "R"
-        self.lineup_position = ""
+        self.defensive_position = []
         self.primary_position = ""
         self.is_bullpen = False
         self.in_lineup = False
@@ -25,8 +25,11 @@ class Player:
 
     def set_lineup_position(self, position, inning):
         self.in_lineup = True
-        self.lineup_position = position
+        self.defensive_position.append(position)
         self.inning_entered = inning
+
+    def add_defensive_position(self, position):
+        self.defensive_position.append(position)
 
     def set_primary_position(self, position):
         self.primary_position = position
@@ -56,7 +59,7 @@ class Player:
             result += Player.lineup_info_template.format(self.name, "name_x")
             result += Player.lineup_info_template.format(self.inning_entered, "inn_x")
 
-        result += Player.lineup_info_template.format(self.lineup_position, "pos_x")
+        result += Player.lineup_info_template.format("/".join(self.defensive_position), "pos_x")
         result += "\n"
         return result
 
@@ -96,9 +99,9 @@ class Player:
         return f'#{self.number} {self.name} ({self.primary_position})'
 
     def get_lineup_str(self):
-        return f'{self.__code_to_position(self.lineup_position)} {str(self)} ({self.inning_entered}) {str(self.batter_stats)}'
+        return f'{self.__codes_to_position(self.defensive_position)} {str(self)} ({self.inning_entered}) {str(self.batter_stats)}'
 
-    def __code_to_position(self, code):
+    def __codes_to_position(self, position_codes):
         codes = {
             "1": "P",
             "2": "C",
@@ -115,7 +118,11 @@ class Player:
             "PR": "PR",
         }
 
-        return codes[code]
+        positions = []
+        for position_code in position_codes:
+            positions.append(codes[position_code])
+
+        return "/".join(positions)
 
     def get_pitcher_str(self):
         return f'{str(self)} ({self.inning_entered}) {str(self.pitcher_stats)}'

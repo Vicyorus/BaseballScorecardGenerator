@@ -38,6 +38,16 @@ class Team:
 
         self.lineup.add_player(order, player_id)
 
+    def defensive_switch(self, player_id, position):
+        # Sanity check, ensure the player is in the roster.
+        player = self.roster.get_player(player_id)
+        if not player:
+            raise Exception(f'No player found with the ID {player_id} for team {self.team}')
+
+        player.add_defensive_position(position)
+
+        return None
+
     def next_batter(self):
         return self.lineup.next_batter()
 
