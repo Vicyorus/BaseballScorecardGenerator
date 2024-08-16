@@ -601,5 +601,15 @@ b9.new_ab()
 b9.pitch_list("b c s f b")
 b9.out('K2-3')
 
+# Winning team: BOS
+# WP: BOS #22 Rick Porcello
+game.winning_pitcher(22, is_away_team=True)
+# SV: BOS #46 Craig Kimbrel
+game.save_pitcher(46, is_away_team=True)
+
+# Loser team: PHI
+# LP: PHI #96 Tommy Hunter
+game.losing_pitcher(96)
+
 #print(game)
 game.generate_scorecard()

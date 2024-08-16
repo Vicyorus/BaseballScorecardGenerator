@@ -2,6 +2,10 @@
 import os
 from scorecard.scorecard import Scorecard
 
+# NYY @ BOS, 2018-08-03
+# https://www.baseball-reference.com/boxes/BOS/BOS201808030.shtml
+# https://www.mlb.com/gameday/yankees-vs-red-sox/2018/08/03/531059/final
+
 game = Scorecard(os.path.dirname(os.path.abspath(__file__)),
 {
     "scorer": "Vicyorus",
@@ -591,6 +595,14 @@ inn.out("F8")
 inn.new_ab()
 inn.pitch_list("c c f b")
 inn.out("G6-3")
+
+# Winning team: BOS
+# WP: BOS #22 Rick Porcello
+game.winning_pitcher(22)
+
+# Loser team: NYY
+# LP: NYY #40 Luis Severino
+game.losing_pitcher(40, is_away_team=True)
 
 #print(game)
 game.generate_scorecard()

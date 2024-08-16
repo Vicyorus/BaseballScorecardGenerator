@@ -3,6 +3,7 @@ import os
 from scorecard.scorecard import Scorecard
 
 # SEA @ BOS, 2024-07-29
+# https://www.baseball-reference.com/boxes/BOS/BOS202407290.shtml
 # https://www.mlb.com/gameday/mariners-vs-red-sox/2024/07/29/746928/final
 
 game = Scorecard(os.path.dirname(os.path.abspath(__file__)),
@@ -537,7 +538,7 @@ inn.offensive_substitution(4, 663853, "PH")
 # 4. BOS #23 Romy Gonzalez (X - 7 - X)
 inn.new_ab()
 inn.pitch_list("b")
-inn.hit(4)
+inn.hit(4, rbis=2)
 
 # 5. BOS #17 Tyler O'Neill (X - X - X)
 inn.new_ab()
@@ -561,6 +562,9 @@ inn.out("L7")
 # Top 7th
 # Pitching: BOS #37 Nick Pivetta
 inn = game.new_inning()
+
+# Defensive switch (BOS): #23 Romy Gonzalez moves to 3B
+inn.defensive_switch(663853, "5")
 
 # 6. SEA #25 Dylan Moore (X - X - X)
 inn.new_ab()
@@ -601,6 +605,9 @@ inn = game.new_inning()
 # Pitching change (SEA): #52 Collin Snider replaces #55 Gabe Speier
 inn.pitching_substitution(676092)
 
+# Defensive switch (SEA): #10 Victor Robles moves to LF
+inn.defensive_switch(645302, "7")
+
 # Defensive change (SEA): #2 Cade Marlowe replaces #56 Randy Arozarena (LF), playing CF, batting 2nd
 inn.defensive_substitution(2, 687799, "8")
 
@@ -629,6 +636,15 @@ inn.out("KT")
 # Top 8th
 # Pitching: BOS #61 Trey Wingenter
 inn = game.new_inning()
+
+# Defensive switch (BOS): #73 Jamie Westbrook moves to 2B
+inn.defensive_switch(642197, "4")
+
+# Defensive switch (BOS): #70 David Hamilton moves to SS
+inn.defensive_switch(666152, "6")
+
+# Defensive switch (BOS): #43 Ceddanne Rafaela moves to CF
+inn.defensive_switch(678882, "8")
 
 # 2. SEA #2  Cade Marlowe (X - X - X)
 inn.new_ab()
@@ -682,6 +698,9 @@ inn = game.new_inning()
 # Pitching change (SEA): #60 Tayler Saucedo replaces #52 Collin Snider
 inn.pitching_substitution(642048)
 
+# Defensive switch (SEA): #35 Jason Vosler moves to LF
+inn.defensive_switch(613564, "7")
+
 # Defensive change (SEA): #27 Tyler Locklear replaces #10 Victor Robles (LF), playing 1B, batting 1st
 inn.defensive_substitution(1, 682988, "3")
 
@@ -731,6 +750,14 @@ inn.out("F7")
 # 3. SEA #29 Cal Raleigh (X - X - 4)
 inn.new_ab()
 inn.out("(F)P5")
+
+# Winning team: BOS
+# WP: BOS #37 Nick Pivetta
+game.winning_pitcher(601713)
+
+# Loser team: SEA
+# LP: SEA #36 Logan Gilbert
+game.losing_pitcher(669302, is_away_team=True)
 
 #print(game)
 game.generate_scorecard()

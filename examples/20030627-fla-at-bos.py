@@ -4,6 +4,7 @@ import os
 from scorecard.scorecard import Scorecard
 
 # FLA @ BOS, 2003-06-27
+# https://www.baseball-reference.com/boxes/BOS/BOS200306270.shtml
 # https://www.mlb.com/gameday/marlins-vs-red-sox/2003/06/27/15122/final
 
 game = Scorecard(os.path.dirname(os.path.abspath(__file__)),
@@ -846,6 +847,14 @@ inn.out("L4")
 inn.new_ab()
 inn.pitch_list("b")
 inn.out("F8")
+
+# Winning team: BOS
+# WP: BOS #51 Byung-Hyun Kim
+game.winning_pitcher(51)
+
+# Loser team: FLA
+# LP: FLA #45 Carl Pavano
+game.losing_pitcher(45, is_away_team=True)
 
 #print(game)
 game.generate_scorecard()

@@ -58,13 +58,35 @@ class Team:
 
         player.add_defensive_position(position)
 
-        return None
-
     def next_batter(self):
         return self.lineup.next_batter()
 
     def no_ab(self):
         self.lineup.no_ab()
+
+    def winning_pitcher(self, pitcher_id):
+        # Sanity check, ensure the pitcher is in the roster.
+        pitcher = self.roster.get_player(pitcher_id)
+        if not pitcher:
+            raise Exception(f'No pitcher found with the ID {pitcher_id} for team {self.team}')
+
+        pitcher.add_decision("W")
+
+    def losing_pitcher(self, pitcher_id):
+        # Sanity check, ensure the pitcher is in the roster.
+        pitcher = self.roster.get_player(pitcher_id)
+        if not pitcher:
+            raise Exception(f'No pitcher found with the ID {pitcher_id} for team {self.team}')
+
+        pitcher.add_decision("L")
+
+    def save_pitcher(self, pitcher_id):
+        # Sanity check, ensure the pitcher is in the roster.
+        pitcher = self.roster.get_player(pitcher_id)
+        if not pitcher:
+            raise Exception(f'No pitcher found with the ID {pitcher_id} for team {self.team}')
+
+        pitcher.add_decision("S")
 
     def get_batter(self):
         return self.lineup.get_batter()

@@ -59,7 +59,23 @@ class Scorecard:
 
         return inning
 
-    # TODO: Add methods for recording WLS on pitchers.
+    def winning_pitcher(self, pitcher_id, is_away_team=False):
+        if is_away_team:
+            self.away.winning_pitcher(pitcher_id)
+        else:
+            self.home.winning_pitcher(pitcher_id)
+
+    def losing_pitcher(self, pitcher_id, is_away_team=False):
+        if is_away_team:
+            self.away.losing_pitcher(pitcher_id)
+        else:
+            self.home.losing_pitcher(pitcher_id)
+
+    def save_pitcher(self, pitcher_id, is_away_team=False):
+        if is_away_team:
+            self.away.save_pitcher(pitcher_id)
+        else:
+            self.home.save_pitcher(pitcher_id)
 
     def generate_scorecard(self):
         builder = MetapostBuilder(self.output_dir, self.game_info, self.away, self.home, self.umpires, self.innings)

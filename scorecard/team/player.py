@@ -46,6 +46,9 @@ class Player:
         if is_strike:
             self.pitcher_stats.strikes += 1
 
+    def add_decision(self, decision):
+        self.pitcher_stats.add_decision(decision)
+
     def get_lineup_metapost_data(self, positon_idx, spot_idx, is_extra=False, original_postion_idx=0):
         result = f"    %% lineup {positon_idx}-{spot_idx}\n"
         result += f"    set_batter_name_vars({positon_idx}, {spot_idx});\n"

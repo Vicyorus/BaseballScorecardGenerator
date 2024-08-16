@@ -20,6 +20,9 @@ class PitcherStats:
         self.pitches = 0
         self.strikes = 0
 
+    def add_decision(self, decision):
+        self.decision.append(decision)
+
     def add_stats(self, other_pitcher_stats):
         self.outs += other_pitcher_stats.outs
         self.batters_faced += other_pitcher_stats.batters_faced
