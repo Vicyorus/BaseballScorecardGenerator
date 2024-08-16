@@ -1,5 +1,6 @@
 from scorecard.plays.at_bat import AtBat
 from scorecard.plays.substitution.pitching import PitchingSubstitution
+from scorecard.plays.substitution.batter import OffensiveSubstitution
 from scorecard.stats.inning_stats import InningStats
 
 class Inning:
@@ -41,6 +42,12 @@ class Inning:
 
     def offensive_substitution(self, order, player_id, position):
         self.batting_team.add_player(order, player_id, position, self.number)
+        self.events.append(OffensiveSubstitution(
+                order,
+                self.batting_team.roster.get_player(player_id),
+                True if position.upper() == "PR" else False
+            )
+        )
 
     def defensive_substitution(self, order, player_id, position):
         self.fielding_team.add_player(order, player_id, position, self.number)

@@ -13,7 +13,7 @@ class AtBase:
 
     def get_metapost_data(self):
         labels = AtBase.atbase_labels[self.base]
-        return f"label.{labels['suffix']}(btex {{\\sf {self.label}}} etex, {labels['location']}) withcolor clr;"
+        return f"    label.{labels['suffix']}(btex {{\\sf {self.label}}} etex, {labels['location']}) withcolor clr;\n"
 
     def __str__(self):
         return f'Label at base {self.base}: {self.label}'

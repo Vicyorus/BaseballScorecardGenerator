@@ -25,7 +25,7 @@ class Player:
 
     def set_lineup_position(self, position, inning):
         self.in_lineup = True
-        self.defensive_position.append(position)
+        self.defensive_position = [position]
         self.inning_entered = inning
 
     def add_defensive_position(self, position):

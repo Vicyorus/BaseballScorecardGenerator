@@ -8,7 +8,9 @@ class PitchingSubstitution:
         y_start = 128 * (9 - self.lineup_position)
         result += f"    ystart := {y_start};\n"
         result += "    set_vars(xstart,ystart);\n"
-        result +=     "    draw(new_pitcher) withcolor pitcherclr;\n"
+        result += "    draw(new_pitcher) withcolor pitcherclr;\n"
+        result += "\n"
+
         return result
 
     def __str__(self):
