@@ -6,7 +6,7 @@ class OffensiveSubstitution:
 
     def get_metapost_data(self, overflow):
         pinch_position = "pinch-runner" if self.is_runner else "pinch-hitter"
-        result = f"    % offensive change: {pinch_position}\n"
+        result = f"    % offensive substitution: {pinch_position}\n"
         y_start = 128 * (9 - self.lineup_position)
         result += f"    ystart := {y_start};\n"
         if self.is_runner:

@@ -31,7 +31,6 @@ class Inning:
         self.current_ab = ab
 
     # Substitutions.
-    # TODO: Generate the metapost code for pitcher substitutions and batter/fielder substitutions.
     def pitching_substitution(self, pitcher_id):
         self.fielding_team.add_pitcher(pitcher_id, self.number)
         self.events.append(PitchingSubstitution(
@@ -50,7 +49,7 @@ class Inning:
         )
 
     def defensive_substitution(self, order, player_id, position):
-        self.fielding_team.add_player(order, player_id, position, self.number)
+        self.fielding_team.add_player(order, player_id, position, self.number, is_defensive_sub=True)
 
     def defensive_switch(self, player_id, position):
         self.fielding_team.defensive_switch(player_id, position)
@@ -202,6 +201,11 @@ class Inning:
         result += f"    label(btex {{\\bigsf {self.number}}} etex, top_inn_label) withcolor clr;\n"
         result += "\n"
 
+        # In defensive substitutions, the expectation is that these are registered
+        # while the team is fielding, but they will be printed when they are batting.
+        if self.number in self.batting_team.defensive_subs.keys():
+            self.events = self.batting_team.defensive_subs[self.number] + self.events
+
         at_bats_printed = 1
         for event in self.events:
             # Check for overflow only in at-bats, substitutions don't need to do this check.
@@ -229,6 +233,12 @@ class Inning:
     def __str__(self):
         inn = "Top" if self.top else "Bottom"
         result = f"{inn} of the {self.__ordinal(self.number)}\n"
+
+        # In defensive substitutions, the expectation is that these are registered
+        # while the team is fielding, but they will be printed when they are batting.
+        if self.number in self.batting_team.defensive_subs.keys():
+            self.events = self.batting_team.defensive_subs[self.number] + self.events
+
         for event in self.events:
             result += f'{event}'
 

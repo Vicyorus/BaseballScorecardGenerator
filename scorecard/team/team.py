@@ -4,6 +4,7 @@ from scorecard.team.lineup import Lineup
 from scorecard.team.pitcher_lineup import PitcherLineup
 from scorecard.team.reserves import Reserves
 from scorecard.stats.team_stats import TeamStats
+from scorecard.plays.substitution.fielder import DefensiveSubstitution
 
 class Team:
 
@@ -19,6 +20,8 @@ class Team:
         self.reserves = Reserves(data["bullpen"], data["bench"], self.roster)
         self.stats = TeamStats()
 
+        self.defensive_subs = {}
+
     def add_pitcher(self, pitcher_id, inning):
         # Sanity check, ensure the pitcher is in the roster.
         pitcher = self.roster.get_player(pitcher_id)
@@ -28,7 +31,7 @@ class Team:
         pitcher.set_lineup_position("1", inning)
         self.pitcher_lineup.add_pitcher(pitcher_id)
 
-    def add_player(self, order, player_id, position, inning):
+    def add_player(self, order, player_id, position, inning, is_defensive_sub=False):
         # Sanity check, ensure the player is in the roster.
         player = self.roster.get_player(player_id)
         if not player:
@@ -37,6 +40,15 @@ class Team:
         player.set_lineup_position(position, inning)
 
         self.lineup.add_player(order, player_id)
+
+        # For defensive substitutions, register the event on the team,
+        # to be later handled when the inning either prints the data, or
+        # generates the scorecard.
+        if is_defensive_sub:
+            if inning in self.defensive_subs.keys():
+                self.defensive_subs[inning].append(DefensiveSubstitution(order, player))
+            else:
+                self.defensive_subs[inning] = [DefensiveSubstitution(order, player)]
 
     def defensive_switch(self, player_id, position):
         # Sanity check, ensure the player is in the roster.
