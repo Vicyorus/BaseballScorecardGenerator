@@ -38,35 +38,38 @@ etex
 %
 % Locations for stuff:
 %
-%    ballone, balltwo, ballthree, strikeone, striketwo, foulone, foultwo,
-%    foulthree, foulfour
+%    ballone, balltwo, ballthree, ballfour,
+%    strikeone, striketwo, strikethree, strikefour, strikefive, strikesix
+%    strikeseven, strikeeight, strikenine, striketen, strikeeleven, striketwelve
+%    strikethirteen, strikefourteen, strikefifteen, strikesixteen, strikeseventeen, strikeeighteen
+%    strikenineteen, striketwenty, striketwentyone, striketwentytwo
 %
 %       These are the locations for writing in the pitch counts to each
 %       batter:
-%           label(btex {\sf 1} etex, ballone) withcolor clr;
-%           label(btex {\sf 2} etex, strikeone) withcolor clr;
+%           draw_strike_dot(ballone, clr);
+%           draw_strike_circle(strikeone, clr);
 %
 %    rbione, rbitwo, rbithree, rbifour, rundot, outlabel
 %
-%       These are the locations for RBI dots, run dots (in the middle
+%       These are the locations for RBI diamonds, run dots/cross (in the middle
 %       of the diamond), and the out labels (which also go in the middle
 %       of the diamond):
-%           draw_dot(rbione, clr);
-%           draw_dot(rbitwo, clr);
+%           draw_diamond(rbione, clr);
+%           draw_diamond(rbitwo, clr);
 %           draw_dot(rundot, clr);
-%           label(btex {\bigsf 6-3} etex, outlabel) withcolor clr;
+%           draw_cross(rundot, clr);
+%           label(btex {\bigsf G6-3} etex, outlabel) withcolor clr;
+%
+%    playloc
+%
+%       Location for the main play, primarily for hits, walks and hit by pitches.
+%           label(btex {\midsf 1B} etex, playloc) withcolor hit;
 %
 %    first, second, third, home
 %
 %       Locations of the bases.  Mostly used for building the paths,
 %       but also useful for pinch runners:
 %           label.top(btex {\sf PR} etex, second) withcolor clr;
-%
-%    hr, threeb, twob, oneb, bb, hp
-%
-%       Locations for the hit / walk / HBP text on the right side of
-%       the box.  Circled to indicate the result of the at bat:
-%           draw_circle(twob, clr);
 %
 %    wayfirst, waysecond, waythird, wayhome
 %
@@ -112,10 +115,10 @@ etex
 %
 % Fonts:
 %
-%   \tiny   - used for the Copyright line
-%   \tnsf   - used for the basepath plays
-%   \sf     - used for balls and strikes, outs, various labelling
-%   \bigsf  - used for out labels
+%   \tiny   - used for tallying pitches.
+%   \sf     - used for various labelling and basepath plays.
+%   \midsf  - used for various labelling and batter results.
+%   \bigsf  - used for various labelling and out labels.
 %
 % Normal functions:
 %
@@ -129,13 +132,66 @@ etex
 % User functions:
 %
 %
+%   def set_batter_name_vars(expr lineup_pos, lineup_line) =
+%
+%       Sets the location variables for a batter's information in the lineup.
+%       Expects the position in the lineup (1-9), and the specific spot in the position (1-4).
+%
+%   def set_extra_batter_name_vars(expr extra_num) =
+%
+%       Sets the location variables for a batter's information in the extra batters spot.
+%       Expects the number of row to use for the extra batter (1-6).
+%
+%   def set_pitcher_name_vars(expr pitcher_num) =
+%
+%       Sets the location variables for a pitcher's information in the pitcher lineup.
+%       Expects the position in the lineup (1-12).
+%
+%   def set_bench_name_vars(expr bench_num) =
+%
+%       Sets the location variables for a player's information in the bench.
+%       Expects the position in the bench (1-7).
+%
+%   def set_bullpen_name_vars(expr bullpen_num) =
+%
+%       Sets the location variables for a pitcher's information in the bullpen.
+%       Expects the position in the bullpen (1-14).
+%
+%   def set_batter_total_vars(expr lineup_pos, lineup_line) =
+%
+%       Sets the location variables for a batter's game totals.
+%       Expects the position in the lineup (1-9), and the specific spot in the position (1-4).
+%
+%   def set_pitcher_total_vars(expr pitcher_num) =
+%
+%       Sets the location variables for a pitcher's game totals.
+%       Expects the position in the lineup (1-12).
+%
+%   def set_inning_num_label_vars(expr xstart) =
+%
+%       Sets the location variables for the inning numbering labels (both top and bottom).
+%       Expects the xstart of the inning column to use.
+%
+%   def set_inning_total_vars(expr xstart) =
+%
+%       Sets the location variables for the inning numbering labels (both top and bottom).
+%       Expects the xstart of the inning column to use.
+%
+%   def set_game_total_vars =
+%
+%       Sets the location variables for tallying the game's totals (runs, hits, errors, etc).
+%
+%   def set_basepath_total_vars =
+%
+%       Sets the location varaibles to tally a team's basepath's totals (hits, sacrifices, stolen bases, etc).
+%
 %   def set_vars(expr xstart, ystart) =
 %
 %       Used to initialize all the locations and paths for a new
 %       starting locations.  Needs to be called right after setting
-%       xstart and ystart.  These should be multiples of 100
+%       xstart and ystart.  These should be multiples of 128.
 %
-%   def draw_square(expr xstart, ystart) =
+%   def draw_at_bat_box(expr xstart, ystart) =
 %
 %       Draws an at-bat box in cyan
 %
@@ -146,13 +202,28 @@ etex
 %
 %   def draw_dot(expr loc, clr) =
 %
-%       Draws a 5pt dot at the location indicated.  Used for RBI's,
-%       and runs scored
+%       Draws a 7pt dot at the location indicated.
+%       Used for noting an earned run.
 %
-%   def draw_circle(expr centerpoint, clr) =
+%   def draw_cross(expr loc, clr) =
 %
-%       Draws a circle around a location.  Used to circle the plays
-%       on the right of the at-bat box.
+%       Draws an X at the location indicated.
+%       Used for noting an unearned run.
+%
+%   def draw_strike_dot(expr loc, clr) =
+%
+%       Draws a 5pt dot at the location indicated.
+%       Used for pitches, recommended for swinging strikes.
+%
+%   def draw_strike_circle(expr loc, clr) =
+%
+%       Draws a circle at the location indicated.
+%       Used for pitches, recommended for called strikes.
+%
+%   def draw_diamond(expr loc, clr) =
+%
+%       Draws a diamond with a radius of 3.75 at the location indicated.
+%       Recommended to be used for RBIs.
 %
 %   def draw_inning_end(expr xstart, ystart, clr) =
 %
@@ -168,14 +239,21 @@ etex
 %
 %       Draws a backwards K
 %
-%   def draw_ibb(expr bb, clr)=
-%
-%       Adds 'I' in front of BB and circles it for an intentional walk
-%
 % Consult the Makefile for the commands used to turn the code in  this
 % file into PDF, EPS or PNG files.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   Thu Aug 22 23:00 UTC-6 2024
+%       * Rewrote the at-bat box to include the following:
+%           * Boxes for pitch tracking of balls and strikes.
+%           * Functions to draw dots, circles and crosses in the
+%             balls and strikes boxes.
+%           * Function to draw RBI diamonds to tally RBIs in a play.
+%           * Elimination of the circled plays, replaced by a box to
+%             place the result of the play (barring outs).
+%       * Added missing documentation for several new methods.
+%       * Vicyorus
 %
 %   Fri May 5 22:00 UTC-6 2024
 %       * Rewrote the scorecard code to include the following:
@@ -207,9 +285,7 @@ etex
 
 % FONTS
 verbatimtex \font\tiny     phvrrn at 8pt etex
-verbatimtex \font\smallsf  phvbrn at 10pt etex
 verbatimtex \font\sf       phvbrn at 12pt etex
-verbatimtex \font\tnsf     phvrrn at 12pt etex
 verbatimtex \font\midsf    phvbrn at 16pt etex
 verbatimtex \font\bigsf    phvbrn at 18pt etex
 
@@ -257,8 +333,6 @@ innendclr:=outclr;
 outcircle_d := 7;
 % Size of dots (rbi, runs scored)
 dotsize := 7pt;
-% Diameter of play circles
-playcircle_d := 9;
 % Thickness of play lines
 playline_t := 1.5pt;
 % Thickness of thick card lines
@@ -267,35 +341,25 @@ thickline_t := 0.5pt;
 thinline_t := 0.05pt;
 % Thickness of strikethrough lines
 strikethrough_t := 1.0pt;
+% Size of strike dots
+strikedot := 5pt;
+% Diameter of called strike circles
+called_strike_d := 2;
 
-def draw_square(expr xstart, ystart) =
+def draw_at_bat_box(expr xstart, ystart) =
     begingroup
         pickup pencircle scaled thickline_t;
 
         % Outer box
-        draw (xstart,ystart)--(xstart,ystart+128)--(xstart+128,ystart+128)--(xstart+128,ystart)--cycle withcolor card;
+        box_size := 128;
+        draw (xstart,ystart)--(xstart,ystart+box_size)--(xstart+box_size,ystart+box_size)--(xstart+box_size,ystart)--cycle withcolor card;
         pickup pencircle scaled thinline_t;
 
-        % Pitches
-        pbsize := 15;
-        pbstart := 75;
-        %% Balls
-        draw (xstart+pbstart,ystart)--(xstart+pbstart,ystart+pbsize)--(xstart+pbstart+(1*pbsize),ystart+pbsize)--(xstart+pbstart+pbsize,ystart)--cycle withcolor card;
-        pbstart := pbstart + pbsize;
-        draw (xstart+pbstart,ystart)--(xstart+pbstart,ystart+pbsize)--(xstart+pbstart+(1*pbsize),ystart+pbsize)--(xstart+pbstart+pbsize,ystart)--cycle withcolor card;
-        pbstart := pbstart + pbsize;
-        draw (xstart+pbstart,ystart)--(xstart+pbstart,ystart+pbsize)--(xstart+pbstart+(1*pbsize),ystart+pbsize)--(xstart+pbstart+pbsize,ystart)--cycle withcolor card;
-        pbstart := 75;
-        %% Strikes
-        draw (xstart+pbstart,ystart+pbsize)--(xstart+pbstart,ystart+pbsize*2)--(xstart+pbstart+(1*pbsize),ystart+pbsize*2)--(xstart+pbstart+pbsize,ystart+pbsize)--cycle withcolor card;
-        pbstart := pbstart + pbsize;
-        draw (xstart+pbstart,ystart+pbsize)--(xstart+pbstart,ystart+pbsize*2)--(xstart+pbstart+(1*pbsize),ystart+pbsize*2)--(xstart+pbstart+pbsize,ystart+pbsize)--cycle withcolor card;
-
         % Diamond
-        dsize := 24;
+        dsize := 28;
         basesize := 5;
-        dxstart := xstart+55;
-        dystart := ystart+pbsize*3.0;
+        dxstart := xstart+64;
+        dystart := ystart+38;
         ofactor := 1.5;
 
         % New diamond
@@ -311,21 +375,25 @@ def draw_square(expr xstart, ystart) =
         % Outfield
         draw (dxstart+dsize,dystart+dsize)--(dxstart+(dsize*ofactor),dystart+(dsize*ofactor))..(dxstart,dystart+(2*dsize*ofactor))..(dxstart-(dsize*ofactor),dystart+(dsize*ofactor))--(dxstart-dsize,dystart+dsize) withcolor card;
 
-        % Labels
-        lxstart := xstart+115;
-        lystart := ystart+110;
-        lsize := (92+(fsize/2)-pbsize)/6;
-        label(btex {\tnsf HR} etex, (lxstart,lystart)) withcolor card;
-        lystart := lystart - lsize;
-        label(btex {\tnsf 3B} etex, (lxstart,lystart)) withcolor card;
-        lystart := lystart - lsize;
-        label(btex {\tnsf 2B} etex, (lxstart,lystart)) withcolor card;
-        lystart := lystart - lsize;
-        label(btex {\tnsf 1B} etex, (lxstart,lystart)) withcolor card;
-        lystart := lystart - lsize;
-        label(btex {\tnsf BB} etex, (lxstart,lystart)) withcolor card;
-        lystart := lystart - lsize;
-        label(btex {\tnsf HP} etex, (lxstart,lystart)) withcolor card;
+        % Pitches
+        pitch_box_size := 10;
+        pitch_box_label_xoffset := 9;
+        strike_box_width := 98;
+        play_box_size := 30;
+        ball_box_width := 50;
+
+        %% Pitch boxes
+        draw (xstart,ystart)--(xstart,ystart+pitch_box_size*2)--(xstart+strike_box_width,ystart+pitch_box_size*2)--(xstart+strike_box_width,ystart)--cycle withcolor card;
+        draw (xstart,ystart+pitch_box_size*2)--(xstart,ystart+pitch_box_size*3)--(xstart+ball_box_width,ystart+pitch_box_size*3)--(xstart+ball_box_width,ystart+pitch_box_size*2)--cycle withcolor card;
+                draw (xstart+ball_box_width,ystart+pitch_box_size*2)--(xstart+ball_box_width,ystart+pitch_box_size*3)--(xstart+ball_box_width+48,ystart+pitch_box_size*3)--(xstart+ball_box_width+48,ystart+pitch_box_size*2)--cycle withcolor card;
+        draw (xstart+strike_box_width,ystart)--(xstart+strike_box_width,ystart+play_box_size)--(xstart+strike_box_width+play_box_size,ystart+play_box_size)--(xstart+strike_box_width+play_box_size,ystart)--cycle withcolor card;
+
+        draw (xstart+pitch_box_label_xoffset,ystart+pitch_box_size)--(xstart+strike_box_width,ystart+pitch_box_size) dashed evenly withcolor card;
+        draw (xstart+pitch_box_label_xoffset,ystart)--(xstart+pitch_box_label_xoffset,ystart+pitch_box_size*3) withcolor card;
+
+        label.urt(btex {\tiny B} etex, (xstart,ystart+pitch_box_size*2)) withcolor clr;
+        label.urt(btex {\tiny S} etex, (xstart,ystart+pitch_box_size/2)) withcolor clr;
+
         pickup pencircle scaled playline_t;
     endgroup
 enddef;
@@ -585,8 +653,8 @@ def set_inning_total_vars(expr xstart) =
         inn_lob := (xstart + 96, -104);
         inn_bb  := (xstart + 32, -152);
         inn_so   := (xstart + 96, -152);
-        inn_pit := (xstart + 32, -200);
-        inn_str := (xstart + 96, -200);
+        inn_str := (xstart + 32, -200);
+        inn_pit := (xstart + 96, -200);
 
     endgroup
 enddef;
@@ -612,8 +680,8 @@ def set_game_total_vars =
         inn_so   := 1/2[(xstart+32,ystart-ynudge),(xstart+64,ystart-box_h-ynudge)];
 
         ystart := ystart - 48;
-        inn_pit := 1/2[(xstart,ystart+ynudge),(xstart+32,ystart-box_h+ynudge)];
-        inn_str := 1/2[(xstart+32,ystart-ynudge),(xstart+64,ystart-box_h-ynudge)];
+        inn_str := 1/2[(xstart,ystart+ynudge),(xstart+32,ystart-box_h+ynudge)];
+        inn_pit := 1/2[(xstart+32,ystart-ynudge),(xstart+64,ystart-box_h-ynudge)];
 
     endgroup
 enddef;
@@ -766,36 +834,74 @@ enddef;
 
 def set_vars(expr xstart, ystart) =
     begingroup
-        % locations
-        pair ballone, balltwo, ballthree, strikeone, striketwo, foulone, foultwo, foulthree, foulfour;
-        ballone := (xstart+75+(15/2),ystart+(15/2));
-        balltwo := (xstart+75+(15/2)+15,ystart+(15/2));
-        ballthree := (xstart+75+(15/2)+30,ystart+(15/2));
+        % Pitch locations
+        pitch_box_size := 10;
+        pitch_box_label_xoffset := 6;
+        strike_box_width := 98;
+        play_box_size := 30;
+        ball_box_width := 50;
 
-        strikeone := (xstart+75+(15/2),ystart+(15/2)+15);
-        striketwo := (xstart+75+(15/2)+15,ystart+(15/2)+15);
+        pair ballone, balltwo, ballthree, ballfour;
+        pair strikeone, striketwo, strikethree, strikefour, strikefive, strikesix;
+        pair strikeseven, strikeeight, strikenine, striketen, strikeeleven, striketwelve;
+        pair strikethirteen, strikefourteen, strikefifteen, strikesixteen, strikeseventeen, strikeeighteen;
+        pair strikenineteen, striketwenty, striketwentyone, striketwentytwo;
 
-        foulone := (xstart+8,ystart+12);
-        foultwo := (xstart+11,ystart+8);
-        foulthree := (xstart+13,ystart+14);
-        foulfour := (xstart+16,ystart+10);
-        % TODO: Add more fouls
+        ballone   := (xstart+pitch_box_label_xoffset+1+9*1, ystart+pitch_box_size*2.5);
+        balltwo   := (xstart+pitch_box_label_xoffset+1+9*2, ystart+pitch_box_size*2.5);
+        ballthree := (xstart+pitch_box_label_xoffset+1+9*3, ystart+pitch_box_size*2.5);
+        ballfour  := (xstart+pitch_box_label_xoffset+1+9*4, ystart+pitch_box_size*2.5);
 
-        pair rbione, rbitwo, rbithree, rbifour, rundot, outlabel;
-        rundot := (xstart+55,ystart+69);
-        outlabel := (xstart+55,ystart+69);
+        strikeone       := (xstart+pitch_box_label_xoffset+8*1, ystart+pitch_box_size*1.5);
+        striketwo       := (xstart+pitch_box_label_xoffset+8*2, ystart+pitch_box_size*1.5);
+        strikethree     := (xstart+pitch_box_label_xoffset+8*3, ystart+pitch_box_size*1.5);
+        strikefour      := (xstart+pitch_box_label_xoffset+8*4, ystart+pitch_box_size*1.5);
+        strikefive      := (xstart+pitch_box_label_xoffset+8*5, ystart+pitch_box_size*1.5);
+        strikesix       := (xstart+pitch_box_label_xoffset+8*6, ystart+pitch_box_size*1.5);
+        strikeseven     := (xstart+pitch_box_label_xoffset+8*7, ystart+pitch_box_size*1.5);
+        strikeeight     := (xstart+pitch_box_label_xoffset+8*8, ystart+pitch_box_size*1.5);
+        strikenine      := (xstart+pitch_box_label_xoffset+8*9, ystart+pitch_box_size*1.5);
+        striketen       := (xstart+pitch_box_label_xoffset+8*10, ystart+pitch_box_size*1.5);
+        strikeeleven    := (xstart+pitch_box_label_xoffset+8*11, ystart+pitch_box_size*1.5);
+        striketwelve    := (xstart+pitch_box_label_xoffset+8*1, ystart+pitch_box_size*0.5);
+        strikethirteen  := (xstart+pitch_box_label_xoffset+8*2, ystart+pitch_box_size*0.5);
+        strikefourteen  := (xstart+pitch_box_label_xoffset+8*3, ystart+pitch_box_size*0.5);
+        strikefifteen   := (xstart+pitch_box_label_xoffset+8*4, ystart+pitch_box_size*0.5);
+        strikesixteen   := (xstart+pitch_box_label_xoffset+8*5, ystart+pitch_box_size*0.5);
+        strikeseventeen := (xstart+pitch_box_label_xoffset+8*6, ystart+pitch_box_size*0.5);
+        strikeeighteen  := (xstart+pitch_box_label_xoffset+8*7, ystart+pitch_box_size*0.5);
+        strikenineteen  := (xstart+pitch_box_label_xoffset+8*8, ystart+pitch_box_size*0.5);
+        striketwenty    := (xstart+pitch_box_label_xoffset+8*9, ystart+pitch_box_size*0.5);
+        striketwentyone := (xstart+pitch_box_label_xoffset+8*10, ystart+pitch_box_size*0.5);
+        striketwentytwo := (xstart+pitch_box_label_xoffset+8*11, ystart+pitch_box_size*0.5);
 
-        rbione := (xstart+8,ystart+28);
-        rbitwo := (xstart+12,ystart+23);
-        rbithree := (xstart+14,ystart+31);
-        rbifour := (xstart+18,ystart+26);
+        % Diamond dimensions
+        dsize := 28;
+        dxstart := xstart+64;
+        dystart := ystart+38;
+
+        pair rundot, outlabel;
+        pair rbione, rbitwo, rbithree, rbifour;
+        rundot := (dxstart,dystart+dsize);
+        outlabel := (dxstart,dystart+dsize);
+
+        % RBIs
+        rbi_radius := 3.75;
+        rbi_xstart := xstart + ball_box_width + 5.5 + rbi_radius;
+        rbi_ystart := ystart + pitch_box_size * 2.5;
+        rbi_offset := 10;
+
+        rbione   := (rbi_xstart+rbi_offset*0,rbi_ystart);
+        rbitwo   := (rbi_xstart+rbi_offset*1,rbi_ystart);
+        rbithree := (rbi_xstart+rbi_offset*2,rbi_ystart);
+        rbifour  := (rbi_xstart+rbi_offset*3,rbi_ystart);
+
+        % Play location
+        pair playloc;
+        playloc := (xstart+98+15,ystart+15);
 
         pair first, second, third, home;
         path single, double, triple, homerun;
-        pbsize := 15;
-        dsize := 24;
-        dxstart := xstart+55;
-        dystart := ystart+pbsize*3.0;
         home := (dxstart,dystart);
         first := (dxstart+dsize,dystart+dsize);
         second := (dxstart,dystart+dsize*2);
@@ -833,22 +939,6 @@ def set_vars(expr xstart, ystart) =
         %hrcenterl := home--(home+(-5, 75));
         %hrcenterr := home--(home+(5, 75));
 
-        pair hr, threeb, twob, oneb, bb, hp;
-        lxstart := xstart+115;
-        lystart := ystart+110;
-        lsize := (92+(fsize/2)-pbsize)/6;
-        hr := (lxstart,lystart);
-        lystart := lystart - lsize;
-        threeb := (lxstart,lystart);
-        lystart := lystart - lsize;
-        twob := (lxstart,lystart);
-        lystart := lystart - lsize;
-        oneb := (lxstart,lystart);
-        lystart := lystart - lsize;
-        bb := (lxstart,lystart);
-        lystart := lystart - lsize;
-        hp := (lxstart,lystart);
-
         pair wayfirst, waysecond, waythird, wayhome;
         path cs_second, cs_third, to_home;
         path cs_firstthird, to_firsthome, to_secondhome;
@@ -873,30 +963,33 @@ enddef;
 def draw_out_one(expr xstart, ystart, clr) =
     begingroup
         pickup pencircle scaled playline_t;
-        xoffset := 60;
-        label(btex {\sf 1} etex, (xstart+xoffset, ystart+10)) withcolor clr;
-        draw (xstart+xoffset,ystart+10-outcircle_d)..(xstart+xoffset+outcircle_d,ystart+10)..
-                (xstart+xoffset,ystart+10+outcircle_d)..(xstart+xoffset-outcircle_d,ystart+10)..cycle withcolor clr;
+        xoffset := 98+20;
+        yoffset := 40;
+        label(btex {\sf 1} etex, (xstart+xoffset, ystart+yoffset)) withcolor outclr;
+        draw (xstart+xoffset,ystart+yoffset-outcircle_d)..(xstart+xoffset+outcircle_d,ystart+yoffset)..
+                (xstart+xoffset,ystart+yoffset+outcircle_d)..(xstart+xoffset-outcircle_d,ystart+yoffset)..cycle withcolor outclr;
     endgroup
 enddef;
 
 def draw_out_two(expr xstart, ystart, clr) =
     begingroup
         pickup pencircle scaled playline_t;
-        xoffset := 60;
-        label(btex {\sf 2} etex, (xstart+xoffset, ystart+10)) withcolor clr;
-        draw (xstart+xoffset,ystart+10-outcircle_d)..(xstart+xoffset+outcircle_d,ystart+10)..
-                (xstart+xoffset,ystart+10+outcircle_d)..(xstart+xoffset-outcircle_d,ystart+10)..cycle withcolor clr;
+        xoffset := 98+20;
+        yoffset := 40;
+        label(btex {\sf 2} etex, (xstart+xoffset, ystart+yoffset)) withcolor outclr;
+        draw (xstart+xoffset,ystart+yoffset-outcircle_d)..(xstart+xoffset+outcircle_d,ystart+yoffset)..
+                (xstart+xoffset,ystart+yoffset+outcircle_d)..(xstart+xoffset-outcircle_d,ystart+yoffset)..cycle withcolor outclr;
     endgroup
 enddef;
 
 def draw_out_three(expr xstart, ystart, clr) =
     begingroup
         pickup pencircle scaled playline_t;
-        xoffset := 60;
-        label(btex {\sf 3} etex, (xstart+xoffset, ystart+10)) withcolor clr;
-        draw (xstart+xoffset,ystart+10-outcircle_d)..(xstart+xoffset+outcircle_d,ystart+10)..
-                (xstart+xoffset,ystart+10+outcircle_d)..(xstart+xoffset-outcircle_d,ystart+10)..cycle withcolor clr;
+        xoffset := 98+20;
+        yoffset := 40;
+        label(btex {\sf 3} etex, (xstart+xoffset, ystart+yoffset)) withcolor outclr;
+        draw (xstart+xoffset,ystart+yoffset-outcircle_d)..(xstart+xoffset+outcircle_d,ystart+yoffset)..
+                (xstart+xoffset,ystart+yoffset+outcircle_d)..(xstart+xoffset-outcircle_d,ystart+yoffset)..cycle withcolor outclr;
     endgroup
 enddef;
 
@@ -916,11 +1009,30 @@ def draw_cross(expr loc, clr) =
     endgroup
 enddef;
 
-def draw_circle(expr centerpoint, clr) =
+def draw_strike_dot(expr loc, clr) =
+    begingroup
+        pickup pencircle scaled strikedot;
+        draw(loc) withcolor clr;
+        pickup pencircle scaled playline_t;
+    endgroup
+enddef;
+
+def draw_strike_circle(expr loc, clr) =
     begingroup
         pickup pencircle scaled playline_t;
-        draw (centerpoint+(0,-playcircle_d))..(centerpoint+(playcircle_d,0))..(centerpoint+(0,playcircle_d))..
-                (centerpoint+(-playcircle_d,0))..cycle withcolor clr;
+        draw (loc+(0,-called_strike_d))..(loc+(called_strike_d,0))..(loc+(0,called_strike_d))..
+            (loc+(-called_strike_d,0))..cycle withcolor clr;
+    endgroup
+enddef;
+
+def draw_diamond(expr loc, clr) =
+    begingroup
+        rbi_radius := 3.75;
+        pickup pencircle scaled playline_t;
+        fill loc+(-rbi_radius,0)--
+                loc+(0,rbi_radius)--
+                loc+(rbi_radius,0)--
+                loc+(0,-rbi_radius)--cycle withcolor clr;
     endgroup
 enddef;
 
@@ -934,13 +1046,6 @@ enddef;
 def draw_strikeout_looking(expr outlabel, clr) =
     begingroup
         label(btex {\bigsf K} etex, outlabel) reflectedabout (outlabel+(0,1), outlabel+(0,-1)) withcolor clr;
-    endgroup
-enddef;
-
-def draw_ibb(expr bb, textclr, circleclr)=
-    begingroup
-        label(btex {\tnsf I} etex, bb+(-9,0)) withcolor textclr;
-        draw (bb+(-3,-playcircle_d))..(bb+(playcircle_d+3,0))..(bb+(-3,playcircle_d))..(bb+(-playcircle_d-6,0))..cycle withcolor circleclr;
     endgroup
 enddef;
 
@@ -1062,13 +1167,13 @@ def draw_full_scorecard =
         label(btex {\bigsf BB} etex, 1/2[1/2[(0,ystart),(-iposwidth,ystart-midpoint)],(-iposwidth,ystart)] + offset) withcolor clr;
         label(btex {\bigsf K}  etex, 1/2[1/2[(0,ystart),(-iposwidth,ystart-midpoint)],(0,ystart-midpoint)]) withcolor clr;
 
-        label(btex {\bigsf P}  etex, 1/2[1/2[(0,ystart-midpoint),(-iposwidth,ystart-(midpoint*2))],(-iposwidth,ystart-midpoint)]) withcolor clr;
-		label(btex {\bigsf S}  etex, 1/2[1/2[(0,ystart-midpoint),(-iposwidth,ystart-(midpoint*2))],(0,ystart-(midpoint*2))]) withcolor clr;
+        label(btex {\bigsf S}  etex, 1/2[1/2[(0,ystart-midpoint),(-iposwidth,ystart-(midpoint*2))],(-iposwidth,ystart-midpoint)]) withcolor clr;
+        label(btex {\bigsf P}  etex, 1/2[1/2[(0,ystart-midpoint),(-iposwidth,ystart-(midpoint*2))],(0,ystart-(midpoint*2))]) withcolor clr;
 
         % Draw all the at-bat boxes
         for ystart := 0 step 128 until 1024:
             for xstart := 0 step 128 until 1792:
-                draw_square(xstart, ystart);
+                draw_at_bat_box(xstart, ystart);
             endfor
         endfor
 

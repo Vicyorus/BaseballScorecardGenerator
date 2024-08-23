@@ -22,17 +22,17 @@ class Advance:
 #hr, threeb, twob, oneb, bb, hp
 
     advance_info = {
-        "Hit1": {"color": "hit", "use_circle": True, "circle_code": "oneb"},
-        "Hit2": {"color": "hit", "use_circle": True, "circle_code": "twob"},
-        "Hit3": {"color": "hit", "use_circle": True, "circle_code": "threeb"},
-        "Hit4": {"color": "homer", "use_circle": True, "circle_code": "hr"},
-        "HitU": {"color": "homer", "use_circle": True, "circle_code": "hr"},
-        "Intent Walk": {"color": "walk", "use_circle": True, "circle_code": "ibb"},
-        "Walk": {"color": "walk", "use_circle": True, "circle_code": "bb"},
-        "Hit By Pitch": {"color": "clr", "use_circle": True, "circle_code": "hp"},
-        "Error": {"color": "error", "use_circle": False},
-        "Reach": {"color": "clr", "use_circle": False},
-        "Advance": {"color": "clr", "use_circle": False},
+        "Hit1": {"color": "hit", "in_play_box": True, "play_code": "1B"},
+        "Hit2": {"color": "hit", "in_play_box": True, "play_code": "2B"},
+        "Hit3": {"color": "hit", "in_play_box": True, "play_code": "3B"},
+        "Hit4": {"color": "homer", "in_play_box": True, "play_code": "HR"},
+        "HitU": {"color": "homer", "in_play_box": True, "play_code": "HR"},
+        "Intent Walk": {"color": "walk", "in_play_box": True, "play_code": "IBB"},
+        "Walk": {"color": "walk", "in_play_box": True, "play_code": "BB"},
+        "Hit By Pitch": {"color": "clr", "in_play_box": True, "play_code": "HBP"},
+        "Error": {"color": "error", "in_play_box": False},
+        "Reach": {"color": "clr", "in_play_box": False},
+        "Advance": {"color": "clr", "in_play_box": False},
     }
 
     def __init__(self, advance_code, play, start_base, end_base):
@@ -51,11 +51,8 @@ class Advance:
         advance_info = Advance.advance_info[advance_info_key]
 
         result = ""
-        if advance_info['use_circle']:
-            if advance_info['circle_code'] == "ibb":
-                result += "    draw_ibb(bb, clr, walk);\n"
-            else:
-                result += f"    draw_circle({advance_info['circle_code']}, {advance_info['color']});\n"
+        if advance_info['in_play_box']:
+            result += f"    label(btex {{\\midsf {advance_info['play_code']}}} etex, playloc) withcolor {advance_info['color']};\n"
         else:
             result += WayBase(self.play, self.start, self.end).get_metapost_data()
 

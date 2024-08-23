@@ -182,6 +182,7 @@ class AtBat():
 
         # Hit by pitch.
         if play.upper() == "HP" or play.upper() == "HBP":
+            reach_label = "Hit By Pitch"
             self.pitcher.pitcher_stats.hits_by_pitch += 1
             self.pitcher.add_pitch(is_strike=False)
             self.inning_stats.pitches += 1
@@ -267,7 +268,7 @@ class AtBat():
         # Print the RBIs.
         rbi_labels = ["rbione", "rbitwo", "rbithree", "rbifour"]
         for i in range(self.rbis):
-            result += f"    draw_dot({rbi_labels[i]}, clr);\n"
+            result += f"    draw_diamond({rbi_labels[i]}, clr);\n"
 
         # Print the plays.
         for play in self.plays:
@@ -280,9 +281,14 @@ class AtBat():
         result = "    % pitches\n"
         ball_locations = ["ballone", "balltwo", "ballthree"]
         strike_locations = ["strikeone", "striketwo"]
-        foul_locations = ["foulone", "foultwo", "foulthree", "foulfour"]
+        foul_locations = ["strikethree", "strikefour", "strikefive", "strikesix", "strikeseven", "strikeeight", "strikenine",
+                           "striketen", "strikeeleven", "striketwelve", "strikethirteen", "strikefourteen", "strikefifteen", "strikesixteen",
+                             "strikeseventeen", "strikeeighteen", "strikenineteen", "striketwenty", "striketwentyone", "striketwentytwo"]
 
-        pitch_template = "    label(btex {{\\sf {}}} etex, {}) withcolor clr;\n"
+        pitch_text_template = "    label(btex {{\\tiny {}}} etex, {}) withcolor clr;\n"
+        pitch_dot_template = "    draw_strike_dot({}, clr);\n"
+        pitch_circle_template = "    draw_strike_circle({}, clr);\n"
+
         pitch_count = 1
         count_status = {
             "b": 0,
@@ -298,15 +304,25 @@ class AtBat():
             # Check whether a strike, ball or foul needs to be added.
             if pitch.is_strike:
                 if count_status["s"] < 2:
-                    result += pitch_template.format(pitch_count, strike_locations[count_status["s"]])
+                    if pitch.pitch_code.upper() == "S":
+                        result += pitch_dot_template.format(strike_locations[count_status["s"]])
+                    elif pitch.pitch_code.upper() == "C":
+                        result += pitch_circle_template.format(strike_locations[count_status["s"]])
+                    elif pitch.pitch_code.upper() == "F":
+                        result += pitch_text_template.format("X", strike_locations[count_status["s"]])
+                    else:
+                        result += pitch_text_template.format(pitch.pitch_code.upper(), strike_locations[count_status["s"]])
                     count_status["s"] += 1
                 else:
-                    if count_status["f"] < 4:
-                        result += pitch_template.format("x", foul_locations[count_status["f"]])
+                    if count_status["f"] < 20:
+                        if pitch.pitch_code.upper() == "F":
+                           result += pitch_text_template.format("X", foul_locations[count_status["f"]])
+                        else:
+                            result += pitch_text_template.format(pitch.pitch_code.upper(), foul_locations[count_status["f"]])
                         count_status["f"] += 1
             else:
                 if count_status["b"] < 3:
-                    result += pitch_template.format(pitch_count, ball_locations[count_status["b"]])
+                    result += pitch_dot_template.format(ball_locations[count_status["b"]])
                     count_status["b"] += 1
 
             # Increment the pitch count if needed.
