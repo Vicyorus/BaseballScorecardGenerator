@@ -109,7 +109,7 @@ game = Scorecard(os.path.dirname(os.path.abspath(__file__)),
             [114596, "6"],
             [120903, "7"],
             [120074, "0"],
-            [132788, "3/7"],
+            [132788, "3"],
             [119811, "9"],
             [119482, "5"],
             [123660, "2"],
@@ -402,10 +402,10 @@ inn.out("F8")
 inn = game.new_inning()
 
 # Defensive change (FLA): #52 Mike Redmond replaces #7 Ivan Rodriguez (C), playing C, batting 3rd
-inn.defensive_substitution(3, 133226, 2)
+inn.defensive_substitution(3, 133226, "2")
 
 # Defensive change (FLA): #6  Andy Fox replaces #19 Mike Lowell (3B), playing 3B, batting 4th
-inn.defensive_substitution(4, 114353, 5)
+inn.defensive_substitution(4, 114353, "5")
 
 # 8. BOS #11 Bill Mueller (X - X - X)
 inn.new_ab()
@@ -463,10 +463,10 @@ inn = game.new_inning()
 inn.pitching_substitution(407485)
 
 # Defensive change (FLA): #12 Mike Mordecai replaces #1  Luis Castillo (2B), playing 2B, batting 2nd
-inn.defensive_substitution(2, 119348, 4)
+inn.defensive_substitution(2, 119348, "4")
 
 # Offensive change (BOS): Pinch-hitter #28 Doug Mirabelli replaces #24 Manny Ramirez, batting 4th
-inn.offensive_substitution(4, 119182, "PH/3")
+inn.offensive_substitution(4, 119182, "PH")
 
 # 4. BOS #28 Doug Mirabelli (X - X - X)
 inn.new_ab()
@@ -515,7 +515,13 @@ inn.out("F8")
 inn = game.new_inning()
 
 # Defensive change (BOS): #26 Freddy Sanchez replaces #5 Nomar Garciaparra (SS), playing SS, batting 3rd
-inn.defensive_substitution(3, 408108, 6)
+inn.defensive_substitution(3, 408108, "6")
+
+# Defensive switch (BOS): #15 Kevin Millar moves to LF
+inn.defensive_switch(132788, "7")
+
+# Defensive switch (BOS): #28 Doug Mirabelli moves to 1B
+inn.defensive_switch(119182, "3")
 
 # 9. FLA #14 Todd Hollandsworth (X - X - X)
 inn.new_ab()
@@ -625,7 +631,7 @@ inn.out("G3-1")
 inn = game.new_inning()
 
 # Defensive change (FLA): #22 Brian Banks replaces #43 Juan Encarnacion (RF), playing RF, batting 5th
-inn.defensive_substitution(5, 110532, 9)
+inn.defensive_substitution(5, 110532, "9")
 
 # 7. BOS #7  Trot Nixon (X - X - X)
 inn.new_ab()
@@ -850,11 +856,11 @@ inn.out("F8")
 
 # Winning team: BOS
 # WP: BOS #51 Byung-Hyun Kim
-game.winning_pitcher(51)
+game.winning_pitcher(218294)
 
 # Loser team: FLA
 # LP: FLA #45 Carl Pavano
-game.losing_pitcher(45, is_away_team=True)
+game.losing_pitcher(134321, is_away_team=True)
 
 #print(game)
 game.generate_scorecard()
