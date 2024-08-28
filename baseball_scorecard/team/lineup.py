@@ -1,4 +1,4 @@
-from scorecard.stats.batter_stats import BatterStats
+from baseball_scorecard.stats.batter_stats import BatterStats
 
 class Lineup:
 

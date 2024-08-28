@@ -2,14 +2,14 @@
 """Baseball scorecard generator for Python
 
 This module provides an API to record a baseball game, and generate a series
-of Metapost files that can be compiled into a PDF scorecard.
+of Metapost files that can be compiled into a PDF baseball_scorecard.
 """
 
-from scorecard.plays.inning import Inning
-from scorecard.misc.umpire import Umpire
-from scorecard.misc.game_info import GameInfo
-from scorecard.team.team import Team
-from scorecard.metapost.metapost_builder import MetapostBuilder
+from baseball_scorecard.plays.inning import Inning
+from baseball_scorecard.misc.umpire import Umpire
+from baseball_scorecard.misc.game_info import GameInfo
+from baseball_scorecard.team.team import Team
+from baseball_scorecard.metapost.metapost_builder import MetapostBuilder
 
 
 class Scorecard:
@@ -64,7 +64,7 @@ class Scorecard:
         return umpire_list
 
     def new_inning(self) -> Inning:
-        """Creates a new Inning object and adds it to the Scorecard.
+        """Creates a new Inning object and adds it to the baseball_scorecard.
 
         Returns:
             Inning: A new Inning object.
@@ -132,7 +132,7 @@ class Scorecard:
             self.__home.save_pitcher(pitcher_id)
 
     def generate_scorecard(self):
-        """Generates the Metapost files with the completed scorecard."""
+        """Generates the Metapost files with the completed baseball_scorecard."""
 
         builder = MetapostBuilder(
             self.__output_dir, self.__game_info, self.__away,

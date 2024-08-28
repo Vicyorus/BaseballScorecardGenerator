@@ -1,9 +1,9 @@
-from scorecard.plays.pitch import Pitch
-from scorecard.plays.out import Out
-from scorecard.plays.thrown_out import ThrownOut
-from scorecard.plays.advance import Advance
-from scorecard.plays.at_base import AtBase
-from scorecard.plays.no_ab import NoAtBat
+from baseball_scorecard.plays.pitch import Pitch
+from baseball_scorecard.plays.out import Out
+from baseball_scorecard.plays.thrown_out import ThrownOut
+from baseball_scorecard.plays.advance import Advance
+from baseball_scorecard.plays.at_base import AtBase
+from baseball_scorecard.plays.no_ab import NoAtBat
 
 class AtBat():
     def __init__(self, lineup_position, batter, pitcher, inning_stats):

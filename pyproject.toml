@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "scorecard"
+name = "baseball_scorecard"
 version = "0.1.0"
 description = "API to programatically generate baseball scorecards as PDFs."
 authors = ["Vicyorus <andres.chaves.diaz@gmail.com>"]

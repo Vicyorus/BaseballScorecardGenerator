@@ -1,6 +1,6 @@
 #!/usr/bin/python3.10
 import os
-from scorecard.scorecard import Scorecard
+from baseball_scorecard.baseball_scorecard import Scorecard
 
 # SEA @ BOS, 2024-07-29
 # https://www.baseball-reference.com/boxes/BOS/BOS202407290.shtml

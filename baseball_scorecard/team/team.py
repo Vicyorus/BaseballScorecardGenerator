@@ -1,10 +1,10 @@
-from scorecard.team.player import Player
-from scorecard.team.roster import Roster
-from scorecard.team.lineup import Lineup
-from scorecard.team.pitcher_lineup import PitcherLineup
-from scorecard.team.reserves import Reserves
-from scorecard.stats.team_stats import TeamStats
-from scorecard.plays.substitution.fielder import DefensiveSubstitution
+from baseball_scorecard.team.player import Player
+from baseball_scorecard.team.roster import Roster
+from baseball_scorecard.team.lineup import Lineup
+from baseball_scorecard.team.pitcher_lineup import PitcherLineup
+from baseball_scorecard.team.reserves import Reserves
+from baseball_scorecard.stats.team_stats import TeamStats
+from baseball_scorecard.plays.substitution.fielder import DefensiveSubstitution
 
 class Team:
 
@@ -43,7 +43,7 @@ class Team:
 
         # For defensive substitutions, register the event on the team,
         # to be later handled when the inning either prints the data, or
-        # generates the scorecard.
+        # generates the baseball_scorecard.
         if is_defensive_sub:
             if inning in self.defensive_subs.keys():
                 self.defensive_subs[inning].append(DefensiveSubstitution(order, player))

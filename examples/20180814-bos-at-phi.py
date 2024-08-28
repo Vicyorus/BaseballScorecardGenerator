@@ -1,6 +1,6 @@
 #!/usr/bin/python3.10
 import os
-from scorecard.scorecard import Scorecard
+from baseball_scorecard.baseball_scorecard import Scorecard
 
 # BOS @ PHI, 2018-08-14
 # https://www.baseball-reference.com/boxes/PHI/PHI201808140.shtml

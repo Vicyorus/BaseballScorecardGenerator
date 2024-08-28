@@ -1,4 +1,4 @@
-from scorecard.team.player import Player
+from baseball_scorecard.team.player import Player
 
 class Roster:
     def __init__(self, roster, lefties, use_extended_roster):

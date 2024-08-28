@@ -1,5 +1,5 @@
-from scorecard.stats.batter_stats import BatterStats
-from scorecard.stats.pitcher_stats import PitcherStats
+from baseball_scorecard.stats.batter_stats import BatterStats
+from baseball_scorecard.stats.pitcher_stats import PitcherStats
 
 class Player:
 

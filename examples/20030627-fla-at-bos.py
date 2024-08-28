@@ -1,7 +1,7 @@
 
 #!/usr/bin/python3.10
 import os
-from scorecard.scorecard import Scorecard
+from baseball_scorecard.baseball_scorecard import Scorecard
 
 # FLA @ BOS, 2003-06-27
 # https://www.baseball-reference.com/boxes/BOS/BOS200306270.shtml

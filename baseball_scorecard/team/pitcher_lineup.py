@@ -1,4 +1,4 @@
-from scorecard.stats.pitcher_stats import PitcherStats
+from baseball_scorecard.stats.pitcher_stats import PitcherStats
 
 class PitcherLineup:
     def __init__(self, starting_pitcher, roster):

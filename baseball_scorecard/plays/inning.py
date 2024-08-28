@@ -1,7 +1,7 @@
-from scorecard.plays.at_bat import AtBat
-from scorecard.plays.substitution.pitching import PitchingSubstitution
-from scorecard.plays.substitution.batter import OffensiveSubstitution
-from scorecard.stats.inning_stats import InningStats
+from baseball_scorecard.plays.at_bat import AtBat
+from baseball_scorecard.plays.substitution.pitching import PitchingSubstitution
+from baseball_scorecard.plays.substitution.batter import OffensiveSubstitution
+from baseball_scorecard.stats.inning_stats import InningStats
 
 
 class Inning:
