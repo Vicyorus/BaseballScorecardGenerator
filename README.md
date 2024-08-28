@@ -3,24 +3,41 @@
 Baseball Scorecard Generator offers a Python API to generate a series of
 Metapost files that can be compiled into a scorecard PDF.
 
-* 1. [How to score a game](#Howtoscoreagame)
-	* 1.1. [Setting up the game data](#Settingupthegamedata)
-		* 1.1.1. [Roster](#Roster)
-	* 1.2. [Play ball!](#Playball)
-		* 1.2.1. [Pitching substitution](#Pitchingsubstitution)
-		* 1.2.2. [Defensive substitution](#Defensivesubstitution)
-		* 1.2.3. [Defensive switch](#Defensiveswitch)
-		* 1.2.4. [Offensive substitution](#Offensivesubstitution)
-		* 1.2.5. [At-bat](#At-bat)
-	* 1.3. [Noting win/loss/save pitchers](#Notingwinlosssavepitchers)
-	* 1.4. [Generating the Metapost files](#GeneratingtheMetapostfiles)
-	* 1.5. [Generating the PDF](#GeneratingthePDF)
-* 2. [Appendix](#Appendix)
-	* 2.1. [Normal game data example](#Normalgamedataexample)
-	* 2.2. [Extended roster game data example](#Extendedrostergamedataexample)
-* 3. [Credits](#Credits)
+- [Baseball Scorecard Generator](#baseball-scorecard-generator)
+  - [How to score a game](#how-to-score-a-game)
+    - [Setting up the game data](#setting-up-the-game-data)
+      - [Roster](#roster)
+    - [Play ball!](#play-ball)
+      - [Pitching substitution](#pitching-substitution)
+      - [Defensive substitution](#defensive-substitution)
+      - [Defensive switch](#defensive-switch)
+      - [Offensive substitution](#offensive-substitution)
+      - [At-bat](#at-bat)
+        - [Batter methods](#batter-methods)
+          - [Pitches](#pitches)
+          - [Hit](#hit)
+          - [Out](#out)
+          - [Reach base](#reach-base)
+        - [Runner methods](#runner-methods)
+          - [Advance bases](#advance-bases)
+          - [Thrown out](#thrown-out)
+        - [Other at-bat methods](#other-at-bat-methods)
+          - [Error](#error)
+          - [Balk](#balk)
+          - [Wild pitch](#wild-pitch)
+          - [Passed ball](#passed-ball)
+          - [At base](#at-base)
+          - [No at-bat](#no-at-bat)
+    - [Noting win/loss/save pitchers](#noting-winlosssave-pitchers)
+    - [Generating the Metapost files](#generating-the-metapost-files)
+    - [Generating the PDF](#generating-the-pdf)
+  - [Appendix](#appendix)
+    - [Normal game data example](#normal-game-data-example)
+    - [Extended roster game data example](#extended-roster-game-data-example)
+  - [Credits](#credits)
 
-##  1. <a name='Howtoscoreagame'></a>How to score a game
+
+## How to score a game
 
 _Note: Example games and how to score certain plays are provided in the_
 _`examples` folder._
@@ -39,7 +56,7 @@ The `Scorecard` class expects two parameters:
 - `output_dir`: The location where the Metapost files will be deposited.
 - `data`: The data for the game to be scored.
 
-###  1.1. <a name='Settingupthegamedata'></a>Setting up the game data
+### Setting up the game data
 
 The game data expects the following information:
 
@@ -70,7 +87,7 @@ For the umpire information, a dictionary is expected, where the keys are the
 position, and the value is the name of the umpire.
 Valid keys are `HP`, `1B`, `2B`, `3B`, `LF` and `RF`.
 
-####  1.1.1. <a name='Roster'></a>Roster
+#### Roster
 
 The `roster` for a team is expected to be a key-value pair, where the key
 represents the **Player ID**, and the value is the player information.
@@ -85,7 +102,7 @@ key on the data dictionary was set or not:
   `1000` becomes the **Player ID**, and the jersey number and name of the
   player can be specified in the inner dictionary.
 
-###  1.2. <a name='Playball'></a>Play ball!
+### Play ball!
 
 Once the `Scorecard` object is created, the game can be recorded.
 
@@ -97,7 +114,7 @@ inn = score.new_inning()
 
 From here, you can call the following functions:
 
-####  1.2.1. <a name='Pitchingsubstitution'></a>Pitching substitution
+#### Pitching substitution
 
 To register a pitching substitution, call the `pitching_substitution` method.
 
@@ -108,7 +125,7 @@ inn.pitching_substitution(PITCHER_ID)
 Arguments:
 - `PITCHER_ID` (int): Player ID for the entering pitcher.
 
-####  1.2.2. <a name='Defensivesubstitution'></a>Defensive substitution
+#### Defensive substitution
 
 To register a defensive substitution, call the `defensive_substitution` method.
 
@@ -121,7 +138,7 @@ Arguments:
 - `PLAYER_ID` (int): Player ID for the entering fielder.
 - `POSITION` (str): Position in the field for the new player.
 
-####  1.2.3. <a name='Defensiveswitch'></a>Defensive switch
+#### Defensive switch
 
 To register a defensive switch, call the `defensive_switch` method.
 
@@ -133,7 +150,7 @@ Arguments:
 - `PLAYER_ID` (int): Player ID for the fielder.
 - `POSITION` (str): New defensive position for the fielder.
 
-####  1.2.4. <a name='Offensivesubstitution'></a>Offensive substitution
+#### Offensive substitution
 
 To register a offensive substitution, call the `offensive_substitution` method.
 
@@ -147,7 +164,7 @@ Arguments:
 - `POSITION` (str): Position for the new player, can be either `PH` for a
   pinch-hitter, or `PR` for a pinch-runner.
 
-####  1.2.5. <a name='At-bat'></a>At-bat
+#### At-bat
 
 To start a new at-bat, call the `new_ab` method. This will automatically start
 an at-bat for the next batter on the batting team.
@@ -158,7 +175,9 @@ inn.new_ab()
 
 Once an at-bat is started, the following methods can be called:
 
-##### Pitches
+##### Batter methods
+
+###### Pitches
 
 To register the pitches a batter received, use the `pitch_list` method.
 
@@ -185,7 +204,7 @@ Arguments:
   ***NOTE***: For balls put in play, it is not necessary to add a pitch, the
   batter functions will handle the pitch count automatically.
 
-##### Hit
+###### Hit
 
 To register a hit on the at-bat, use the `hit` method.
 
@@ -199,7 +218,7 @@ Arguments:
 - `RBIS` (int, optional): If the play resulted in runs batted in, set the
   number of RBIs. Default is 0.
 
-##### Out
+###### Out
 
 To register an out on the batter, use the `out` method.
 
@@ -220,7 +239,7 @@ Arguments:
 - `RBIS` (int, optional): If the play resulted in runs batted in, set the
   number of RBIs. Default is 0.
 
-##### Reach base
+###### Reach base
 
 To register the batter reaching base in a non-hit play, use the `reach` method.
 
@@ -243,7 +262,9 @@ Arguments:
 - `RBIS` (int, optional): If the play resulted in runs batted in, set the
   number of RBIs. Default is 0.
 
-##### Advance bases
+##### Runner methods
+
+###### Advance bases
 
 To register a runner advancing bases, use the `advance` method.
 
@@ -260,7 +281,7 @@ Arguments:
 - `PLAY` (str): The play on which the runner advanced. If `SB` is used in the
   play, a stolen base is credited to the runner.
 
-##### Thrown out
+###### Thrown out
 
 To register a runner getting thrown out in the basepaths,
 use the `thrown_out` method.
@@ -284,7 +305,9 @@ Arguments:
   Useful for when pitching changes occur mid-inning and the new pitcher makes
   an out on an inherited runner.
 
-##### Error
+##### Other at-bat methods
+
+###### Error
 
 To register a fielding error, use the `error` method.
 
@@ -295,7 +318,7 @@ inn.error(POSITION)
 Arguments:
 - `POSITION`: Position of the fielder who made the error (1-9).
 
-##### Balk
+###### Balk
 
 To register a balk, use the `balk` method.
 
@@ -303,7 +326,7 @@ To register a balk, use the `balk` method.
 inn.balk()
 ```
 
-##### Wild pitch
+###### Wild pitch
 
 To register a wild pitch, use the `wp` method.
 
@@ -315,7 +338,7 @@ Arguments:
 - `QUANTITY` (int, optional): The number of wild pitches in the at-bat.
   Defaults to 1.
 
-##### Passed ball
+###### Passed ball
 
 To register a passed ball, use the `pb` method.
 
@@ -327,7 +350,7 @@ Arguments:
 - `QUANTITY` (int, optional): The number of passed balls in the at-bat.
   Defaults to 1.
 
-##### At base
+###### At base
 
 To make a comment at any given base, use the `atbase` method. Useful for
 noting down pinch-runners.
@@ -341,7 +364,7 @@ Arguments:
 - `BASE` (int, optional): The base to put the label at. By default, it will be
   placed at 1B.
 
-##### No at-bat
+###### No at-bat
 
 To register that the batter was unable to complete their at-bat, likely
 due to the third out made on one of the runners in the middle of an at-bat,
@@ -354,7 +377,7 @@ inn.no_ab(LABEL)
 Arguments:
 - `LABEL` (str): Label to put in the center of the diamond.
 
-###  1.3. <a name='Notingwinlosssavepitchers'></a>Noting win/loss/save pitchers
+### Noting win/loss/save pitchers
 
 Once the game has been recorded, note down the winning pitcher, losing pitcher
 and save pitcher with the following methods:
@@ -370,7 +393,7 @@ Arguments:
 - `IS_AWAY_TEAM` (bool): If the pitcher is from the away team, set this to `True`.
   Defaults to `False`, which credits a pitcher from the home team.
 
-###  1.4. <a name='GeneratingtheMetapostfiles'></a>Generating the Metapost files
+### Generating the Metapost files
 
 Once all the plays have been registered, and the winning/losing/save pitchers
 have been registered, run the `generate_scorecard` method to generate
@@ -380,19 +403,19 @@ the Metapost scorecards.
 score.generate_scorecard()
 ```
 
-###  1.5. <a name='GeneratingthePDF'></a>Generating the PDF
+### Generating the PDF
 
 Currently, integration with the Metapost compiler is not available.
 A compilation script is provided in the `examples` folder.
 
-##  2. <a name='Appendix'></a>Appendix
+## Appendix
 
-###  2.1. <a name='Normalgamedataexample'></a>Normal game data example
+### Normal game data example
 
 Below is an example of a complete game data dictionary, taken from the
 New York Yankees @ Boston Red Sox 2018-08-03 game.
 
-```
+```python
 {
     "scorer": "Vicyorus",
     "date":   "2018-08-03 19:10-21:25",
@@ -529,7 +552,7 @@ New York Yankees @ Boston Red Sox 2018-08-03 game.
 }
 ```
 
-###  2.2. <a name='Extendedrostergamedataexample'></a>Extended roster game data example
+### Extended roster game data example
 
 The following is an example of the game data if the `extended_roster` key
 is set to `True`, taken from the Seattle Mariners @ Boston Red Sox
@@ -537,7 +560,7 @@ is set to `True`, taken from the Seattle Mariners @ Boston Red Sox
 
 The player IDs in this example correspond to the MLB.com IDs for each player.
 
-```
+```python
 {
     "extended_roster": True,
     "scorer": "Vicyorus",
@@ -679,7 +702,7 @@ The player IDs in this example correspond to the MLB.com IDs for each player.
 }
 ```
 
-##  3. <a name='Credits'></a>Credits
+## Credits
 
 This project is heavily based on the work by Chris Nandor
 (https://sourceforge.net/projects/pudge/files/Games_Baseball_Scorecard/),
