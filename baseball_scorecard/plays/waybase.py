@@ -26,6 +26,7 @@ class WayBase:
             self.label = label.split()[1]
         else:
             self.label = label
+            self.number = None
 
         self.start = start_base
         self.end = end_base
@@ -41,11 +42,13 @@ class WayBase:
 
         # Otherwise, set up the correct offsets for each label depending on the base reached (2nd, 3rd or home).
         elif self.end == 4 or self.end == "U":
-            result += WayBase.waybase_template.format(waybase_info["number_offset"], self.number, waybase_info["location"] + "+(-1,-2)")
+            if self.number:
+                result += WayBase.waybase_template.format(waybase_info["number_offset"], self.number, waybase_info["location"] + "+(-1,-2)")
             result += WayBase.waybase_template.format(waybase_info["label_offset"], self.label, waybase_info["location"] + "+(-1,-5)")
 
         else:
             result += WayBase.waybase_template.format(waybase_info["label_offset"], self.label, waybase_info["location"])
-            result += WayBase.waybase_template.format(waybase_info["number_offset"], self.number, waybase_info["location"] + "+(0,10)")
+            if self.number:
+                result += WayBase.waybase_template.format(waybase_info["number_offset"], self.number, waybase_info["location"] + "+(0,10)")
 
         return result
