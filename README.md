@@ -22,7 +22,7 @@ Metapost files that can be compiled into a scorecard PDF.
 
 ##  1. <a name='Howtoscoreagame'></a>How to score a game
 
-_Note: Example games and how to score certain playus are provided in the_
+_Note: Example games and how to score certain plays are provided in the_
 _`examples` folder._
 
 In order to start scoring a game, import the `scorecard` module on your
@@ -182,6 +182,8 @@ Arguments:
   - `m`: Missed bunt attempt.
   - `t`: Foul tip.
   - `l`: Foul bunt.
+  ***NOTE***: For balls put in play, it is not necessary to add a pitch, the
+  batter functions will handle the pitch count automatically.
 
 ##### Hit
 

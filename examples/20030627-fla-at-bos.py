@@ -218,7 +218,7 @@ inn.advance(4, '33 1B')
 
 # 8. BOS #11 Bill Mueller (X - 15 - 7)
 inn.new_ab()
-inn.pitch_list("c c f b f b f b")
+inn.pitch_list("c c f b f b f b b")
 inn.reach('BB')
 inn.advance(2, '33 1B')
 inn.advance(4, '18 3B')
@@ -259,7 +259,7 @@ inn.advance(4, '11 2B')
 
 # 5. BOS #34 David Ortiz (12 - X - 24)
 inn.new_ab()
-inn.pitch_list("b c b b f")
+inn.pitch_list("b c b b f b")
 inn.reach('BB')
 inn.advance(2, '7 BB')
 inn.advance(4, '11 2B')
@@ -271,7 +271,7 @@ inn.out("SF8", rbis=1)
 
 # 7. BOS #7  Trot Nixon (X - 24 - 34)
 inn.new_ab()
-inn.pitch_list("b b b c f f")
+inn.pitch_list("b b b c f f b")
 inn.reach('BB')
 inn.advance(3, '11 2B')
 inn.advance(4, '18 1B')
@@ -285,7 +285,7 @@ inn.thrown_out(4, "18 7-2", 3, 276368)
 
 # 9. BOS #33 Jason Varitek (7 - 11 - X)
 inn.new_ab()
-inn.pitch_list("b b b c")
+inn.pitch_list("b b b c b")
 inn.reach('BB')
 inn.advance(2, '18 7-2')
 
@@ -304,7 +304,7 @@ inn = game.new_inning()
 
 # 5. FLA #43 Juan Encarnacion (X - X - X)
 inn.new_ab()
-inn.pitch_list("b c f b f f f b")
+inn.pitch_list("b c f b f f f b b")
 inn.reach('BB')
 inn.advance(2, '11 BB')
 
@@ -315,17 +315,17 @@ inn.out("F8")
 
 # 7. FLA #20 Miguel Cabrera (X - X - 43)
 inn.new_ab()
-inn.pitch_list("c c")
+inn.pitch_list("c c s")
 inn.out("K")
 
 # 8. FLA #11 Alex Gonzalez (X - X - 43)
 inn.new_ab()
-inn.pitch_list("b s b b s")
+inn.pitch_list("b s b b s b")
 inn.reach('BB')
 
 # 9. FLA #14 Todd Hollandsworth (X - 43 - 11)
 inn.new_ab()
-inn.pitch_list("c f b")
+inn.pitch_list("c f b s")
 inn.out("K")
 
 
@@ -335,7 +335,7 @@ inn = game.new_inning()
 
 # 2. BOS #12 Todd Walker (X - X - X)
 inn.new_ab()
-inn.pitch_list("b b b")
+inn.pitch_list("b b b b")
 inn.reach('BB')
 inn.advance(4, '34 HR')
 
@@ -356,7 +356,7 @@ inn.hit(4, rbis=2)
 
 # 6. BOS #15 Kevin Millar (X - X - X)
 inn.new_ab()
-inn.pitch_list("s b b b")
+inn.pitch_list("s b b b b")
 inn.reach('BB')
 
 # 7. BOS #7  Trot Nixon (X - X - 15)
@@ -414,12 +414,12 @@ inn.hit(4)
 
 # 9. BOS #33 Jason Varitek (X - X - X)
 inn.new_ab()
-inn.pitch_list("c s f b")
+inn.pitch_list("c s f b s")
 inn.out("K")
 
 # 1. BOS #18 Johnny Damon (X - X - X)
 inn.new_ab()
-inn.pitch_list("b c b b f")
+inn.pitch_list("b c b b f s")
 inn.out("K")
 
 # 2. BOS #12 Todd Walker (X - X - X)
@@ -446,7 +446,7 @@ inn.out("G6-3")
 
 # 7. FLA #20 Miguel Cabrera (X - X - X)
 inn.new_ab()
-inn.pitch_list("b f s f")
+inn.pitch_list("b f s f s")
 inn.out("K")
 
 # 8. FLA #11 Alex Gonzalez (X - X - X)
@@ -470,7 +470,7 @@ inn.offensive_substitution(4, 119182, "PH")
 
 # 4. BOS #28 Doug Mirabelli (X - X - X)
 inn.new_ab()
-inn.pitch_list("c c b f f")
+inn.pitch_list("c c b f f s")
 inn.out("K")
 
 # 5. BOS #34 David Ortiz (X - X - X)
@@ -537,7 +537,7 @@ inn.advance('U', '52 1B')
 
 # 2. FLA #12 Mike Mordecai (X - 9 - X)
 inn.new_ab()
-inn.pitch_list("f b c b f")
+inn.pitch_list("f b c b f c")
 inn.out("!K")
 
 # 3. FLA #52 Mike Redmond (X - 9 - X)
@@ -575,12 +575,12 @@ inn = game.new_inning()
 
 # 2. BOS #12 Todd Walker (X - X - X)
 inn.new_ab()
-inn.pitch_list("s c b f f b f f f f f")
+inn.pitch_list("s c b f f b f f f f f s")
 inn.out("K")
 
 # 3. BOS #26 Freddy Sanchez (X - X - X)
 inn.new_ab()
-inn.pitch_list("b b c s")
+inn.pitch_list("b b c s c")
 inn.out("!K")
 
 # 4. BOS #28 Doug Mirabelli (X - X - X)
@@ -612,7 +612,7 @@ inn.pitching_substitution(150142)
 
 # 8. FLA #11 Alex Gonzalez (X - X - X)
 inn.new_ab()
-inn.pitch_list("c f b")
+inn.pitch_list("c f b s")
 inn.out("K")
 
 # 9. FLA #14 Todd Hollandsworth (X - X - X)
@@ -641,7 +641,7 @@ inn.thrown_out(2, "33 DP4-6-3", 2, 407485)
 
 # 8. BOS #11 Bill Mueller (X - X - 7)
 inn.new_ab()
-inn.pitch_list("f b f")
+inn.pitch_list("f b f c")
 inn.out("!K")
 
 # 9. BOS #33 Jason Varitek (X - X - 7)
@@ -673,13 +673,13 @@ inn.advance(2, '6 WP')
 
 # 4. FLA #6  Andy Fox (X - X - 52)
 inn.new_ab()
-inn.pitch_list("b f b b f f f f f")
+inn.pitch_list("b f b b f f f f f b")
 inn.wp()
 inn.reach('BB')
 
 # 5. FLA #22 Brian Banks (X - 52 - 6)
 inn.new_ab()
-inn.pitch_list("c f b")
+inn.pitch_list("c f b s")
 inn.out("K")
 
 # 6. FLA #25 Derrek Lee (X - 52 - 6)
@@ -731,7 +731,7 @@ inn.pitching_substitution(150356)
 
 # 7. FLA #20 Miguel Cabrera (X - X - X)
 inn.new_ab()
-inn.pitch_list("b b b c f")
+inn.pitch_list("b b b c f b")
 inn.reach('BB')
 inn.advance(2, '14 WP')
 inn.advance(3, '14 1B')
@@ -751,7 +751,7 @@ inn.advance(2, '9 DI')
 
 # 1. FLA #9  Juan Pierre (20 - X - 14)
 inn.new_ab()
-inn.pitch_list("c d b b")
+inn.pitch_list("c d b b b")
 inn.reach('BB')
 inn.thrown_out(2, "52 FC5-4", 3, 150356)
 
@@ -785,7 +785,7 @@ inn.advance(4, '11 2B')
 
 # 7. BOS #7  Trot Nixon (X - 34 - 15)
 inn.new_ab()
-inn.pitch_list("c b f b b")
+inn.pitch_list("c b f b b b")
 inn.reach('BB')
 inn.advance(3, '11 2B')
 inn.advance(4, '33 SF8')
@@ -814,7 +814,7 @@ inn.out("SF7", rbis=1)
 
 # 3. BOS #26 Freddy Sanchez (X - X - 18)
 inn.new_ab()
-inn.pitch_list("c f")
+inn.pitch_list("c f c")
 inn.out("!K")
 
 
@@ -830,7 +830,7 @@ inn.pitching_substitution(425126)
 
 # 4. FLA #6  Andy Fox (X - X - X)
 inn.new_ab()
-inn.pitch_list("b b c b f f f")
+inn.pitch_list("b b c b f f f b")
 inn.reach('BB')
 inn.advance(4, '25 HR')
 

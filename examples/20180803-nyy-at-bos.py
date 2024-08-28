@@ -199,7 +199,7 @@ inn.out("F9")
 
 # 5. BOS #5  Ian Kinsler (X - X - X)
 inn.new_ab()
-inn.pitch_list("b c f b b")
+inn.pitch_list("b c f b b b")
 inn.reach('BB')
 inn.advance(2, '36 SB')
 inn.advance(4, '36 1B')
@@ -243,7 +243,7 @@ inn.out("(F)P2")
 
 # 6. NYY #33 Greg Bird (X - X - X)
 inn.new_ab()
-inn.pitch_list("c c")
+inn.pitch_list("c c s")
 inn.out("K")
 
 
@@ -258,7 +258,7 @@ inn.out("F8")
 
 # 9. BOS #19 Jackie Bradley Jr. (X - X - X)
 inn.new_ab()
-inn.pitch_list("b f b s b")
+inn.pitch_list("b f b s b c")
 inn.out("!K")
 
 # 1. BOS #50 Mookie Betts (X - X - X)
@@ -268,7 +268,7 @@ inn.hit(2)
 
 # 2. BOS #16 Andrew Benintendi (X - 50 - X)
 inn.new_ab()
-inn.pitch_list("b b f b")
+inn.pitch_list("b b f b d")
 inn.reach('BB')
 inn.thrown_out(2, "25 FC6-4", 3, 40)
 
@@ -296,12 +296,12 @@ inn.out("G3-1")
 
 # 9. NYY #14 Neil Walker (X - X - X)
 inn.new_ab()
-inn.pitch_list("c b f")
+inn.pitch_list("c b f c")
 inn.out("!K")
 
 # 1. NYY #11 Brett Gardner (X - X - X)
 inn.new_ab()
-inn.pitch_list("c b f")
+inn.pitch_list("c b f c")
 inn.out("!K")
 
 
@@ -364,7 +364,7 @@ inn.out("G6-3")
 
 # 9. BOS #19 Jackie Bradley Jr. (X - X - X)
 inn.new_ab()
-inn.pitch_list("b c b b f f f")
+inn.pitch_list("b c b b f f f c")
 inn.out("!K")
 
 # 1. BOS #50 Mookie Betts (X - X - X)
@@ -382,12 +382,12 @@ inn = game.new_inning()
 
 # 5. NYY #25 Gleyber Torres (X - X - X)
 inn.new_ab()
-inn.pitch_list("c c")
+inn.pitch_list("c c s")
 inn.out("K")
 
 # 6. NYY #33 Greg Bird (X - X - X)
 inn.new_ab()
-inn.pitch_list("c s")
+inn.pitch_list("c s t")
 inn.out("KT")
 
 # 7. NYY #41 Miguel Andujar (X - X - X)
@@ -441,7 +441,7 @@ inn.out("G4-3")
 
 # 9. NYY #14 Neil Walker (X - X - X)
 inn.new_ab()
-inn.pitch_list("f b f b")
+inn.pitch_list("f b f b t")
 inn.out("KT")
 
 # 1. NYY #11 Brett Gardner (X - X - X)
@@ -466,7 +466,7 @@ inn.out("G5-3")
 
 # 9. BOS #19 Jackie Bradley Jr. (X - X - X)
 inn.new_ab()
-inn.pitch_list("c b f b b f f f")
+inn.pitch_list("c b f b b f f f b")
 inn.reach('BB')
 inn.thrown_out(2, "50 FC6-4", 3, 30)
 
@@ -488,12 +488,12 @@ inn = game.new_inning()
 
 # 2. NYY #27 Giancarlo Stanton (X - X - X)
 inn.new_ab()
-inn.pitch_list("s f")
+inn.pitch_list("s f c")
 inn.out("!K")
 
 # 3. NYY #18 Didi Gregorius (X - X - X)
 inn.new_ab()
-inn.pitch_list("b f f")
+inn.pitch_list("b f f s")
 inn.out("K")
 
 # 4. NYY #31 Aaron Hicks (X - X - X)
@@ -511,7 +511,7 @@ inn.out("G3-1")
 
 # 3. BOS #25 Steve Pearce (X - X - X)
 inn.new_ab()
-inn.pitch_list("b b s b")
+inn.pitch_list("b b s b b")
 inn.reach('BB')
 inn.thrown_out(2, "28 DP6-4-3", 2, 30)
 
@@ -539,7 +539,7 @@ inn.defensive_switch(12, "4")
 
 # 5. NYY #25 Gleyber Torres (X - X - X)
 inn.new_ab()
-inn.pitch_list("c b b f f")
+inn.pitch_list("c b b f f s")
 inn.out("K")
 
 # 6. NYY #33 Greg Bird (X - X - X)
@@ -561,7 +561,7 @@ inn.pitching_substitution(48)
 
 # 5. BOS #18 Mitch Moreland (X - X - X)
 inn.new_ab()
-inn.pitch_list("b f c")
+inn.pitch_list("b f c s")
 inn.out("K")
 
 # 6. BOS #36 Eduardo Núñez (X - X - X)

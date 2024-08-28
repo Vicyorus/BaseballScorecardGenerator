@@ -167,12 +167,12 @@ inn.out("L9")
 
 # 2. SEA #56 Randy Arozarena (X - X - X)
 inn.new_ab()
-inn.pitch_list("b c b c f")
+inn.pitch_list("b c b c f c")
 inn.out("!K")
 
 # 3. SEA #29 Cal Raleigh (X - X - X)
 inn.new_ab()
-inn.pitch_list("s c b b b")
+inn.pitch_list("s c b b b s")
 inn.out("K")
 
 
@@ -182,12 +182,12 @@ inn = game.new_inning()
 
 # 1. BOS #16 Jarren Duran (X - X - X)
 inn.new_ab()
-inn.pitch_list("f f b f")
+inn.pitch_list("f f b f s")
 inn.out("K")
 
 # 2. BOS #52 Wilyer Abreu (X - X - X)
 inn.new_ab()
-inn.pitch_list("c b s b")
+inn.pitch_list("c b s b s")
 inn.out("K")
 
 # 3. BOS #7  Masataka Yoshida (X - X - X)
@@ -215,7 +215,7 @@ inn.out("P6")
 
 # 6. SEA #25 Dylan Moore (X - X - X)
 inn.new_ab()
-inn.pitch_list("f t b")
+inn.pitch_list("f t b s")
 inn.out("K")
 
 
@@ -235,7 +235,7 @@ inn.out("L7")
 
 # 6. BOS #2  Dominic Smith (X - X - X)
 inn.new_ab()
-inn.pitch_list("c s b")
+inn.pitch_list("c s b s")
 inn.out("K")
 
 
@@ -248,7 +248,7 @@ inn = game.new_inning()
 
 # 7. SEA #35 Jason Vosler (X - X - X)
 inn.new_ab()
-inn.pitch_list("c f b")
+inn.pitch_list("c f b s")
 inn.out("K")
 
 # 8. SEA #17 Mitch Haniger (X - X - X)
@@ -283,7 +283,7 @@ inn.advance(4, '52 WP')
 
 # 8. BOS #70 David Hamilton (X - X - 12)
 inn.new_ab()
-inn.pitch_list("c b b f")
+inn.pitch_list("c b b f c")
 inn.out("!K")
 
 # 9. BOS #43 Ceddanne Rafaela (X - X - 12)
@@ -370,7 +370,7 @@ inn.out("SF7", rbis=1)
 
 # 5. SEA #20 Luke Raley (X - X - X)
 inn.new_ab()
-inn.pitch_list("c s b")
+inn.pitch_list("c s b s")
 inn.out("K")
 
 
@@ -437,12 +437,12 @@ inn.hit(1)
 
 # 8. SEA #17 Mitch Haniger (X - X - 35)
 inn.new_ab()
-inn.pitch_list("c f b b")
+inn.pitch_list("c f b b c")
 inn.out("!K")
 
 # 9. SEA #4  Josh Rojas (X - X - 35)
 inn.new_ab()
-inn.pitch_list("c b s b b")
+inn.pitch_list("c b s b b s")
 inn.out("K")
 
 
@@ -457,7 +457,7 @@ inn.hit(4)
 
 # 7. BOS #12 Connor Wong (X - X - X)
 inn.new_ab()
-inn.pitch_list("b f t f b f")
+inn.pitch_list("b f t f b f c")
 inn.out("!K")
 
 # 8. BOS #70 David Hamilton (X - X - X)
@@ -483,7 +483,7 @@ inn.pitching_substitution(642100)
 
 # 2. BOS #52 Wilyer Abreu (X - 16 - X)
 inn.new_ab()
-inn.pitch_list("c f b d b")
+inn.pitch_list("c f b d b s")
 inn.out("K")
 
 
@@ -496,7 +496,7 @@ inn = game.new_inning()
 
 # 1. SEA #10 Victor Robles (X - X - X)
 inn.new_ab()
-inn.pitch_list("c f b")
+inn.pitch_list("c f b s")
 inn.out("K")
 
 # 2. SEA #56 Randy Arozarena (X - X - X)
@@ -511,7 +511,7 @@ inn.hit(4)
 
 # 4. SEA #7  Jorge Polanco (X - X - X)
 inn.new_ab()
-inn.pitch_list("f b f b")
+inn.pitch_list("f b f b s")
 inn.out("K")
 
 # 5. SEA #20 Luke Raley (X - X - X)
@@ -542,12 +542,12 @@ inn.hit(4, rbis=2)
 
 # 5. BOS #17 Tyler O'Neill (X - X - X)
 inn.new_ab()
-inn.pitch_list("c f b b f b")
+inn.pitch_list("c f b b f b s")
 inn.out("K")
 
 # 6. BOS #2  Dominic Smith (X - X - X)
 inn.new_ab()
-inn.pitch_list("c c b")
+inn.pitch_list("c c b s")
 inn.out("K")
 
 # 7. BOS #12 Connor Wong (X - X - X)
@@ -576,7 +576,7 @@ inn.thrown_out(3, "10 FC5", 3, 622259)
 
 # 7. SEA #35 Jason Vosler (X - X - 25)
 inn.new_ab()
-inn.pitch_list("c f f")
+inn.pitch_list("c f f s")
 inn.out("K")
 
 # 8. SEA #17 Mitch Haniger (X - X - 25)
@@ -586,7 +586,7 @@ inn.out("(F)P5")
 
 # 9. SEA #4  Josh Rojas (X - X - 25)
 inn.new_ab()
-inn.pitch_list("d b b c")
+inn.pitch_list("d b b c b")
 inn.reach('BB')
 
 # Pitching change (BOS): #61 Trey Wingenter replaces #37 Nick Pivetta
@@ -626,7 +626,7 @@ inn.offensive_substitution(1, 642197, "PH")
 
 # 1. BOS #73 Jamie Westbrook (X - X - X)
 inn.new_ab()
-inn.pitch_list("b c b c b f")
+inn.pitch_list("b c b c b f t")
 inn.out("KT")
 
 
@@ -648,7 +648,7 @@ inn.defensive_switch(678882, "8")
 
 # 2. SEA #2  Cade Marlowe (X - X - X)
 inn.new_ab()
-inn.pitch_list("f b b s f")
+inn.pitch_list("f b b s f c")
 inn.out("!K")
 
 # 3. SEA #29 Cal Raleigh (X - X - X)
@@ -667,7 +667,7 @@ inn.advance(4, '25 2B')
 
 # 5. SEA #20 Luke Raley (X - 29 - 76)
 inn.new_ab()
-inn.pitch_list("b d b c")
+inn.pitch_list("b d b c b")
 inn.reach('BB')
 inn.advance(3, '25 2B')
 inn.advance(4, '35 WP')
@@ -687,7 +687,7 @@ inn.out("G4-3", rbis=1)
 
 # 8. SEA #17 Mitch Haniger (X - X - X)
 inn.new_ab()
-inn.pitch_list("f b b s b")
+inn.pitch_list("f b b s b s")
 inn.out("K")
 
 
@@ -715,7 +715,7 @@ inn.out("G4-3")
 
 # 4. BOS #23 Romy Gonzalez (X - X - X)
 inn.new_ab()
-inn.pitch_list("c b b b")
+inn.pitch_list("c b b b b")
 inn.reach('BB')
 
 # 5. BOS #17 Tyler O'Neill (X - X - 23)
@@ -739,7 +739,7 @@ inn.hit(1)
 
 # 1. SEA #27 Tyler Locklear (X - X - 4)
 inn.new_ab()
-inn.pitch_list("s c")
+inn.pitch_list("s c c")
 inn.out("!K")
 
 # 2. SEA #2  Cade Marlowe (X - X - 4)

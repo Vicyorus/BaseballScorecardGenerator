@@ -47,16 +47,16 @@ class AtBat():
                 self.__ball(pitch)
 
     def __ball(self, pitch_type, inc_pitch_count=True):
-        if self.count["b"] >= 3:
-            raise Exception("Ball 4 listed in pitches for at bat.")
+        if self.count["b"] >= 4:
+            raise Exception("Ball 5 listed in pitches for at bat.")
         self.count["b"] += 1
         self.pitcher.add_pitch(is_strike=False)
         self.inning_stats.pitches += 1
         self.pitches.append(Pitch(pitch_type, inc_pitch_count, is_strike=False))
 
     def __strike(self, pitch_type, inc_pitch_count=True):
-        if self.count["s"] >= 2:
-            raise Exception("Strike 3 listed in pitches for at bat.")
+        if self.count["s"] >= 3:
+            raise Exception("Strike 4 listed in pitches for at bat.")
         self.count["s"] += 1
         self.pitcher.add_pitch(is_strike=True)
         self.inning_stats.pitches += 1
@@ -74,12 +74,14 @@ class AtBat():
     def out(self, play, out_number, rbis=0):
         # Check the play code to determine if additional stats have to be registered.
         has_at_bat = True
+        is_strikeout = False
 
         # Award strikeouts to the pitcher and batter.
         if play.startswith("K") or play.startswith("!K"):
             self.pitcher.pitcher_stats.strikeouts += 1
             self.batter.batter_stats.strikeouts += 1
             self.inning_stats.strikeouts += 1
+            is_strikeout = True
 
         # On sac flys or sac bunts, no AB is to be awarded to the batter.
         if "SAC" in play or "SF" in play:
@@ -93,12 +95,13 @@ class AtBat():
         self.batter.batter_stats.rbis += rbis
         self.rbis = rbis
 
-        # Since all outs to the batter require a swing of the bat,
-        # add a strike to the pitch list.
-        self.pitcher.add_pitch(is_strike=True)
-        self.inning_stats.pitches += 1
-        self.inning_stats.strikes += 1
-        self.pitches.append(Pitch('X', inc_pitch_count=True))
+        # For all non-strikeout outs, the ball has to be put in play.
+        # A pitch needs to be added for these scenarios.
+        if not is_strikeout:
+            self.pitcher.add_pitch(is_strike=True)
+            self.inning_stats.pitches += 1
+            self.inning_stats.strikes += 1
+            self.pitches.append(Pitch('X', inc_pitch_count=True))
 
         # Add an out made to the pitcher.
         self.pitcher.pitcher_stats.outs += 1
@@ -165,8 +168,6 @@ class AtBat():
             self.batter.batter_stats.walks += 1
             self.pitcher.pitcher_stats.walks += 1
             self.inning_stats.walks += 1
-            self.pitcher.add_pitch(is_strike=False)
-            self.inning_stats.pitches += 1
             self.pitches.append(Pitch('R', inc_pitch_count=True, is_strike=False))
             add_at_bat = False
 
@@ -175,8 +176,6 @@ class AtBat():
             self.batter.batter_stats.walks += 1
             self.pitcher.pitcher_stats.intent_walks += 1
             self.inning_stats.walks += 1
-            self.pitcher.add_pitch(is_strike=False)
-            self.inning_stats.pitches += 1
             self.pitches.append(Pitch('R', inc_pitch_count=True, is_strike=False))
             add_at_bat = False
 
@@ -279,9 +278,8 @@ class AtBat():
 
     def __get_pitches_metapost_data(self):
         result = "    % pitches\n"
-        ball_locations = ["ballone", "balltwo", "ballthree"]
-        strike_locations = ["strikeone", "striketwo"]
-        foul_locations = ["strikethree", "strikefour", "strikefive", "strikesix", "strikeseven", "strikeeight", "strikenine",
+        ball_locations = ["ballone", "balltwo", "ballthree", "ballfour"]
+        strike_locations = ["strikeone", "striketwo", "strikethree", "strikefour", "strikefive", "strikesix", "strikeseven", "strikeeight", "strikenine",
                            "striketen", "strikeeleven", "striketwelve", "strikethirteen", "strikefourteen", "strikefifteen", "strikesixteen",
                              "strikeseventeen", "strikeeighteen", "strikenineteen", "striketwenty", "striketwentyone", "striketwentytwo"]
 
@@ -303,7 +301,7 @@ class AtBat():
 
             # Check whether a strike, ball or foul needs to be added.
             if pitch.is_strike:
-                if count_status["s"] < 2:
+                if count_status["s"] < 22:
                     if pitch.pitch_code.upper() == "S":
                         result += pitch_dot_template.format(strike_locations[count_status["s"]])
                     elif pitch.pitch_code.upper() == "C":
@@ -313,15 +311,8 @@ class AtBat():
                     else:
                         result += pitch_text_template.format(pitch.pitch_code.upper(), strike_locations[count_status["s"]])
                     count_status["s"] += 1
-                else:
-                    if count_status["f"] < 20:
-                        if pitch.pitch_code.upper() == "F":
-                           result += pitch_text_template.format("X", foul_locations[count_status["f"]])
-                        else:
-                            result += pitch_text_template.format(pitch.pitch_code.upper(), foul_locations[count_status["f"]])
-                        count_status["f"] += 1
             else:
-                if count_status["b"] < 3:
+                if count_status["b"] < 4:
                     result += pitch_dot_template.format(ball_locations[count_status["b"]])
                     count_status["b"] += 1
 
