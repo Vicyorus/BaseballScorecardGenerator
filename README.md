@@ -40,7 +40,8 @@ Metapost files that can be compiled into a scorecard PDF.
 ## How to score a game
 
 _Note: Example games and how to score certain plays are provided in the_
-_`examples` folder._
+_`examples` folder. Additional are available in the separate_
+_[examples](https://github.com/Vicyorus/BaseballScorecardGenerator-examples) repository._
 
 In order to start scoring a game, import the `scorecard` module on your
 Python script, and create a `Scorecard` object:
