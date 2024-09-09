@@ -108,8 +108,21 @@ class Team:
 
         pitcher.add_decision("S")
 
+    def get_player_in_lineup(self, player_id):
+        lineup_pos, runner = self.lineup.get_player_in_lineup(player_id)
+
+        if lineup_pos == -1:
+            raise Exception(
+                f"No player found with the ID {player_id} for team {self.team}"
+            )
+
+        return lineup_pos, runner
+
     def get_batter(self):
         return self.lineup.get_batter()
+
+    def get_previous_batter(self):
+        return self.lineup.get_previous_batter()
 
     def get_pitcher(self):
         return self.pitcher_lineup.get_pitcher()

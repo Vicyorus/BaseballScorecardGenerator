@@ -1,5 +1,6 @@
 from baseball_scorecard.stats.batter_stats import BatterStats
 
+
 class Lineup:
 
     max_replacements = 4
@@ -28,6 +29,20 @@ class Lineup:
         self.current_batter %= 10
         if self.current_batter == 0:
             self.current_batter = 1
+
+    def get_previous_batter(self):
+        self.no_ab()
+        lineup_pos = self.current_batter
+        batter = self.get_batter()
+        self.next_batter()
+        return lineup_pos, batter
+
+    def get_player_in_lineup(self, player_id):
+        for order, lineup_position in enumerate(self.lineup):
+            if lineup_position[-1] == player_id:
+                return order + 1, self.roster.get_player(player_id)
+
+        return -1, None
 
     def no_ab(self):
         if self.current_batter == 1:
@@ -70,7 +85,12 @@ class Lineup:
                         break
 
                     # Print the setup variables function, and the information for the player.
-                    result += player.get_lineup_metapost_data(10, extras_position_idx, is_extra=True, original_postion_idx=position_idx)
+                    result += player.get_lineup_metapost_data(
+                        10,
+                        extras_position_idx,
+                        is_extra=True,
+                        original_postion_idx=position_idx,
+                    )
 
                     # Increment the index for extras position.
                     extras_position_idx += 1
@@ -119,8 +139,8 @@ class Lineup:
         for order in self.lineup:
             for player_idx in range(len(order)):
                 if player_idx != 0:
-                    result += f'    {self.roster.get_player(order[player_idx]).get_lineup_str()}\n'
+                    result += f"    {self.roster.get_player(order[player_idx]).get_lineup_str()}\n"
                 else:
-                    result += f'{self.roster.get_player(order[player_idx]).get_lineup_str()}\n'
+                    result += f"{self.roster.get_player(order[player_idx]).get_lineup_str()}\n"
 
         return result

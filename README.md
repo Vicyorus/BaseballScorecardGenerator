@@ -21,6 +21,7 @@ Metapost files that can be compiled into a scorecard PDF.
         - [Runner methods](#runner-methods)
           - [Advance bases](#advance-bases)
           - [Thrown out](#thrown-out)
+          - [Place runner on base](#place-runner-on-base)
         - [Other at-bat methods](#other-at-bat-methods)
           - [Error](#error)
           - [Balk](#balk)
@@ -305,6 +306,25 @@ Arguments:
 - `PITCHER_ID` (int, optional): Player ID of the pitcher that made the out.
   Useful for when pitching changes occur mid-inning and the new pitcher makes
   an out on an inherited runner.
+
+
+###### Place runner on base
+
+To register a runner getting placed on base, such as MLB's extra innings
+"ghost runner" or "Manfred runner", use the `place_runner` method.
+
+```
+inn.place_runner([PLAYER_ID], [BASE])
+```
+
+Arguments:
+- `PLAYER_ID` (int, optional): The player ID for the runner to be placed.
+  If no player ID is provided, it will default to the player that precedes the
+  leadoff batter for the inning.
+- `BASE` (int, optional): The base on which to place the runner.
+  Defaults to `2` for 2B.
+- `LABEL` (str, optional): Label to put on the base in which the runner is placed.
+  Defaults to `RP` for "runner placed".
 
 ##### Other at-bat methods
 

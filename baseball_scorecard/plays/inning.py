@@ -2,6 +2,7 @@ from baseball_scorecard.plays.at_bat import AtBat
 from baseball_scorecard.plays.substitution.pitching import PitchingSubstitution
 from baseball_scorecard.plays.substitution.batter import OffensiveSubstitution
 from baseball_scorecard.stats.inning_stats import InningStats
+from baseball_scorecard.team.team import Team
 
 
 class Inning:
@@ -11,11 +12,12 @@ class Inning:
     Attributes:
         top (bool): Whether the half-inning is the top or the bottom.
     """
-    def __init__(self, number, top, away_team, home_team):
+
+    def __init__(self, number: int, top: bool, away_team: Team, home_team: Team):
         self.__number = number
         self.top = top
         self.__events = []
-        self.__current_ab = None
+        self.__current_ab: AtBat = None
         self.__outs = {1: False, 2: False, 3: False}
         self.__stats = InningStats()
 
@@ -46,14 +48,14 @@ class Inning:
             pitcher_id (int): Player ID for the entering pitcher.
         """
         self.__fielding_team.add_pitcher(pitcher_id, self.__number)
-        self.__events.append(PitchingSubstitution(
+        self.__events.append(
+            PitchingSubstitution(
                 self.__batting_team.lineup.current_batter,
-                self.__fielding_team.get_pitcher()
+                self.__fielding_team.get_pitcher(),
             )
         )
 
-    def offensive_substitution(
-            self, order: int, player_id: int, position: str):
+    def offensive_substitution(self, order: int, player_id: int, position: str):
         """Registers an offensive substitution for the batting team.
 
         Args:
@@ -62,17 +64,16 @@ class Inning:
             position (str): Position for the new player, can be either `PH`
                 for a pinch-hitter, or `PR` for a pinch-runner.
         """
-        self.__batting_team.add_player(
-            order, player_id, position, self.__number)
-        self.__events.append(OffensiveSubstitution(
+        self.__batting_team.add_player(order, player_id, position, self.__number)
+        self.__events.append(
+            OffensiveSubstitution(
                 order,
                 self.__batting_team.roster.get_player(player_id),
-                True if position.upper() == "PR" else False
+                True if position.upper() == "PR" else False,
             )
         )
 
-    def defensive_substitution(
-            self, order: int, player_id: int, position: str):
+    def defensive_substitution(self, order: int, player_id: int, position: str):
         """Registers a defensive substitution for the fielding team.
 
         Args:
@@ -81,7 +82,8 @@ class Inning:
             position (str): Position in the field for the new player.
         """
         self.__fielding_team.add_player(
-            order, player_id, position, self.__number, is_defensive_sub=True)
+            order, player_id, position, self.__number, is_defensive_sub=True
+        )
 
     def defensive_switch(self, player_id: int, position: str):
         """Registers a defensive switch for the fielding team.
@@ -240,8 +242,12 @@ class Inning:
         self.__current_ab.advance(end_base, play)
 
     def thrown_out(
-            self, out_base: str | int, play: str,
-            out_number: int = None, pitcher_id: int = None):
+        self,
+        out_base: str | int,
+        play: str,
+        out_number: int = None,
+        pitcher_id: int = None,
+    ):
         """Registers a runner getting thrown out in the basepaths.
 
         Args:
@@ -278,7 +284,8 @@ class Inning:
         if out_number:
             if self.__outs[out_number]:
                 raise Exception(
-                    "Indicated out for thrown_out call has already been used.")
+                    "Indicated out for thrown_out call has already been used."
+                )
 
             self.__outs[out_number] = True
             out_added = out_number
@@ -295,11 +302,45 @@ class Inning:
         # If the pitcher_id is passed, pass the pitcher to the at-bat object.
         responsible_pitcher = None
         if pitcher_id:
-            responsible_pitcher = \
-                self.__fielding_team.roster.get_player(pitcher_id)
+            responsible_pitcher = self.__fielding_team.roster.get_player(pitcher_id)
 
-        self.__current_ab.thrown_out(
-            out_base, play, out_added, responsible_pitcher)
+        self.__current_ab.thrown_out(out_base, play, out_added, responsible_pitcher)
+
+    def place_runner(self, player_id: int = None, base: int = 2, label: str = None):
+        """
+        Registers a runner placed on base. Mostly to be used for extra-inning "ghost runners".
+
+        Args:
+            player_id (int, optional): The ID for the runner to be placed on base.
+                If not provided, defaults to the last batter.
+            base (int, optional): The base in which to place the runner.
+                Defaults to 2 for 2B.
+            label (str, optional): The label to put on the runner's base.
+                Defaults to "RP" for "runner placed".
+        """
+        # Since the ghost runner counts for LOB, add a runner to the statistics.
+        self.__batting_team.stats.left_on_base += 1
+        self.__stats.left_on_base += 1
+
+        # If the player ID is passed, get the player, otherwise obtain the previous batter.
+        if player_id:
+            lineup_pos, runner = self.__batting_team.get_player_in_lineup(player_id)
+        else:
+            lineup_pos, runner = self.__batting_team.get_previous_batter()
+
+        # Create a new at-bat.
+        ab = AtBat(
+            lineup_pos,
+            runner,
+            self.__fielding_team.get_pitcher(),
+            self.__stats,
+        )
+        self.__events.append(ab)
+        self.__current_ab = ab
+
+        # Place the runner on the base.
+        self.__current_ab.reach("", end_base=base)
+        self.__current_ab.atbase(label if label else "RP", base)
 
     # Miscelaneous functions to detail additional events for the at-bat.
     def error(self, fielder: int):
@@ -371,7 +412,9 @@ class Inning:
         # registered while the team is fielding, but they will be printed
         # when they are batting.
         if self.__number in self.__batting_team.defensive_subs.keys():
-            self.__events = self.__batting_team.defensive_subs[self.__number] + self.__events
+            self.__events = (
+                self.__batting_team.defensive_subs[self.__number] + self.__events
+            )
 
         at_bats_printed = 1
         for event in self.__events:
@@ -406,10 +449,12 @@ class Inning:
         # registered while the team is fielding, but they will be printed
         # when they are batting.
         if self.__number in self.__batting_team.defensive_subs.keys():
-            self.__events = self.__batting_team.defensive_subs[self.__number] + self.__events
+            self.__events = (
+                self.__batting_team.defensive_subs[self.__number] + self.__events
+            )
 
         for event in self.__events:
-            result += f'{event}'
+            result += f"{event}"
 
         result += f"{self.__stats}"
         result += "\n"
@@ -417,7 +462,7 @@ class Inning:
 
     def __ordinal(self, n):
         if 11 <= (n % 100) <= 13:
-            suffix = 'th'
+            suffix = "th"
         else:
-            suffix = ['th', 'st', 'nd', 'rd', 'th'][min(n % 10, 4)]
+            suffix = ["th", "st", "nd", "rd", "th"][min(n % 10, 4)]
         return str(n) + suffix
