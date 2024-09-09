@@ -6,13 +6,17 @@ from baseball_scorecard.team.reserves import Reserves
 from baseball_scorecard.stats.team_stats import TeamStats
 from baseball_scorecard.plays.substitution.fielder import DefensiveSubstitution
 
+
 class Team:
 
-    team_name_location = (2128,96)
-    team_name_template = "    label.top(btex {{\\bigsf {}}} etex rotated 90, {}) withcolor clr;\n"
+    team_name_location = (2128, 96)
+    team_name_template = (
+        "    label.top(btex {{\\bigsf {}}} etex rotated 90, {}) withcolor clr;\n"
+    )
 
-    def __init__(self, data, use_extended_roster):
+    def __init__(self, data, use_extended_roster, is_away_team):
         self.team = data["team"]
+        self.is_away_team = is_away_team
 
         self.roster = Roster(data["roster"], data["lefties"], use_extended_roster)
         self.lineup = Lineup(data["lineup"], self.roster)
@@ -26,7 +30,9 @@ class Team:
         # Sanity check, ensure the pitcher is in the roster.
         pitcher = self.roster.get_player(pitcher_id)
         if not pitcher:
-            raise Exception(f'No pitcher found with the ID {pitcher_id} for team {self.team}')
+            raise Exception(
+                f"No pitcher found with the ID {pitcher_id} for team {self.team}"
+            )
 
         pitcher.set_lineup_position("1", inning)
         self.pitcher_lineup.add_pitcher(pitcher_id)
@@ -35,7 +41,9 @@ class Team:
         # Sanity check, ensure the player is in the roster.
         player = self.roster.get_player(player_id)
         if not player:
-            raise Exception(f'No player found with the ID {player_id} for team {self.team}')
+            raise Exception(
+                f"No player found with the ID {player_id} for team {self.team}"
+            )
 
         player.set_lineup_position(position, inning)
 
@@ -46,15 +54,21 @@ class Team:
         # generates the baseball_scorecard.
         if is_defensive_sub:
             if inning in self.defensive_subs.keys():
-                self.defensive_subs[inning].append(DefensiveSubstitution(order, player))
+                self.defensive_subs[inning].append(
+                    DefensiveSubstitution(order, player, self.is_away_team)
+                )
             else:
-                self.defensive_subs[inning] = [DefensiveSubstitution(order, player)]
+                self.defensive_subs[inning] = [
+                    DefensiveSubstitution(order, player, self.is_away_team)
+                ]
 
     def defensive_switch(self, player_id, position):
         # Sanity check, ensure the player is in the roster.
         player = self.roster.get_player(player_id)
         if not player:
-            raise Exception(f'No player found with the ID {player_id} for team {self.team}')
+            raise Exception(
+                f"No player found with the ID {player_id} for team {self.team}"
+            )
 
         player.add_defensive_position(position)
 
@@ -68,7 +82,9 @@ class Team:
         # Sanity check, ensure the pitcher is in the roster.
         pitcher = self.roster.get_player(pitcher_id)
         if not pitcher:
-            raise Exception(f'No pitcher found with the ID {pitcher_id} for team {self.team}')
+            raise Exception(
+                f"No pitcher found with the ID {pitcher_id} for team {self.team}"
+            )
 
         pitcher.add_decision("W")
 
@@ -76,7 +92,9 @@ class Team:
         # Sanity check, ensure the pitcher is in the roster.
         pitcher = self.roster.get_player(pitcher_id)
         if not pitcher:
-            raise Exception(f'No pitcher found with the ID {pitcher_id} for team {self.team}')
+            raise Exception(
+                f"No pitcher found with the ID {pitcher_id} for team {self.team}"
+            )
 
         pitcher.add_decision("L")
 
@@ -84,7 +102,9 @@ class Team:
         # Sanity check, ensure the pitcher is in the roster.
         pitcher = self.roster.get_player(pitcher_id)
         if not pitcher:
-            raise Exception(f'No pitcher found with the ID {pitcher_id} for team {self.team}')
+            raise Exception(
+                f"No pitcher found with the ID {pitcher_id} for team {self.team}"
+            )
 
         pitcher.add_decision("S")
 

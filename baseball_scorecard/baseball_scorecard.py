@@ -20,6 +20,7 @@ class Scorecard:
         data (dict): Data of the baseball game. Format of this argument can be
             found in the README for the project.
     """
+
     def __init__(self, output_dir: str, data: dict):
         self.__output_dir = output_dir
 
@@ -30,7 +31,9 @@ class Scorecard:
         self.__game_info = GameInfo(data)
 
         self.__away = self.__create_team(data["away"], data["extended_roster"])
-        self.__home = self.__create_team(data["home"], data["extended_roster"])
+        self.__home = self.__create_team(
+            data["home"], data["extended_roster"], is_away_team=False
+        )
 
         self.__innings = []
         self.__current_inning = 1
@@ -38,9 +41,10 @@ class Scorecard:
 
         self.__umpires = self.__create_umpires(data)
 
-    def __create_team(self, team_data: dict,
-                      use_extended_roster: bool) -> Team:
-        return Team(team_data, use_extended_roster)
+    def __create_team(
+        self, team_data: dict, use_extended_roster: bool, is_away_team: bool = True
+    ) -> Team:
+        return Team(team_data, use_extended_roster, is_away_team)
 
     def __create_umpires(self, data: dict) -> list:
         umpire_list = []
@@ -72,8 +76,8 @@ class Scorecard:
 
         # Create the new inning and add it to the list of innings.
         inning = Inning(
-            self.__current_inning, self.__is_top_inning,
-            self.__away, self.__home)
+            self.__current_inning, self.__is_top_inning, self.__away, self.__home
+        )
         self.__innings.append(inning)
 
         # Move the inning counters.
@@ -135,8 +139,13 @@ class Scorecard:
         """Generates the Metapost files with the completed baseball_scorecard."""
 
         builder = MetapostBuilder(
-            self.__output_dir, self.__game_info, self.__away,
-            self.__home, self.__umpires, self.__innings)
+            self.__output_dir,
+            self.__game_info,
+            self.__away,
+            self.__home,
+            self.__umpires,
+            self.__innings,
+        )
         builder.generate_away_scorecard()
         builder.generate_home_scorecard()
         builder.generate_scorecard()
