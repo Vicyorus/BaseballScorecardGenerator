@@ -314,7 +314,7 @@ To register a runner getting placed on base, such as MLB's extra innings
 "ghost runner" or "Manfred runner", use the `place_runner` method.
 
 ```
-inn.place_runner([PLAYER_ID], [BASE])
+inn.place_runner([PLAYER_ID], [BASE], [LABEL])
 ```
 
 Arguments:
