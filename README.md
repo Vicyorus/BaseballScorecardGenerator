@@ -32,6 +32,7 @@ Metapost files that can be compiled into a scorecard PDF.
     - [Noting win/loss/save pitchers](#noting-winlosssave-pitchers)
     - [Generating the Metapost files](#generating-the-metapost-files)
     - [Generating the PDF](#generating-the-pdf)
+  - [Limitations](#limitations)
   - [Appendix](#appendix)
     - [Normal game data example](#normal-game-data-example)
     - [Extended roster game data example](#extended-roster-game-data-example)
@@ -424,10 +425,19 @@ the Metapost scorecards.
 score.generate_scorecard()
 ```
 
+This will generate a series of `.mp` files and a `.tex` file on the indicated
+folder that can be compiled into a PDF.
+
 ### Generating the PDF
 
 Currently, integration with the Metapost compiler is not available.
 A compilation script is provided in the `examples` folder.
+
+## Limitations
+
+- Currently, the Metapost code can only accomodate up to 20 innings safely.
+  Anything else runs the risk to find a limitation with Metapost's
+  coordenate system.
 
 ## Appendix
 

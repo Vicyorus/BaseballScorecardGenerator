@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-N/A
+### Changed
+
+- Modified the Metapost code to allow for a variable number of innings to be fit.
+- Moved the out number labels to the top right corner of the at-bat box to avoid clashes with text on the 1B basepath.
 
 ## [0.1.1] - 2024-09-09
 

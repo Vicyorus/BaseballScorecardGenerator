@@ -1,5 +1,6 @@
 import os
 
+
 class MetapostBuilder:
     def __init__(self, output_dir, game_info, away_team, home_team, umpires, innings):
         self.output_dir = output_dir
@@ -17,7 +18,9 @@ class MetapostBuilder:
                 self.bottom_innings.append(inning)
 
         # Set the templates folder location.
-        self.template_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
+        self.template_dir = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "templates"
+        )
 
     def generate_away_scorecard(self):
         self.__generate_team_scorecard(True)
@@ -42,14 +45,21 @@ class MetapostBuilder:
             scorecard_template = fd.read()
 
         # Open the file for writing and write all the generated information.
-        with open(os.path.join(self.output_dir, f"scorecard_{file_name_suffix}.mp"), "w") as scorecard_fd:
+        with open(
+            os.path.join(self.output_dir, f"scorecard_{file_name_suffix}.mp"), "w"
+        ) as scorecard_fd:
             # Write the template for the scorecard.
             scorecard_fd.write(scorecard_template)
             scorecard_fd.write("\n\n")
 
+            # Obtain the number of innings required for the scorecard.
+            # It is the maximum number between 15, or the amount of innings of the away team.
+            inning_num = len(self.top_innings) if len(self.top_innings) > 15 else 18
+
             # Open the figure where the scorecard is to be drawn.
             scorecard_fd.write("beginfig(0);\n")
-            scorecard_fd.write("    draw_full_scorecard;\n\n")
+            scorecard_fd.write(f"    innings := {inning_num};\n")
+            scorecard_fd.write("    draw_full_scorecard(innings);\n\n")
             scorecard_fd.write("    clr:=scoring;\n\n")
 
             # Print the game data.
@@ -80,13 +90,19 @@ class MetapostBuilder:
             # Print the game stats data.
             pitching_stats = fielding_team.get_pitching_totals()
             total_at_bats = batting_team.get_total_at_bats()
-            scorecard_fd.write(batting_team.get_stats_metapost_data(total_at_bats, pitching_stats))
+            scorecard_fd.write(
+                batting_team.get_stats_metapost_data(total_at_bats, pitching_stats)
+            )
 
             # Close the scorecard figure.
             scorecard_fd.write("endfig;\n")
             scorecard_fd.write("end\n")
 
     def generate_scorecard(self):
-        with open(os.path.join(self.template_dir, "final_scorecard_template.tex")) as template:
-            with open(os.path.join(self.output_dir, "scorecard.tex"), "w") as scorecard_tex_fd:
+        with open(
+            os.path.join(self.template_dir, "final_scorecard_template.tex")
+        ) as template:
+            with open(
+                os.path.join(self.output_dir, "scorecard.tex"), "w"
+            ) as scorecard_tex_fd:
                 scorecard_tex_fd.write(template.read())

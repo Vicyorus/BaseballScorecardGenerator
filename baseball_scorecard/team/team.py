@@ -9,9 +9,8 @@ from baseball_scorecard.plays.substitution.fielder import DefensiveSubstitution
 
 class Team:
 
-    team_name_location = (2128, 96)
     team_name_template = (
-        "    label.top(btex {{\\bigsf {}}} etex rotated 90, {}) withcolor clr;\n"
+        "    label.top(btex {{\\bigsf {}}} etex rotated 90, game_team) withcolor clr;\n"
     )
 
     def __init__(self, data, use_extended_roster, is_away_team):
@@ -138,7 +137,7 @@ class Team:
 
     def get_team_metapost_data(self):
         result = "    % team info\n"
-        result += Team.team_name_template.format(self.team, Team.team_name_location)
+        result += Team.team_name_template.format(self.team)
         result += "\n"
         result += self.lineup.get_batter_info_metapost_data()
         result += "\n"

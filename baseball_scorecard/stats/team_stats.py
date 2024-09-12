@@ -71,12 +71,14 @@ class TeamStats:
             hits += v
 
         result = "    %% game totals\n"
-        result += "    set_game_total_vars;\n"
+        result += "    set_game_total_vars(innings);\n"
         result += TeamStats.game_totals_template.format(self.runs, "inn_run")
         result += TeamStats.game_totals_template.format(hits, "inn_hit")
         result += TeamStats.game_totals_template.format(self.errors, "inn_err")
         result += TeamStats.game_totals_template.format(self.left_on_base, "inn_lob")
-        result += TeamStats.game_totals_template.format(self.walks + self.intent_walks, "inn_bb")
+        result += TeamStats.game_totals_template.format(
+            self.walks + self.intent_walks, "inn_bb"
+        )
         result += TeamStats.game_totals_template.format(self.strikeouts, "inn_so")
         result += TeamStats.game_totals_template.format(self.pitches, "inn_pit")
         result += TeamStats.game_totals_template.format(self.strikes, "inn_str")
@@ -91,26 +93,52 @@ class TeamStats:
 
         # Generate the final result.
         result = "    %% basepaths totals\n"
-        result += "    set_basepath_total_vars;\n"
-        result += TeamStats.basepath_template.format(self.hits[1], "basepath_first_label")
-        result += TeamStats.basepath_template.format(self.hits[2], "basepath_second_label")
-        result += TeamStats.basepath_template.format(self.hits[3], "basepath_third_label")
+        result += "    set_basepath_total_vars(innings);\n"
+        result += TeamStats.basepath_template.format(
+            self.hits[1], "basepath_first_label"
+        )
+        result += TeamStats.basepath_template.format(
+            self.hits[2], "basepath_second_label"
+        )
+        result += TeamStats.basepath_template.format(
+            self.hits[3], "basepath_third_label"
+        )
         result += TeamStats.basepath_template.format(self.hits[4], "basepath_hr_label")
         result += TeamStats.basepath_template.format(self.sac_flys, "basepath_sf_label")
-        result += TeamStats.basepath_template.format(self.sac_bunts, "basepath_sac_label")
+        result += TeamStats.basepath_template.format(
+            self.sac_bunts, "basepath_sac_label"
+        )
         result += "\n"
         result += TeamStats.basepath_template.format(total_bases, "basepath_tb_label")
-        result += TeamStats.basepath_template.format(self.hit_by_pitch, "basepath_hbp_label")
-        result += TeamStats.basepath_template.format(self.intent_walks, "basepath_ibb_label")
+        result += TeamStats.basepath_template.format(
+            self.hit_by_pitch, "basepath_hbp_label"
+        )
+        result += TeamStats.basepath_template.format(
+            self.intent_walks, "basepath_ibb_label"
+        )
         result += TeamStats.basepath_template.format(self.balks, "basepath_blk_label")
-        result += TeamStats.basepath_template.format(self.wild_pitches, "basepath_wp_label")
-        result += TeamStats.basepath_template.format(self.passed_balls, "basepath_pb_label")
+        result += TeamStats.basepath_template.format(
+            self.wild_pitches, "basepath_wp_label"
+        )
+        result += TeamStats.basepath_template.format(
+            self.passed_balls, "basepath_pb_label"
+        )
         result += "\n"
-        result += TeamStats.basepath_template.format(self.stolen_bases, "basepath_sb_label")
-        result += TeamStats.basepath_template.format(self.caught_stealing, "basepath_cs_label")
-        result += TeamStats.basepath_template.format(self.picked_off, "basepath_po_label")
-        result += TeamStats.basepath_template.format(self.double_plays, "basepath_dp_label")
-        result += TeamStats.basepath_template.format(self.triple_plays, "basepath_tp_label")
+        result += TeamStats.basepath_template.format(
+            self.stolen_bases, "basepath_sb_label"
+        )
+        result += TeamStats.basepath_template.format(
+            self.caught_stealing, "basepath_cs_label"
+        )
+        result += TeamStats.basepath_template.format(
+            self.picked_off, "basepath_po_label"
+        )
+        result += TeamStats.basepath_template.format(
+            self.double_plays, "basepath_dp_label"
+        )
+        result += TeamStats.basepath_template.format(
+            self.triple_plays, "basepath_tp_label"
+        )
         result += TeamStats.basepath_template.format(self.errors, "basepath_e_label")
         result += "\n"
 
@@ -121,7 +149,12 @@ class TeamStats:
             self.hit_by_pitch,
             self.sac_bunts,
             self.sac_flys,
-            self.at_bats + self.walks + self.intent_walks + self.hit_by_pitch + self.sac_bunts + self.sac_flys
+            self.at_bats
+            + self.walks
+            + self.intent_walks
+            + self.hit_by_pitch
+            + self.sac_bunts
+            + self.sac_flys,
         )
         basepath_run_lob_opo = "{}+{}+{}~~=~~{}".format(
             self.runs,
@@ -129,27 +162,31 @@ class TeamStats:
             self.outs,
             self.runs + self.left_on_base + self.outs,
         )
-        result += TeamStats.basepath_template.format(basepath_totals, "basepath_totals_label")
-        result += TeamStats.basepath_template.format(basepath_run_lob_opo, "basepath_run_lob_opo_label")
+        result += TeamStats.basepath_template.format(
+            basepath_totals, "basepath_totals_label"
+        )
+        result += TeamStats.basepath_template.format(
+            basepath_run_lob_opo, "basepath_run_lob_opo_label"
+        )
 
         return result
 
     def __str__(self):
         result = ""
-        result += f'R: {self.runs}\n'
-        result += f'1B: {self.hits[1]}\n'
-        result += f'2B: {self.hits[2]}\n'
-        result += f'3B: {self.hits[3]}\n'
-        result += f'HR: {self.hits[4]}\n'
-        result += f'SAC: {self.sac_bunts}\n'
-        result += f'SF: {self.sac_flys}\n'
-        result += f'DP: {self.double_plays}\n'
-        result += f'TP: {self.triple_plays}\n'
-        result += f'SB: {self.stolen_bases}\n'
-        result += f'CS: {self.caught_stealing}\n'
-        result += f'PO: {self.picked_off}\n'
-        result += f'PB: {self.passed_balls}\n'
-        result += f'E: {self.errors}\n'
-        result += f'LOB: {self.left_on_base}\n'
+        result += f"R: {self.runs}\n"
+        result += f"1B: {self.hits[1]}\n"
+        result += f"2B: {self.hits[2]}\n"
+        result += f"3B: {self.hits[3]}\n"
+        result += f"HR: {self.hits[4]}\n"
+        result += f"SAC: {self.sac_bunts}\n"
+        result += f"SF: {self.sac_flys}\n"
+        result += f"DP: {self.double_plays}\n"
+        result += f"TP: {self.triple_plays}\n"
+        result += f"SB: {self.stolen_bases}\n"
+        result += f"CS: {self.caught_stealing}\n"
+        result += f"PO: {self.picked_off}\n"
+        result += f"PB: {self.passed_balls}\n"
+        result += f"E: {self.errors}\n"
+        result += f"LOB: {self.left_on_base}\n"
 
         return result

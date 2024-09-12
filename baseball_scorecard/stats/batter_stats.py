@@ -20,7 +20,7 @@ class BatterStats:
 
     def get_metapost_data(self, position, spot):
         result = f"    %% batter {position}-{spot}\n"
-        result += f"    set_batter_total_vars({position}, {spot});\n"
+        result += f"    set_batter_total_vars({position}, {spot}, innings);\n"
         result += BatterStats.batter_stats_template.format(self.at_bats, "batter_ab")
         result += BatterStats.batter_stats_template.format(self.runs, "batter_r")
         result += BatterStats.batter_stats_template.format(self.hits, "batter_h")
@@ -34,21 +34,21 @@ class BatterStats:
         stats = []
 
         if self.at_bats:
-            stats.append(f'{self.at_bats} AB')
+            stats.append(f"{self.at_bats} AB")
 
         if self.runs:
-            stats.append(f'{self.runs} R')
+            stats.append(f"{self.runs} R")
 
         if self.hits:
-            stats.append(f'{self.hits} H')
+            stats.append(f"{self.hits} H")
 
         if self.rbis:
-            stats.append(f'{self.rbis} RBI')
+            stats.append(f"{self.rbis} RBI")
 
         if self.walks:
-            stats.append(f'{self.walks} BB')
+            stats.append(f"{self.walks} BB")
 
         if self.strikeouts:
-            stats.append(f'{self.strikeouts} SO')
+            stats.append(f"{self.strikeouts} SO")
 
         return " ".join(stats)
