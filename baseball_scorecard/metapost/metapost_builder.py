@@ -2,6 +2,9 @@ import os
 
 
 class MetapostBuilder:
+
+    min_innings = 15
+
     def __init__(self, output_dir, game_info, away_team, home_team, umpires, innings):
         self.output_dir = output_dir
         self.game_info = game_info
@@ -54,7 +57,11 @@ class MetapostBuilder:
 
             # Obtain the number of innings required for the scorecard.
             # It is the maximum number between 15, or the amount of innings of the away team.
-            inning_num = len(self.top_innings) if len(self.top_innings) > 15 else 18
+            inning_num = (
+                len(self.top_innings)
+                if len(self.top_innings) > MetapostBuilder.min_innings
+                else MetapostBuilder.min_innings
+            )
 
             # Open the figure where the scorecard is to be drawn.
             scorecard_fd.write("beginfig(0);\n")
