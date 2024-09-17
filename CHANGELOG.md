@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Modified the Metapost code to allow for a variable number of innings to be fit.
 - Moved the out number labels to the top right corner of the at-bat box to avoid clashes with text on the 1B basepath.
+- Extended the functionality of the `Inning.thrown_out` method to record the out in the same base as the runner was in the previous play.
 
 ## [0.1.1] - 2024-09-09
 

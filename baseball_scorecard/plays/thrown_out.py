@@ -1,5 +1,6 @@
 from baseball_scorecard.plays.waybase import WayBase
 
+
 class ThrownOut:
     draw_out_functions = {
         1: "draw_out_one",
@@ -8,11 +9,14 @@ class ThrownOut:
     }
 
     thrown_out_locations = {
+        "1-1": "cs_second",
         "1-2": "cs_second",
         "1-3": "cs_firstthird",
         "1-4": "to_firsthome",
+        "2-2": "cs_third",
         "2-3": "cs_third",
         "2-4": "to_secondhome",
+        "3-3": "to_home",
         "3-4": "to_home",
     }
 
@@ -30,8 +34,10 @@ class ThrownOut:
         result = ""
         result += f"    draw({ThrownOut.thrown_out_locations[thrown_out_key]}) withcolor outclr;\n"
         result += waybase.get_metapost_data()
-        result += f"    {ThrownOut.draw_out_functions[self.out_number]}(xstart,ystart,clr);\n"
+        result += (
+            f"    {ThrownOut.draw_out_functions[self.out_number]}(xstart,ystart,clr);\n"
+        )
         return result
 
     def __str__(self):
-        return f'Out #{self.out_number}: Thrown out ({self.start} to {self.end}), {self.play}'
+        return f"Out #{self.out_number}: Thrown out ({self.start} to {self.end}), {self.play}"

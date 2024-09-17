@@ -294,11 +294,11 @@ inn.thrown_out(OUT_BASE, PLAY, [OUT_NUMBER], [PITCHER_ID])
 ```
 
 Arguments:
-- `OUT_BASE` (int): The final base reached by the batter on a play.
+- `OUT_BASE` (int): The base where the out occurred.
+  - `1`: First base.
   - `2`: Second base.
   - `3`: Third base.
-  - `4`: Home, for an earned run.
-  - `U`: Home, for an unearned run.
+  - `4`: Home plate.
 - `PLAY` (str): The play on which the runner advanced.
   If `CS` is used in the play, a caught stealing is credited to the runner.
   IF `PO` is used in the play, a pickoff is credited to the runner.
