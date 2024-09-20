@@ -596,7 +596,7 @@ t9 = game.new_inning()
 t9.pitching_substitution(39)
 t9.defensive_substitution(9, 39, "1")
 
-# Defensive switch (NYM): #2  Justin Turner moves to 1B
+# Defensive switch (NYM): #2 Justin Turner moves to 1B
 t9.defensive_switch(2, "3")
 
 # 2. MIA #59 Ed Lucas (X - X - X)

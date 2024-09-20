@@ -5,146 +5,133 @@ from baseball_scorecard.baseball_scorecard import Scorecard
 # https://www.baseball-reference.com/boxes/MIA/MIA201804030.shtml
 # https://www.mlb.com/gameday/red-sox-vs-marlins/2018/04/03/529472/final
 
-game = Scorecard(os.path.dirname(os.path.abspath(__file__)),
-{
-    "scorer": "Vicyorus",
-    "date":   "2018-04-03 18:10-22:37",
-    "at":     "Marlins Park, Miami, FL",
-    "att":    "14,953",
-    "temp":   "77F, Partly Cloudy",
-    "wind":   "10mph, In From CF",
-    "away"   : {
-        "team":    "Boston Red Sox",
-        "starter": 41,
-        "roster":  {
-            # Lineup
-            36 : "Eduardo Núñez",
-            16 : "Andrew Benintendi",
-            13 : "Hanley Ramirez",
-            28 : "J.D. Martinez",
-            2  : "Xander Bogaerts",
-            11 : "Rafael Devers",
-            7  : "Christian Vázquez",
-            19 : "Jackie Bradley Jr.",
-            41 : "Chris Sale",
-
-            # Starting pitcher
-            41 : "Chris Sale",
-
-            # Bench
-            18 : "Mitch Moreland",
-            12 : "Brock Holt",
-            23 : "Blake Swihart",
-            50 : "Mookie Betts",
-            3  : "Sandy León",
-
-            # Bullpen
-            39 : "Carson Smith",
-            22 : "Rick Porcello",
-            61 : "Brian Johnson",
-            66 : "Bobby Poyner",
-            37 : "Heath Hembree",
-            24 : "David Price",
-            46 : "Craig Kimbrel",
-            76 : "Hector Velázquez",
-            64 : "Marcus Walden",
-            56 : "Joe Kelly",
-            32 : "Matt Barnes",
+game = Scorecard(
+    os.path.dirname(os.path.abspath(__file__)),
+    {
+        "scorer": "Vicyorus",
+        "date": "2018-04-03 18:10-22:37",
+        "at": "Marlins Park, Miami, FL",
+        "att": "14,953",
+        "temp": "77F, Partly Cloudy",
+        "wind": "10mph, In From CF",
+        "away": {
+            "team": "Boston Red Sox",
+            "starter": 41,
+            "roster": {
+                # Lineup
+                36: "Eduardo Núñez",
+                16: "Andrew Benintendi",
+                13: "Hanley Ramirez",
+                28: "J.D. Martinez",
+                2: "Xander Bogaerts",
+                11: "Rafael Devers",
+                7: "Christian Vázquez",
+                19: "Jackie Bradley Jr.",
+                41: "Chris Sale",
+                # Starting pitcher
+                41: "Chris Sale",
+                # Bench
+                18: "Mitch Moreland",
+                12: "Brock Holt",
+                23: "Blake Swihart",
+                50: "Mookie Betts",
+                3: "Sandy León",
+                # Bullpen
+                39: "Carson Smith",
+                22: "Rick Porcello",
+                61: "Brian Johnson",
+                66: "Bobby Poyner",
+                37: "Heath Hembree",
+                24: "David Price",
+                46: "Craig Kimbrel",
+                76: "Hector Velázquez",
+                64: "Marcus Walden",
+                56: "Joe Kelly",
+                32: "Matt Barnes",
+            },
+            "lefties": [41, 61, 66, 24],
+            "lineup": [
+                [36, "4"],
+                [16, "7"],
+                [13, "3"],
+                [28, "9"],
+                [2, "6"],
+                [11, "5"],
+                [7, "2"],
+                [19, "8"],
+                [41, "1"],
+            ],
+            "bench": [
+                [18, "1B"],
+                [12, "2B"],
+                [23, "C"],
+                [50, "SS"],
+                [3, "C"],
+            ],
+            "bullpen": [39, 22, 61, 66, 37, 24, 46, 76, 64, 56, 32],
         },
-        "lefties" : [
-            41, 61, 66, 24
-        ],
-        "lineup" : [
-            [36, "4"],
-            [16, "7"],
-            [13, "3"],
-            [28, "9"],
-            [2,  "6"],
-            [11, "5"],
-            [7,  "2"],
-            [19, "8"],
-            [41, "1"],
-        ],
-        "bench" : [
-            [18, "1B"],
-            [12, "2B"],
-            [23, "C" ],
-            [50, "SS"],
-            [3,  "C" ],
-        ],
-        "bullpen" : [
-            39, 22, 61, 66, 37, 24, 46, 76, 64, 56, 32
-        ],
-    },
-    "home"   : {
-        "team":    "Miami Marlins",
-        "starter": 62,
-        "roster":  {
-            # Lineup
-            9  : "Lewis Brinson",
-            32 : "Derek Dietrich",
-            13 : "Starlin Castro",
-            15 : "Brian Anderson",
-            41 : "Justin Bour",
-            1  : "Cameron Maybin",
-            19 : "Miguel Rojas",
-            17 : "Chad Wallach",
-            62 : "José Ureña",
-
-            # Starting pitcher
-            62 : "José Ureña",
-
-            # Bench
-            30 : "Garrett Cooper",
-            28 : "Bryan Holaday",
-            18 : "Tomás Telis",
-            2  : "Yadiel Rivera",
-
-            # Bullpen
-            56 : "Tayron Guerrero",
-            44 : "Jacob Turner",
-            46 : "Kyle Barraclough",
-            66 : "Jarlín García",
-            76 : "Dillon Peters",
-            25 : "Junichi Tazawa",
-            63 : "Trevor Richards",
-            50 : "Chris O'Grady",
-            43 : "Odrisamer Despaigne",
-            29 : "Brad Ziegler",
-            31 : "Caleb Smith",
-            71 : "Drew Steckenrider",
+        "home": {
+            "team": "Miami Marlins",
+            "starter": 62,
+            "roster": {
+                # Lineup
+                9: "Lewis Brinson",
+                32: "Derek Dietrich",
+                13: "Starlin Castro",
+                15: "Brian Anderson",
+                41: "Justin Bour",
+                1: "Cameron Maybin",
+                19: "Miguel Rojas",
+                17: "Chad Wallach",
+                62: "José Ureña",
+                # Starting pitcher
+                62: "José Ureña",
+                # Bench
+                30: "Garrett Cooper",
+                28: "Bryan Holaday",
+                18: "Tomás Telis",
+                2: "Yadiel Rivera",
+                # Bullpen
+                56: "Tayron Guerrero",
+                44: "Jacob Turner",
+                46: "Kyle Barraclough",
+                66: "Jarlín García",
+                76: "Dillon Peters",
+                25: "Junichi Tazawa",
+                63: "Trevor Richards",
+                50: "Chris O'Grady",
+                43: "Odrisamer Despaigne",
+                29: "Brad Ziegler",
+                31: "Caleb Smith",
+                71: "Drew Steckenrider",
+            },
+            "lefties": [66, 76, 50, 31],
+            "lineup": [
+                [9, "8"],
+                [32, "7"],
+                [13, "4"],
+                [15, "5"],
+                [41, "3"],
+                [1, "9"],
+                [19, "6"],
+                [17, "2"],
+                [62, "1"],
+            ],
+            "bench": [
+                [30, "1B"],
+                [28, "C"],
+                [18, "C"],
+                [2, "3B"],
+            ],
+            "bullpen": [56, 44, 46, 66, 76, 25, 63, 50, 43, 29, 31, 71],
         },
-        "lefties" : [
-            66, 76, 50, 31
-        ],
-        "lineup" : [
-            [9,  "8"],
-            [32, "7"],
-            [13, "4"],
-            [15, "5"],
-            [41, "3"],
-            [1,  "9"],
-            [19, "6"],
-            [17, "2"],
-            [62, "1"],
-        ],
-        "bench" : [
-            [30, "1B"],
-            [28, "C" ],
-            [18, "C" ],
-            [2,  "3B"],
-        ],
-        "bullpen" : [
-            56, 44, 46, 66, 76, 25, 63, 50, 43, 29, 31, 71
-        ],
+        "umpires": {
+            "HP": "Ben May",
+            "1B": "Ron Kulpa",
+            "2B": "Ed Hickox",
+            "3B": "Jerry Meals",
+        },
     },
-    "umpires" : {
-        "HP" : "Ben May",
-        "1B" : "Ron Kulpa",
-        "2B" : "Ed Hickox",
-        "3B" : "Jerry Meals",
-    },
-}
 )
 
 ##########################################################
@@ -248,7 +235,7 @@ b2.out("L8")
 b2.new_ab()
 b2.pitch_list("c s b b b")
 b2.hit(1)
-b2.thrown_out(2, "19 DP9-3", 3, 41)
+b2.thrown_out(1, "19 DP9-3", 3, 41)
 
 # 7. MIA #19 Miguel Rojas (X - X - 1)
 b2.new_ab()
@@ -912,5 +899,5 @@ game.winning_pitcher(37, is_away_team=True)
 # LP: MIA #56 Tayron Guerrero
 game.losing_pitcher(56)
 
-#print(game)
+# print(game)
 game.generate_scorecard()

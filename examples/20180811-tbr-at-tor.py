@@ -538,7 +538,7 @@ b7.out("L9")
 b7.new_ab()
 b7.pitch_list("s b s b b b")
 b7.reach("BB")
-b7.thrown_out(2, "15 PO", 3, 61)
+b7.thrown_out(1, "15 PO", 3, 61)
 
 # 1. TOR #15 Randal Grichuk (X - X - 11)
 b7.new_ab()
