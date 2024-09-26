@@ -5,7 +5,7 @@ class Out:
         3: "draw_out_three",
     }
 
-    def __init__(self, play, out_number):
+    def __init__(self, play: str, out_number: int):
         self.play = play
         self.out_number = out_number
 
@@ -21,4 +21,4 @@ class Out:
         return result
 
     def __str__(self):
-        return f'Out #{self.out_number}: {self.play}'
+        return f"Out #{self.out_number}: {self.play}"

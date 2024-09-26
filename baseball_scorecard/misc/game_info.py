@@ -28,11 +28,11 @@ class GameInfo:
 
     def __str__(self):
         result = "Game info\n"
-        result += f"Scorer: {self.scorer}\n"
         result += f"Date: {self.date}\n"
         result += f"At: {self.at}\n"
         result += f"Attendance: {self.att}\n"
         result += f"Weather: {self.temp}, {self.wind}\n"
+        result += f"Scorer: {self.scorer}\n"
         result += "\n"
 
         return result

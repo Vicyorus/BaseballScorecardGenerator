@@ -2,3 +2,5 @@
 __pycache__
 examples/scorecard*
 dist
+.pytest_cache
+.coverage
