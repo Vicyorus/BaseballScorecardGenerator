@@ -54,11 +54,11 @@ class Team:
         if is_defensive_sub:
             if inning in self.defensive_subs.keys():
                 self.defensive_subs[inning].append(
-                    DefensiveSubstitution(order, player, self.is_away_team)
+                    DefensiveSubstitution(order, str(player), self.is_away_team)
                 )
             else:
                 self.defensive_subs[inning] = [
-                    DefensiveSubstitution(order, player, self.is_away_team)
+                    DefensiveSubstitution(order, str(player), self.is_away_team)
                 ]
 
     def defensive_switch(self, player_id, position):

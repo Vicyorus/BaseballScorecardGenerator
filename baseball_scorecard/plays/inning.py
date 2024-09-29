@@ -1,5 +1,5 @@
 from baseball_scorecard.plays.at_bat import AtBat
-from baseball_scorecard.plays.substitution.pitching import PitchingSubstitution
+from baseball_scorecard.plays.substitution.pitcher import PitchingSubstitution
 from baseball_scorecard.plays.substitution.batter import OffensiveSubstitution
 from baseball_scorecard.stats.inning_stats import InningStats
 from baseball_scorecard.team.team import Team
@@ -51,7 +51,7 @@ class Inning:
         self.__events.append(
             PitchingSubstitution(
                 self.__batting_team.lineup.current_batter,
-                self.__fielding_team.get_pitcher(),
+                str(self.__fielding_team.get_pitcher()),
             )
         )
 
@@ -68,7 +68,7 @@ class Inning:
         self.__events.append(
             OffensiveSubstitution(
                 order,
-                self.__batting_team.roster.get_player(player_id),
+                str(self.__batting_team.roster.get_player(player_id)),
                 True if position.upper() == "PR" else False,
             )
         )
