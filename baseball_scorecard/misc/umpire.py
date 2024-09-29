@@ -12,14 +12,14 @@ class Umpire:
         "    label.top(btex {{\\bigsf {}}} etex rotated 90, {}) withcolor clr;\n"
     )
 
-    def __init__(self, position, name):
-        self.ump_position = position
+    def __init__(self, base, name):
+        self.base = base
         self.name = name
 
     def get_metapost_data(self):
         return Umpire.umpire_template.format(
-            self.name, Umpire.label_locations[self.ump_position]
+            self.name, Umpire.label_locations[self.base]
         )
 
     def __str__(self):
-        return f"{self.ump_position}: {self.name}\n"
+        return f"{self.base}: {self.name}\n"

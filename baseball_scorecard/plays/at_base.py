@@ -7,7 +7,7 @@ class AtBase:
         4: {"suffix": "bot", "location": "home"},
     }
 
-    def __init__(self, label, base):
+    def __init__(self, label: str, base: int):
         self.label = label
         self.base = base
 
@@ -16,4 +16,4 @@ class AtBase:
         return f"    label.{labels['suffix']}(btex {{\\sf {self.label}}} etex, {labels['location']}) withcolor clr;\n"
 
     def __str__(self):
-        return f'Label at base {self.base}: {self.label}'
+        return f"Label at base {self.base}: {self.label}"

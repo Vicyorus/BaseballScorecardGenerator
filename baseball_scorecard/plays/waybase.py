@@ -82,7 +82,7 @@ class WayBase:
 
     waybase_template = "    label{}(btex {{\\sf {}}} etex, {}) withcolor clr;\n"
 
-    def __init__(self, label, start_base, end_base):
+    def __init__(self, label: str, start_base: int, end_base: int | str):
         split_label = label.split(" ")
         if len(split_label) == 2:
             self.number = label.split()[0]
@@ -101,13 +101,22 @@ class WayBase:
 
         # If the start is 0 (batter), use only the label.
         if self.start == 0:
+            # In case the end of this play is at home plate, add to the location the home plate offset.
+            offset = ""
+            if self.end in [4, "U"]:
+                offset = "+(-1,-2)"
+
             result += WayBase.waybase_template.format(
-                waybase_info["label_offset"], self.label, waybase_info["location"]
+                waybase_info["label_offset"],
+                self.label,
+                waybase_info["location"] + offset,
             )
 
         # Otherwise, set up the correct offsets for each label depending on the base reached (2nd, 3rd or home).
-        elif self.end == 4 or self.end == "U":
+        elif self.end in [4, "U"] or (self.start == self.end == 3):
+            label_offset = "+(-1,-2)"
             if self.number:
+                label_offset = "+(-1,-5)"
                 result += WayBase.waybase_template.format(
                     waybase_info["number_offset"],
                     self.number,
@@ -116,7 +125,7 @@ class WayBase:
             result += WayBase.waybase_template.format(
                 waybase_info["label_offset"],
                 self.label,
-                waybase_info["location"] + "+(-1,-5)",
+                waybase_info["location"] + label_offset,
             )
 
         else:

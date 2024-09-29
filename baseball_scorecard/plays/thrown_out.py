@@ -29,11 +29,9 @@ class ThrownOut:
     def get_metapost_data(self):
         thrown_out_key = f"{self.start}-{self.end}"
 
-        waybase = WayBase(self.play, self.start, self.end)
-
         result = ""
         result += f"    draw({ThrownOut.thrown_out_locations[thrown_out_key]}) withcolor outclr;\n"
-        result += waybase.get_metapost_data()
+        result += WayBase(self.play, self.start, self.end).get_metapost_data()
         result += (
             f"    {ThrownOut.draw_out_functions[self.out_number]}(xstart,ystart,clr);\n"
         )
