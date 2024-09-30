@@ -1,41 +1,38 @@
 class TeamStats:
 
-    basepath_template = "    label.urt(btex {{\sf {}}} etex, {}) withcolor clr;\n"
-    game_totals_template = "    label(btex {{\\bigsf {}}} etex, {}) withcolor clr;\n"
-
     def __init__(self):
         # Stats that will be filled up from the direct calls.
-        self.runs = 0
-        self.hits = {
+        self.runs: int = 0
+        self.hits: dict[int, int] = {
             1: 0,
             2: 0,
             3: 0,
             4: 0,
         }
-        self.sac_flys = 0
-        self.sac_bunts = 0
-        self.passed_balls = 0
-        self.stolen_bases = 0
-        self.caught_stealing = 0
-        self.picked_off = 0
-        self.double_plays = 0
-        self.triple_plays = 0
-        self.errors = 0
-        self.left_on_base = 0
+        self.sac_flys: int = 0
+        self.sac_bunts: int = 0
+        self.passed_balls: int = 0
+        self.stolen_bases: int = 0
+        self.caught_stealing: int = 0
+        self.picked_off: int = 0
+        self.double_plays: int = 0
+        self.triple_plays: int = 0
+        self.errors: int = 0
+        self.left_on_base: int = 0
 
         # At-bats to be calculated from the team's totals.
-        self.at_bats = 0
+        self.at_bats: int = 0
 
         # Stats that are calculated from the opposing pitcher stats.
-        self.outs = 0
-        self.hit_by_pitch = 0
-        self.walks = 0
-        self.intent_walks = 0
-        self.strikeouts = 0
-        self.balks = 0
-        self.wild_pitches = 0
-        self.pitches = 0
-        self.strikes = 0
+        self.outs: int = 0
+        self.hit_by_pitch: int = 0
+        self.walks: int = 0
+        self.intent_walks: int = 0
+        self.strikeouts: int = 0
+        self.balks: int = 0
+        self.wild_pitches: int = 0
+        self.pitches: int = 0
+        self.strikes: int = 0
 
     def get_metapost_data(self, total_at_bats, pitching_stats):
         # Add the pitching stats to the team stats.
@@ -67,22 +64,21 @@ class TeamStats:
     def __get_game_total_metapost_data(self):
         # Calculate the hits.
         hits = 0
-        for _, v in self.hits.items():
-            hits += v
+        for _, hit_count in self.hits.items():
+            hits += hit_count
 
         result = "    %% game totals\n"
-        result += "    set_game_total_vars(innings);\n"
-        result += TeamStats.game_totals_template.format(self.runs, "inn_run")
-        result += TeamStats.game_totals_template.format(hits, "inn_hit")
-        result += TeamStats.game_totals_template.format(self.errors, "inn_err")
-        result += TeamStats.game_totals_template.format(self.left_on_base, "inn_lob")
-        result += TeamStats.game_totals_template.format(
-            self.walks + self.intent_walks, "inn_bb"
+        result += (
+            "    set_game_total_vars(innings);\n"
+            f"    label(btex {{\\bigsf {self.runs}}} etex, inn_run) withcolor clr;\n"
+            f"    label(btex {{\\bigsf {hits}}} etex, inn_hit) withcolor clr;\n"
+            f"    label(btex {{\\bigsf {self.errors}}} etex, inn_err) withcolor clr;\n"
+            f"    label(btex {{\\bigsf {self.left_on_base}}} etex, inn_lob) withcolor clr;\n"
+            f"    label(btex {{\\bigsf {self.walks + self.intent_walks}}} etex, inn_bb) withcolor clr;\n"
+            f"    label(btex {{\\bigsf {self.strikeouts}}} etex, inn_so) withcolor clr;\n"
+            f"    label(btex {{\\bigsf {self.pitches}}} etex, inn_pit) withcolor clr;\n"
+            f"    label(btex {{\\bigsf {self.strikes}}} etex, inn_str) withcolor clr;\n"
         )
-        result += TeamStats.game_totals_template.format(self.strikeouts, "inn_so")
-        result += TeamStats.game_totals_template.format(self.pitches, "inn_pit")
-        result += TeamStats.game_totals_template.format(self.strikes, "inn_str")
-
         return result
 
     def __get_basepath_metapost_data(self):
@@ -92,55 +88,31 @@ class TeamStats:
             total_bases += self.hits[i] * i
 
         # Generate the final result.
-        result = "    %% basepaths totals\n"
-        result += "    set_basepath_total_vars(innings);\n"
-        result += TeamStats.basepath_template.format(
-            self.hits[1], "basepath_first_label"
+        result = (
+            "    %% basepaths totals\n"
+            "    set_basepath_total_vars(innings);\n"
+            f"    label.urt(btex {{\\sf {self.hits[1]}}} etex, basepath_first_label) withcolor clr;\n"
+            f"    label.urt(btex {{\\sf {self.hits[2]}}} etex, basepath_second_label) withcolor clr;\n"
+            f"    label.urt(btex {{\\sf {self.hits[3]}}} etex, basepath_third_label) withcolor clr;\n"
+            f"    label.urt(btex {{\\sf {self.hits[4]}}} etex, basepath_hr_label) withcolor clr;\n"
+            f"    label.urt(btex {{\\sf {self.sac_flys}}} etex, basepath_sf_label) withcolor clr;\n"
+            f"    label.urt(btex {{\\sf {self.sac_bunts}}} etex, basepath_sac_label) withcolor clr;\n"
+            "\n"
+            f"    label.urt(btex {{\\sf {total_bases}}} etex, basepath_tb_label) withcolor clr;\n"
+            f"    label.urt(btex {{\\sf {self.hit_by_pitch}}} etex, basepath_hbp_label) withcolor clr;\n"
+            f"    label.urt(btex {{\\sf {self.intent_walks}}} etex, basepath_ibb_label) withcolor clr;\n"
+            f"    label.urt(btex {{\\sf {self.balks}}} etex, basepath_blk_label) withcolor clr;\n"
+            f"    label.urt(btex {{\\sf {self.wild_pitches}}} etex, basepath_wp_label) withcolor clr;\n"
+            f"    label.urt(btex {{\\sf {self.passed_balls}}} etex, basepath_pb_label) withcolor clr;\n"
+            "\n"
+            f"    label.urt(btex {{\\sf {self.stolen_bases}}} etex, basepath_sb_label) withcolor clr;\n"
+            f"    label.urt(btex {{\\sf {self.caught_stealing}}} etex, basepath_cs_label) withcolor clr;\n"
+            f"    label.urt(btex {{\\sf {self.picked_off}}} etex, basepath_po_label) withcolor clr;\n"
+            f"    label.urt(btex {{\\sf {self.double_plays}}} etex, basepath_dp_label) withcolor clr;\n"
+            f"    label.urt(btex {{\\sf {self.triple_plays}}} etex, basepath_tp_label) withcolor clr;\n"
+            f"    label.urt(btex {{\\sf {self.errors}}} etex, basepath_e_label) withcolor clr;\n"
+            "\n"
         )
-        result += TeamStats.basepath_template.format(
-            self.hits[2], "basepath_second_label"
-        )
-        result += TeamStats.basepath_template.format(
-            self.hits[3], "basepath_third_label"
-        )
-        result += TeamStats.basepath_template.format(self.hits[4], "basepath_hr_label")
-        result += TeamStats.basepath_template.format(self.sac_flys, "basepath_sf_label")
-        result += TeamStats.basepath_template.format(
-            self.sac_bunts, "basepath_sac_label"
-        )
-        result += "\n"
-        result += TeamStats.basepath_template.format(total_bases, "basepath_tb_label")
-        result += TeamStats.basepath_template.format(
-            self.hit_by_pitch, "basepath_hbp_label"
-        )
-        result += TeamStats.basepath_template.format(
-            self.intent_walks, "basepath_ibb_label"
-        )
-        result += TeamStats.basepath_template.format(self.balks, "basepath_blk_label")
-        result += TeamStats.basepath_template.format(
-            self.wild_pitches, "basepath_wp_label"
-        )
-        result += TeamStats.basepath_template.format(
-            self.passed_balls, "basepath_pb_label"
-        )
-        result += "\n"
-        result += TeamStats.basepath_template.format(
-            self.stolen_bases, "basepath_sb_label"
-        )
-        result += TeamStats.basepath_template.format(
-            self.caught_stealing, "basepath_cs_label"
-        )
-        result += TeamStats.basepath_template.format(
-            self.picked_off, "basepath_po_label"
-        )
-        result += TeamStats.basepath_template.format(
-            self.double_plays, "basepath_dp_label"
-        )
-        result += TeamStats.basepath_template.format(
-            self.triple_plays, "basepath_tp_label"
-        )
-        result += TeamStats.basepath_template.format(self.errors, "basepath_e_label")
-        result += "\n"
 
         # Generate the proof strings.
         basepath_totals = "{}+{}+{}+{}+{}~~=~~{}".format(
@@ -162,31 +134,30 @@ class TeamStats:
             self.outs,
             self.runs + self.left_on_base + self.outs,
         )
-        result += TeamStats.basepath_template.format(
-            basepath_totals, "basepath_totals_label"
-        )
-        result += TeamStats.basepath_template.format(
-            basepath_run_lob_opo, "basepath_run_lob_opo_label"
+        result += (
+            f"    label.urt(btex {{\\sf {basepath_totals}}} etex, basepath_totals_label) withcolor clr;\n"
+            f"    label.urt(btex {{\\sf {basepath_run_lob_opo}}} etex, basepath_run_lob_opo_label) withcolor clr;\n"
         )
 
         return result
 
     def __str__(self):
-        result = ""
-        result += f"R: {self.runs}\n"
-        result += f"1B: {self.hits[1]}\n"
-        result += f"2B: {self.hits[2]}\n"
-        result += f"3B: {self.hits[3]}\n"
-        result += f"HR: {self.hits[4]}\n"
-        result += f"SAC: {self.sac_bunts}\n"
-        result += f"SF: {self.sac_flys}\n"
-        result += f"DP: {self.double_plays}\n"
-        result += f"TP: {self.triple_plays}\n"
-        result += f"SB: {self.stolen_bases}\n"
-        result += f"CS: {self.caught_stealing}\n"
-        result += f"PO: {self.picked_off}\n"
-        result += f"PB: {self.passed_balls}\n"
-        result += f"E: {self.errors}\n"
-        result += f"LOB: {self.left_on_base}\n"
+        result = (
+            f"R: {self.runs}\n"
+            f"1B: {self.hits[1]}\n"
+            f"2B: {self.hits[2]}\n"
+            f"3B: {self.hits[3]}\n"
+            f"HR: {self.hits[4]}\n"
+            f"SAC: {self.sac_bunts}\n"
+            f"SF: {self.sac_flys}\n"
+            f"DP: {self.double_plays}\n"
+            f"TP: {self.triple_plays}\n"
+            f"SB: {self.stolen_bases}\n"
+            f"CS: {self.caught_stealing}\n"
+            f"PO: {self.picked_off}\n"
+            f"PB: {self.passed_balls}\n"
+            f"E: {self.errors}\n"
+            f"LOB: {self.left_on_base}\n"
+        )
 
         return result

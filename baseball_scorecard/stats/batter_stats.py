@@ -1,16 +1,17 @@
+from __future__ import annotations
+
+
 class BatterStats:
 
-    batter_stats_template = "    label(btex {{\\bigsf {}}} etex, {}) withcolor clr;\n"
-
     def __init__(self):
-        self.at_bats = 0
-        self.runs = 0
-        self.hits = 0
-        self.rbis = 0
-        self.walks = 0
-        self.strikeouts = 0
+        self.at_bats: int = 0
+        self.runs: int = 0
+        self.hits: int = 0
+        self.rbis: int = 0
+        self.walks: int = 0
+        self.strikeouts: int = 0
 
-    def add_stats(self, other_batter_stats):
+    def add_stats(self, other_batter_stats: BatterStats):
         self.at_bats += other_batter_stats.at_bats
         self.runs += other_batter_stats.runs
         self.hits += other_batter_stats.hits
@@ -18,15 +19,17 @@ class BatterStats:
         self.walks += other_batter_stats.walks
         self.strikeouts += other_batter_stats.strikeouts
 
-    def get_metapost_data(self, position, spot):
-        result = f"    %% batter {position}-{spot}\n"
-        result += f"    set_batter_total_vars({position}, {spot}, innings);\n"
-        result += BatterStats.batter_stats_template.format(self.at_bats, "batter_ab")
-        result += BatterStats.batter_stats_template.format(self.runs, "batter_r")
-        result += BatterStats.batter_stats_template.format(self.hits, "batter_h")
-        result += BatterStats.batter_stats_template.format(self.rbis, "batter_rbi")
-        result += BatterStats.batter_stats_template.format(self.walks, "batter_bb")
-        result += BatterStats.batter_stats_template.format(self.strikeouts, "batter_so")
+    def get_metapost_data(self, position: int, spot: int):
+        result = (
+            f"    %% batter {position}-{spot}\n"
+            f"    set_batter_total_vars({position}, {spot}, innings);\n"
+            f"    label(btex {{\\bigsf {self.at_bats}}} etex, batter_ab) withcolor clr;\n"
+            f"    label(btex {{\\bigsf {self.runs}}} etex, batter_r) withcolor clr;\n"
+            f"    label(btex {{\\bigsf {self.hits}}} etex, batter_h) withcolor clr;\n"
+            f"    label(btex {{\\bigsf {self.rbis}}} etex, batter_rbi) withcolor clr;\n"
+            f"    label(btex {{\\bigsf {self.walks}}} etex, batter_bb) withcolor clr;\n"
+            f"    label(btex {{\\bigsf {self.strikeouts}}} etex, batter_so) withcolor clr;\n"
+        )
 
         return result
 
