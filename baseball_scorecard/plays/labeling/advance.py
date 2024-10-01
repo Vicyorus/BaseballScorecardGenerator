@@ -1,4 +1,5 @@
-from baseball_scorecard.plays.waybase import WayBase
+from baseball_scorecard.plays.labeling.waybase import WayBase
+
 
 class Advance:
 
@@ -19,7 +20,7 @@ class Advance:
         "3-U": {"path": "thirdhome"},
     }
 
-#hr, threeb, twob, oneb, bb, hp
+    # hr, threeb, twob, oneb, bb, hp
 
     advance_info = {
         "Hit1": {"color": "hit", "in_play_box": True, "play_code": "1B"},
@@ -51,7 +52,7 @@ class Advance:
         advance_info = Advance.advance_info[advance_info_key]
 
         result = ""
-        if advance_info['in_play_box']:
+        if advance_info["in_play_box"]:
             result += f"    label(btex {{\\midsf {advance_info['play_code']}}} etex, playloc) withcolor {advance_info['color']};\n"
         else:
             result += WayBase(self.play, self.start, self.end).get_metapost_data()
@@ -60,4 +61,6 @@ class Advance:
         return result
 
     def __str__(self):
-        return f'Advance ({self.start} to {self.end}): {self.advance_code} on {self.play}'
+        return (
+            f"Advance ({self.start} to {self.end}): {self.advance_code} on {self.play}"
+        )

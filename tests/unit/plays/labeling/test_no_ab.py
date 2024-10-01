@@ -1,4 +1,4 @@
-from baseball_scorecard.plays.no_ab import NoAtBat
+from baseball_scorecard.plays.labeling.no_ab import NoAtBat
 
 
 class TestNoAtBat:

@@ -1,5 +1,5 @@
 import pytest
-from baseball_scorecard.plays.at_base import AtBase
+from baseball_scorecard.plays.labeling.at_base import AtBase
 
 
 @pytest.mark.parametrize(

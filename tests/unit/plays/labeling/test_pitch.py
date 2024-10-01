@@ -1,4 +1,4 @@
-from baseball_scorecard.plays.pitch import Pitch
+from baseball_scorecard.plays.labeling.pitch import Pitch
 
 
 class TestPitch:

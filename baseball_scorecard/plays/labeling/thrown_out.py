@@ -1,4 +1,4 @@
-from baseball_scorecard.plays.waybase import WayBase
+from baseball_scorecard.plays.labeling.waybase import WayBase
 
 
 class ThrownOut:

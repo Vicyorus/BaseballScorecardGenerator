@@ -1,5 +1,5 @@
 import pytest
-from baseball_scorecard.plays.out import Out
+from baseball_scorecard.plays.labeling.out import Out
 
 out_play = "U3"
 strikeout_looking = "!K"

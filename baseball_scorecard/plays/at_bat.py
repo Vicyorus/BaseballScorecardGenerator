@@ -1,11 +1,12 @@
-from baseball_scorecard.plays.pitch import Pitch
-from baseball_scorecard.plays.out import Out
-from baseball_scorecard.plays.thrown_out import ThrownOut
-from baseball_scorecard.plays.advance import Advance
-from baseball_scorecard.plays.at_base import AtBase
-from baseball_scorecard.plays.no_ab import NoAtBat
+from baseball_scorecard.plays.labeling.pitch import Pitch
+from baseball_scorecard.plays.labeling.out import Out
+from baseball_scorecard.plays.labeling.thrown_out import ThrownOut
+from baseball_scorecard.plays.labeling.advance import Advance
+from baseball_scorecard.plays.labeling.at_base import AtBase
+from baseball_scorecard.plays.labeling.no_ab import NoAtBat
 
-class AtBat():
+
+class AtBat:
     def __init__(self, lineup_position, batter, pitcher, inning_stats):
         self.lineup_position = lineup_position
         self.batter = batter
@@ -37,7 +38,9 @@ class AtBat():
             elif pitch == "ab":
                 self.__strike(pitch, inc_pitch_count=False)
             # Any sort of strike.
-            elif pitch in ["s", "c", "m", "l"] or (pitch in ["f", "t"] and self.count["s"] < 2):
+            elif pitch in ["s", "c", "m", "l"] or (
+                pitch in ["f", "t"] and self.count["s"] < 2
+            ):
                 self.__strike(pitch)
             # Any foul that no longer counts as a strike.
             elif pitch in ["f", "t"]:
@@ -101,7 +104,7 @@ class AtBat():
             self.pitcher.add_pitch(is_strike=True)
             self.inning_stats.pitches += 1
             self.inning_stats.strikes += 1
-            self.pitches.append(Pitch('X', inc_pitch_count=True))
+            self.pitches.append(Pitch("X", inc_pitch_count=True))
 
         # Add an out made to the pitcher.
         self.pitcher.pitcher_stats.outs += 1
@@ -140,7 +143,7 @@ class AtBat():
         self.pitcher.add_pitch(is_strike=True)
         self.inning_stats.pitches += 1
         self.inning_stats.strikes += 1
-        self.pitches.append(Pitch('H', inc_pitch_count=True))
+        self.pitches.append(Pitch("H", inc_pitch_count=True))
 
         # Append the play to the list of plays.
         self.plays.append(Advance(advance_label, bases, self.last_base_reached, bases))
@@ -168,7 +171,7 @@ class AtBat():
             self.batter.batter_stats.walks += 1
             self.pitcher.pitcher_stats.walks += 1
             self.inning_stats.walks += 1
-            self.pitches.append(Pitch('R', inc_pitch_count=True, is_strike=False))
+            self.pitches.append(Pitch("R", inc_pitch_count=True, is_strike=False))
             add_at_bat = False
 
         if play.upper() == "IBB":
@@ -176,7 +179,7 @@ class AtBat():
             self.batter.batter_stats.walks += 1
             self.pitcher.pitcher_stats.intent_walks += 1
             self.inning_stats.walks += 1
-            self.pitches.append(Pitch('R', inc_pitch_count=True, is_strike=False))
+            self.pitches.append(Pitch("R", inc_pitch_count=True, is_strike=False))
             add_at_bat = False
 
         # Hit by pitch.
@@ -185,7 +188,7 @@ class AtBat():
             self.pitcher.pitcher_stats.hits_by_pitch += 1
             self.pitcher.add_pitch(is_strike=False)
             self.inning_stats.pitches += 1
-            self.pitches.append(Pitch('R', inc_pitch_count=True, is_strike=False))
+            self.pitches.append(Pitch("R", inc_pitch_count=True, is_strike=False))
             add_at_bat = False
 
         # Catcher's interference.
@@ -200,7 +203,7 @@ class AtBat():
             self.pitcher.add_pitch(is_strike=True)
             self.inning_stats.pitches += 1
             self.inning_stats.strikes += 1
-            self.pitches.append(Pitch('R', inc_pitch_count=True))
+            self.pitches.append(Pitch("R", inc_pitch_count=True))
             self.batter.batter_stats.at_bats += 1
 
         # If there are any RBIs, add them to the batter's stats,
@@ -279,20 +282,37 @@ class AtBat():
     def __get_pitches_metapost_data(self):
         result = "    % pitches\n"
         ball_locations = ["ballone", "balltwo", "ballthree", "ballfour"]
-        strike_locations = ["strikeone", "striketwo", "strikethree", "strikefour", "strikefive", "strikesix", "strikeseven", "strikeeight", "strikenine",
-                           "striketen", "strikeeleven", "striketwelve", "strikethirteen", "strikefourteen", "strikefifteen", "strikesixteen",
-                             "strikeseventeen", "strikeeighteen", "strikenineteen", "striketwenty", "striketwentyone", "striketwentytwo"]
+        strike_locations = [
+            "strikeone",
+            "striketwo",
+            "strikethree",
+            "strikefour",
+            "strikefive",
+            "strikesix",
+            "strikeseven",
+            "strikeeight",
+            "strikenine",
+            "striketen",
+            "strikeeleven",
+            "striketwelve",
+            "strikethirteen",
+            "strikefourteen",
+            "strikefifteen",
+            "strikesixteen",
+            "strikeseventeen",
+            "strikeeighteen",
+            "strikenineteen",
+            "striketwenty",
+            "striketwentyone",
+            "striketwentytwo",
+        ]
 
         pitch_text_template = "    label(btex {{\\tiny {}}} etex, {}) withcolor clr;\n"
         pitch_dot_template = "    draw_strike_dot({}, clr);\n"
         pitch_circle_template = "    draw_strike_circle({}, clr);\n"
 
         pitch_count = 1
-        count_status = {
-            "b": 0,
-            "s": 0,
-            "f": 0
-        }
+        count_status = {"b": 0, "s": 0, "f": 0}
 
         for pitch in self.pitches:
             # Break when the hit/out/reach code is found.
@@ -303,17 +323,28 @@ class AtBat():
             if pitch.is_strike:
                 if count_status["s"] < 22:
                     if pitch.pitch_code.upper() == "S":
-                        result += pitch_dot_template.format(strike_locations[count_status["s"]])
+                        result += pitch_dot_template.format(
+                            strike_locations[count_status["s"]]
+                        )
                     elif pitch.pitch_code.upper() == "C":
-                        result += pitch_circle_template.format(strike_locations[count_status["s"]])
+                        result += pitch_circle_template.format(
+                            strike_locations[count_status["s"]]
+                        )
                     elif pitch.pitch_code.upper() == "F":
-                        result += pitch_text_template.format("X", strike_locations[count_status["s"]])
+                        result += pitch_text_template.format(
+                            "X", strike_locations[count_status["s"]]
+                        )
                     else:
-                        result += pitch_text_template.format(pitch.pitch_code.upper(), strike_locations[count_status["s"]])
+                        result += pitch_text_template.format(
+                            pitch.pitch_code.upper(),
+                            strike_locations[count_status["s"]],
+                        )
                     count_status["s"] += 1
             else:
                 if count_status["b"] < 4:
-                    result += pitch_dot_template.format(ball_locations[count_status["b"]])
+                    result += pitch_dot_template.format(
+                        ball_locations[count_status["b"]]
+                    )
                     count_status["b"] += 1
 
             # Increment the pitch count if needed.
@@ -323,10 +354,10 @@ class AtBat():
         return result
 
     def __str__(self):
-        result = f'{self.lineup_position}. {self.batter} vs {self.pitcher}\n'
-        result += f'Pitches: {len(self.pitches)}\n'
+        result = f"{self.lineup_position}. {self.batter} vs {self.pitcher}\n"
+        result += f"Pitches: {len(self.pitches)}\n"
         for play in self.plays:
-            result += f'    {play}\n'
+            result += f"    {play}\n"
 
         result += "\n"
         return result
