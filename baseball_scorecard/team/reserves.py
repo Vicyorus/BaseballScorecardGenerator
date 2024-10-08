@@ -1,31 +1,36 @@
+from baseball_scorecard.team.roster import Roster
+from baseball_scorecard.team.player import Player
+
+
 class Reserves:
-    def __init__(self, bullpen_data, bench_data, roster):
-        self.bullpen = []
-        self.bench = []
-        self.roster = roster
+    def __init__(
+        self, bullpen_data: list[int], bench_data: list[list[int | str]], roster: Roster
+    ):
+        self.bullpen: list[Player] = []
+        self.bench: list[Player] = []
 
-        for player_id in bullpen_data:
-            self.roster.get_player(player_id).set_as_bullpen()
-            self.bullpen.append(player_id)
+        for pitcher_id in bullpen_data:
+            player = roster.get_player(pitcher_id)
+            player.set_as_bullpen()
+            self.bullpen.append(player)
 
-        for player in bench_data:
-            self.roster.get_player(player[0]).set_primary_position(player[1])
-            self.bench.append(player[0])
+        for bench_info in bench_data:
+            player = roster.get_player(bench_info[0])
+            player.set_primary_position(bench_info[1])
+            self.bench.append(player)
 
-    def get_bench_metapost_data(self):
+    def get_bench_metapost_data(self) -> str:
         result = "    % bench info\n"
 
-        for idx, player_id in enumerate(self.bench, start=1):
-            player = self.roster.get_player(player_id)
+        for idx, player in enumerate(self.bench, start=1):
             result += player.get_bench_metapost_data(idx)
 
         return result
 
-    def get_bullpen_metapost_data(self):
+    def get_bullpen_metapost_data(self) -> str:
         result = "    % bullpen info\n"
 
-        for idx, player_id in enumerate(self.bullpen, start=1):
-            player = self.roster.get_player(player_id)
+        for idx, player in enumerate(self.bullpen, start=1):
             result += player.get_bullpen_metapost_data(idx)
 
         return result
@@ -33,21 +38,12 @@ class Reserves:
     def __str__(self):
         result = ""
 
-        for player_id in self.bench:
-            player = self.roster.get_player(player_id)
-            if player.is_in_lineup():
-                result += f'~~{str(player.get_reserves_str())}~~\n'
-            else:
-                result += f'{str(player.get_reserves_str())}\n'
+        for player in self.bench:
+            result += player.get_reserves_str()
 
         result += "\n"
 
-        for pitcher_id in self.bullpen:
-            pitcher = self.roster.get_player(pitcher_id)
-            if pitcher.is_in_lineup():
-                result += f'~~{str(self.roster.get_player(pitcher_id).get_reserves_str())}~~\n'
-            else:
-                result += f'{str(self.roster.get_player(pitcher_id).get_reserves_str())}\n'
+        for pitcher in self.bullpen:
+            result += pitcher.get_reserves_str()
 
         return result
-

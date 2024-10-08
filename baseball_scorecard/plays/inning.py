@@ -33,7 +33,7 @@ class Inning:
         ab = AtBat(
             self.__batting_team.lineup.current_batter,
             self.__batting_team.get_batter(),
-            self.__fielding_team.get_pitcher(),
+            self.__fielding_team.get_current_pitcher(),
             self.__stats,
         )
         self.__batting_team.next_batter()
@@ -51,7 +51,7 @@ class Inning:
         self.__events.append(
             PitchingSubstitution(
                 self.__batting_team.lineup.current_batter,
-                str(self.__fielding_team.get_pitcher()),
+                str(self.__fielding_team.get_current_pitcher()),
             )
         )
 
@@ -332,7 +332,7 @@ class Inning:
         ab = AtBat(
             lineup_pos,
             runner,
-            self.__fielding_team.get_pitcher(),
+            self.__fielding_team.get_current_pitcher(),
             self.__stats,
         )
         self.__events.append(ab)
@@ -356,7 +356,7 @@ class Inning:
         """Registers a balk to the current pitcher."""
         # Add a balk to the current pitcher. Advancements are to be handled
         # by calls to the advance method.
-        self.__fielding_team.get_pitcher().pitcher_stats.balks += 1
+        self.__fielding_team.get_current_pitcher().pitcher_stats.balks += 1
 
     def wp(self, quantity: int = 1):
         """Registers a wild pitch to the current pitcher.
@@ -365,7 +365,9 @@ class Inning:
             quantity (int, optional): The number of wild pitches in the at-bat.
               Defaults to 1.
         """
-        self.__fielding_team.get_pitcher().pitcher_stats.wild_pitches += quantity
+        self.__fielding_team.get_current_pitcher().pitcher_stats.wild_pitches += (
+            quantity
+        )
         return None
 
     def pb(self, quantity: int = 1):

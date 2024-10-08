@@ -1,10 +1,11 @@
-from baseball_scorecard.team.player import Player
-from baseball_scorecard.team.roster import Roster
+from baseball_scorecard.plays.substitution.fielder import DefensiveSubstitution
+from baseball_scorecard.stats.pitcher_stats import PitcherStats
+from baseball_scorecard.stats.team_stats import TeamStats
 from baseball_scorecard.team.lineup import Lineup
 from baseball_scorecard.team.pitcher_lineup import PitcherLineup
+from baseball_scorecard.team.player import Player
 from baseball_scorecard.team.reserves import Reserves
-from baseball_scorecard.stats.team_stats import TeamStats
-from baseball_scorecard.plays.substitution.fielder import DefensiveSubstitution
+from baseball_scorecard.team.roster import Roster
 
 
 class Team:
@@ -13,40 +14,46 @@ class Team:
         "    label.top(btex {{\\bigsf {}}} etex rotated 90, game_team) withcolor clr;\n"
     )
 
-    def __init__(self, data, use_extended_roster, is_away_team):
-        self.team = data["team"]
-        self.is_away_team = is_away_team
+    def __init__(
+        self,
+        data: dict[
+            str,
+            str
+            | int
+            | list[int]
+            | list[list[int, str]]
+            | dict[int, str | dict[str, int | str]],
+        ],
+        use_extended_roster: bool = False,
+        is_away_team: bool = False,
+    ):
+        self.team: str = data["team"]
+        self.is_away_team: bool = is_away_team
 
-        self.roster = Roster(data["roster"], data["lefties"], use_extended_roster)
-        self.lineup = Lineup(data["lineup"], self.roster)
-        self.pitcher_lineup = PitcherLineup(data["starter"], self.roster)
-        self.reserves = Reserves(data["bullpen"], data["bench"], self.roster)
-        self.stats = TeamStats()
+        self.roster: Roster = Roster(
+            data["roster"], data["lefties"], use_extended_roster
+        )
+        self.lineup: Lineup = Lineup(data["lineup"], self.roster)
+        self.pitcher_lineup: PitcherLineup = PitcherLineup(data["starter"], self.roster)
+        self.reserves: Reserves = Reserves(data["bullpen"], data["bench"], self.roster)
+        self.stats: TeamStats = TeamStats()
 
-        self.defensive_subs = {}
+        self.defensive_subs: dict[int, list[DefensiveSubstitution]] = {}
 
-    def add_pitcher(self, pitcher_id, inning):
-        # Sanity check, ensure the pitcher is in the roster.
+    def add_pitcher(self, pitcher_id: int, inning: int):
         pitcher = self.roster.get_player(pitcher_id)
-        if not pitcher:
-            raise Exception(
-                f"No pitcher found with the ID {pitcher_id} for team {self.team}"
-            )
+        self.pitcher_lineup.add_pitcher(pitcher, inning)
 
-        pitcher.set_lineup_position("1", inning)
-        self.pitcher_lineup.add_pitcher(pitcher_id)
-
-    def add_player(self, order, player_id, position, inning, is_defensive_sub=False):
-        # Sanity check, ensure the player is in the roster.
+    def add_player(
+        self,
+        order: int,
+        player_id: int,
+        position: str,
+        inning: int,
+        is_defensive_sub: bool = False,
+    ):
         player = self.roster.get_player(player_id)
-        if not player:
-            raise Exception(
-                f"No player found with the ID {player_id} for team {self.team}"
-            )
-
-        player.set_lineup_position(position, inning)
-
-        self.lineup.add_player(order, player_id)
+        self.lineup.add_player(order, player, position, inning)
 
         # For defensive substitutions, register the event on the team,
         # to be later handled when the inning either prints the data, or
@@ -61,14 +68,8 @@ class Team:
                     DefensiveSubstitution(order, str(player), self.is_away_team)
                 ]
 
-    def defensive_switch(self, player_id, position):
-        # Sanity check, ensure the player is in the roster.
+    def defensive_switch(self, player_id: int, position: str):
         player = self.roster.get_player(player_id)
-        if not player:
-            raise Exception(
-                f"No player found with the ID {player_id} for team {self.team}"
-            )
-
         player.add_defensive_position(position)
 
     def next_batter(self):
@@ -77,37 +78,19 @@ class Team:
     def no_ab(self):
         self.lineup.no_ab()
 
-    def winning_pitcher(self, pitcher_id):
-        # Sanity check, ensure the pitcher is in the roster.
+    def winning_pitcher(self, pitcher_id: int):
         pitcher = self.roster.get_player(pitcher_id)
-        if not pitcher:
-            raise Exception(
-                f"No pitcher found with the ID {pitcher_id} for team {self.team}"
-            )
-
         pitcher.add_decision("W")
 
-    def losing_pitcher(self, pitcher_id):
-        # Sanity check, ensure the pitcher is in the roster.
+    def losing_pitcher(self, pitcher_id: int):
         pitcher = self.roster.get_player(pitcher_id)
-        if not pitcher:
-            raise Exception(
-                f"No pitcher found with the ID {pitcher_id} for team {self.team}"
-            )
-
         pitcher.add_decision("L")
 
-    def save_pitcher(self, pitcher_id):
-        # Sanity check, ensure the pitcher is in the roster.
+    def save_pitcher(self, pitcher_id: int):
         pitcher = self.roster.get_player(pitcher_id)
-        if not pitcher:
-            raise Exception(
-                f"No pitcher found with the ID {pitcher_id} for team {self.team}"
-            )
-
         pitcher.add_decision("S")
 
-    def get_player_in_lineup(self, player_id):
+    def get_player_in_lineup(self, player_id: int) -> tuple[int, Player]:
         lineup_pos, runner = self.lineup.get_player_in_lineup(player_id)
 
         if lineup_pos == -1:
@@ -117,25 +100,25 @@ class Team:
 
         return lineup_pos, runner
 
-    def get_batter(self):
+    def get_batter(self) -> Player:
         return self.lineup.get_batter()
 
-    def get_previous_batter(self):
+    def get_previous_batter(self) -> tuple[int, Player]:
         return self.lineup.get_previous_batter()
 
-    def get_pitcher(self):
-        return self.pitcher_lineup.get_pitcher()
+    def get_current_pitcher(self) -> Player:
+        return self.pitcher_lineup.get_current_pitcher()
 
-    def get_stats(self):
+    def get_stats(self) -> TeamStats:
         return self.stats
 
-    def get_pitching_totals(self):
+    def get_pitching_totals(self) -> PitcherStats:
         return self.pitcher_lineup.get_pitching_totals()
 
-    def get_total_at_bats(self):
+    def get_total_at_bats(self) -> int:
         return self.lineup.get_total_at_bats()
 
-    def get_team_metapost_data(self):
+    def get_team_metapost_data(self) -> str:
         result = "    % team info\n"
         result += Team.team_name_template.format(self.team)
         result += "\n"
@@ -144,26 +127,28 @@ class Team:
         result += self.reserves.get_bench_metapost_data()
         return result
 
-    def get_pitcher_metapost_data(self):
+    def get_pitcher_metapost_data(self) -> str:
         result = "    % pitcher info\n"
         result += self.pitcher_lineup.get_pitcher_info_metapost_data()
         result += "\n"
         result += self.reserves.get_bullpen_metapost_data()
         return result
 
-    def get_batter_stats_metapost_data(self):
+    def get_batter_stats_metapost_data(self) -> str:
         result = "    % batter stats\n"
         result += self.lineup.get_batter_stats_metapost_data()
         result += "\n"
         return result
 
-    def get_pitcher_stats_metapost_data(self):
+    def get_pitcher_stats_metapost_data(self) -> str:
         result = "    % pitcher stats\n"
         result += self.pitcher_lineup.get_pitcher_stats_metapost_data()
         result += "\n"
         return result
 
-    def get_stats_metapost_data(self, total_at_bats, pitching_stats):
+    def get_stats_metapost_data(
+        self, total_at_bats: int, pitching_stats: PitcherStats
+    ) -> str:
         result = "    % team stats info\n"
         result = self.stats.get_metapost_data(total_at_bats, pitching_stats)
         return result
