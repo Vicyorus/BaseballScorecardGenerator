@@ -78,6 +78,11 @@ class TestTeam:
         assert team.lineup.lineup[1][1].id == 10
         assert team.defensive_subs[2][0].fielder_info == "#10 John Doe"
 
+        team.add_player(2, 11, "C", 2, is_defensive_sub=True)
+
+        assert team.lineup.lineup[1][2].id == 11
+        assert team.defensive_subs[2][1].fielder_info == "#11 John Doe"
+
     def test_defensive_switch(self):
         """Test that the defensive_switch method is correct."""
         team = Team(self._team_data)
@@ -128,6 +133,12 @@ class TestTeam:
 
         assert team.roster.get_player(1).pitcher_stats.decision == ["S"]
 
+    def test_get_player_in_lineup(self):
+        """Test that the get_player_in_lineup method is correct."""
+
+        team = Team(self._team_data)
+        assert team.get_player_in_lineup(1) == (1, team.roster.get_player(1))
+
     def test_get_player_in_lineup_no_player_in_roster(self):
         """Test that the get_player_in_lineup method raises an exception when no player is found."""
 
@@ -154,6 +165,34 @@ class TestTeam:
         """Test that the get_stats method is correct."""
         team = Team(self._team_data)
         assert team.get_stats() == team.stats
+
+    def test_get_pitching_totals(self):
+        """Test that the get_pitching_totals method is correct."""
+        team = Team(self._team_data)
+        pitching_stats = team.get_pitching_totals()
+        assert pitching_stats.decision == []
+        assert pitching_stats.outs == 0
+        assert pitching_stats.batters_faced == 0
+        assert pitching_stats.hits == 0
+        assert pitching_stats.runs == 0
+        assert pitching_stats.earned_runs == 0
+        assert pitching_stats.walks == 0
+        assert pitching_stats.intent_walks == 0
+        assert pitching_stats.strikeouts == 0
+        assert pitching_stats.hits_by_pitch == 0
+        assert pitching_stats.balks == 0
+        assert pitching_stats.wild_pitches == 0
+        assert pitching_stats.home_runs == 0
+        assert pitching_stats.pitches == 0
+        assert pitching_stats.strikes == 0
+
+    def test_get_total_at_bats(self):
+        """Test that the get_total_at_bats method is correct."""
+        team = Team(self._team_data)
+        for i in range(1, 21):
+            team.roster.get_player(i).batter_stats.at_bats = 3
+
+        assert team.get_total_at_bats() == 27
 
     def test_get_team_metapost_data(self):
         """Test that the get_team_metapost_data method is correct."""
