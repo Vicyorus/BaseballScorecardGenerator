@@ -20,7 +20,7 @@ class ThrownOut:
         "3-4": "to_home",
     }
 
-    def __init__(self, play, start_base, end_base, out_number):
+    def __init__(self, play: str, start_base: int, end_base: int, out_number: int):
         self.play = play
         self.start = start_base
         self.end = end_base

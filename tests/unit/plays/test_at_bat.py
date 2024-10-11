@@ -975,7 +975,7 @@ class TestAtBat:
         assert at_bat.get_metapost_data(1) == expected_metapost
 
     def test_string_output_pitch_list(self):
-        """Test that the get_metapost_data method is correct when the pitch_list method has been called."""
+        """Test that the string method is printing the expected format when the pitch_list method has been called."""
         at_bat = AtBat(1, self._batter, self._pitcher, InningStats())
         at_bat.pitch_list("s s f f f f f f f f f f f f f f f f f f f f f b b b b")
 
@@ -986,7 +986,7 @@ class TestAtBat:
         assert str(at_bat) == expected_str
 
     def test_string_output_out(self):
-        """Test that the get_metapost_data method is correct when an out is recorded for the batter."""
+        """Test that the string method is printing the expected format when an out is recorded for the batter."""
         at_bat = AtBat(1, self._batter, self._pitcher, InningStats())
         at_bat.out("G3", 1)
 
@@ -1007,7 +1007,7 @@ class TestAtBat:
         ],
     )
     def test_string_output_hit(self, hit, expected_advance):
-        """Test that the get_metapost_data method is correct when the batter gets a hit."""
+        """Test that the string method is printing the expected format when the batter gets a hit."""
         at_bat = AtBat(1, self._batter, self._pitcher, InningStats())
         at_bat.hit(hit)
 
@@ -1018,7 +1018,7 @@ class TestAtBat:
         assert str(at_bat) == expected_str
 
     def test_string_output_reach(self):
-        """Test that the get_metapost_data method is correct when the batter reaches base."""
+        """Test that the string method is printing the expected format when the batter reaches base."""
         at_bat = AtBat(1, self._batter, self._pitcher, InningStats())
         at_bat.reach("FC5")
 
@@ -1032,7 +1032,7 @@ class TestAtBat:
         assert str(at_bat) == expected_str
 
     def test_string_output_reach_error(self):
-        """Test that the get_metapost_data method is correct when the batter reaches on an error."""
+        """Test that the string method is printing the expected format when the batter reaches on an error."""
         at_bat = AtBat(1, self._batter, self._pitcher, InningStats())
         at_bat.reach("E1")
 
@@ -1046,7 +1046,7 @@ class TestAtBat:
         assert str(at_bat) == expected_str
 
     def test_string_output_reach_strikeout(self):
-        """Test that the get_metapost_data method is correct when the batter reaches on a strikeout."""
+        """Test that the string method is printing the expected format when the batter reaches on a strikeout."""
         at_bat = AtBat(1, self._batter, self._pitcher, InningStats())
         at_bat.reach("K")
 
@@ -1064,7 +1064,7 @@ class TestAtBat:
         ],
     )
     def test_string_output_reach_walk(self, walk_type, expected_info):
-        """Test that the get_metapost_data method is correct when the batter reaches on a walk."""
+        """Test that the string method is printing the expected format when the batter reaches on a walk."""
         at_bat = AtBat(1, self._batter, self._pitcher, InningStats())
         at_bat.reach(walk_type)
 
@@ -1085,7 +1085,7 @@ class TestAtBat:
         ],
     )
     def test_string_output_advance_as_batter(self, end_base):
-        """Test that the get_metapost_data method is correct when the batter-runner advances."""
+        """Test that the string method is printing the expected format when the batter-runner advances."""
         at_bat = AtBat(1, self._batter, self._pitcher, InningStats())
         at_bat.last_base_reached = 1
         at_bat.advance(end_base, "1 1B")
@@ -1113,7 +1113,7 @@ class TestAtBat:
         ],
     )
     def test_string_output_thrown_out_as_batter(self, start_base, end_base):
-        """Test that the get_metapost_data method is correct when the batter-runner is thrown out."""
+        """Test that the string method is printing the expected format when the batter-runner is thrown out."""
         at_bat = AtBat(1, self._batter, self._pitcher, InningStats())
         at_bat.last_base_reached = start_base
         at_bat.thrown_out(end_base, "9-4", 1)
@@ -1136,7 +1136,7 @@ class TestAtBat:
         ],
     )
     def test_string_output_atbase(self, base):
-        """Test that the get_metapost_data method is correct on at-base labels."""
+        """Test that the string method is printing the expected format on at-base labels."""
         at_bat = AtBat(1, self._batter, self._pitcher, InningStats())
         at_bat.atbase("PR", base=base)
 
@@ -1146,7 +1146,7 @@ class TestAtBat:
         assert str(at_bat) == expected_str
 
     def test_string_output_no_ab(self):
-        """Test that the get_metapost_data method is correct when a batter's at-bat is not completed."""
+        """Test that the string method is printing the expected format when a batter's at-bat is not completed."""
         at_bat = AtBat(1, self._batter, self._pitcher, InningStats())
         at_bat.no_ab("CS")
 

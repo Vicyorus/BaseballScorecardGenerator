@@ -20,8 +20,6 @@ class Advance:
         "3-U": {"path": "thirdhome"},
     }
 
-    # hr, threeb, twob, oneb, bb, hp
-
     advance_info = {
         "Hit1": {"color": "hit", "in_play_box": True, "play_code": "1B"},
         "Hit2": {"color": "hit", "in_play_box": True, "play_code": "2B"},
@@ -36,7 +34,9 @@ class Advance:
         "Advance": {"color": "clr", "in_play_box": False},
     }
 
-    def __init__(self, advance_code, play, start_base, end_base):
+    def __init__(
+        self, advance_code: str, play: str | int, start_base: int, end_base: int
+    ):
         self.advance_code = advance_code
         self.play = play
         self.start = start_base
