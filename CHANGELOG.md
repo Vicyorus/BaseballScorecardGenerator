@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved the out number labels to the top right corner of the at-bat box to avoid clashes with text on the 1B basepath.
 - Extended the functionality of the `Inning.thrown_out` method to record the out in the same base as the runner was in the previous play.
 
+### Fixed
+- Issue where not specifying the RBIs in a solo home run caused the batter to not get assigned the RBI.
+- Issue with reaching on a strikeout adding an additional strike to the pitch count.
+
 ## [0.1.1] - 2024-09-09
 
 ### Added
