@@ -339,7 +339,7 @@ class Inning:
         self.__current_ab = ab
 
         # Place the runner on the base.
-        self.__current_ab.reach("", end_base=base)
+        self.__current_ab.reach(label if label else "RP", end_base=base)
         self.__current_ab.atbase(label if label else "RP", base)
 
     # Miscelaneous functions to detail additional events for the at-bat.
@@ -368,7 +368,6 @@ class Inning:
         self.__fielding_team.get_current_pitcher().pitcher_stats.wild_pitches += (
             quantity
         )
-        return None
 
     def pb(self, quantity: int = 1):
         """Registers a passed ball to the fielding team.
@@ -378,7 +377,6 @@ class Inning:
                 Defaults to 1.
         """
         self.__batting_team.stats.passed_balls += quantity
-        return None
 
     def atbase(self, label: str, base: int = None):
         """Adds a label at a specific base.
@@ -401,7 +399,7 @@ class Inning:
         self.__batting_team.no_ab()
         self.__current_ab.no_ab(label)
 
-    def get_metapost_data(self, overflow):
+    def get_metapost_data(self, overflow: int):
         result = f"    % inning #{self.__number}\n"
 
         x_start = 128 * (self.__number + overflow - 1)
@@ -447,12 +445,9 @@ class Inning:
         inn = "Top" if self.top else "Bottom"
         result = f"{inn} of the {self.__ordinal(self.__number)}\n"
 
-        # In defensive substitutions, the expectation is that these are
-        # registered while the team is fielding, but they will be printed
-        # when they are batting.
-        if self.__number in self.__batting_team.defensive_subs.keys():
+        if self.__number in self.__fielding_team.defensive_subs.keys():
             self.__events = (
-                self.__batting_team.defensive_subs[self.__number] + self.__events
+                self.__fielding_team.defensive_subs[self.__number] + self.__events
             )
 
         for event in self.__events:
@@ -462,7 +457,7 @@ class Inning:
         result += "\n"
         return result
 
-    def __ordinal(self, n):
+    def __ordinal(self, n: int):
         if 11 <= (n % 100) <= 13:
             suffix = "th"
         else:
