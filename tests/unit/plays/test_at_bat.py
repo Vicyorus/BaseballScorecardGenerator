@@ -431,7 +431,7 @@ class TestAtBat:
     def test_get_metapost_data_pitch_list(self):
         """Test that the get_metapost_data method is correct when the pitch_list method has been called."""
         at_bat = AtBat(1, self._batter, self._pitcher, InningStats())
-        at_bat.pitch_list("s s f f f f f f f f f f f f f f f f f f f f f b b b b")
+        at_bat.pitch_list("1 s c f t f f f f f f f f f f f f f f f f f f f vp b b b ab")
 
         expected_metapost = (
             "    %% inning 1, batter 1\n"
@@ -439,9 +439,9 @@ class TestAtBat:
             "    set_vars(xstart,ystart);\n"
             "    % pitches\n"
             "    draw_strike_dot(strikeone, clr);\n"
-            "    draw_strike_dot(striketwo, clr);\n"
+            "    draw_strike_circle(striketwo, clr);\n"
             "    label(btex {\\tiny X} etex, strikethree) withcolor clr;\n"
-            "    label(btex {\\tiny X} etex, strikefour) withcolor clr;\n"
+            "    label(btex {\\tiny T} etex, strikefour) withcolor clr;\n"
             "    label(btex {\\tiny X} etex, strikefive) withcolor clr;\n"
             "    label(btex {\\tiny X} etex, strikesix) withcolor clr;\n"
             "    label(btex {\\tiny X} etex, strikeseven) withcolor clr;\n"
