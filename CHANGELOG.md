@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Method on `Inning` class for placing a runner on base, `place_runner`.
 - Example game for how to tally a strikeout to the original batter on a pinch-hit situation.
 - Linked examples repository to README.
+- Optional argument, `template_dir` in the `Scorecard` class, used to specify a custom folder where different templates for the scorecard may be added.
 
 ### Changed
 

@@ -54,10 +54,15 @@ from scorecard import Scorecard
 score = Scorecard(...)
 ```
 
-The `Scorecard` class expects two parameters:
+The `Scorecard` class has the following parameters:
 
 - `output_dir`: The location where the Metapost files will be deposited.
 - `data`: The data for the game to be scored.
+- `template_dir` (optional): A directory that holds custom templates for the
+  scorecard.
+  Expects the following files to exist: `'team_scorecard_template.mp`
+  and `final_scorecard_template.tex`.
+  If not specified, it will use the library's default templates.
 
 ### Setting up the game data
 

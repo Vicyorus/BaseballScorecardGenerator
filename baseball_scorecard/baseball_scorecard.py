@@ -19,10 +19,18 @@ class Scorecard:
         output_dir (str): Full path to which to output the Metapost files.
         data (dict): Data of the baseball game. Format of this argument can be
             found in the README for the project.
+        template_dir (str, optional): Full path to where the scorecard
+            template is located.
+
+            Expects two files: 'team_scorecard_template.mp' and
+            'final_scorecard_template.tex'.
+
+            By default, it will use the template included by the library.
     """
 
-    def __init__(self, output_dir: str, data: dict):
+    def __init__(self, output_dir: str, data: dict, template_dir: str = None):
         self.__output_dir = output_dir
+        self.__template_dir = template_dir
 
         # Sanity check, ensure there is an "extended_roster" key in the data.
         if "extended_roster" not in data.keys():
@@ -46,7 +54,7 @@ class Scorecard:
     ) -> Team:
         return Team(team_data, use_extended_roster, is_away_team)
 
-    def __create_umpires(self, data: dict) -> list:
+    def __create_umpires(self, data: dict) -> list[Umpire]:
         umpire_list = []
 
         # If there are umpires in the game data, use them.
@@ -103,7 +111,7 @@ class Scorecard:
         else:
             self.__home.winning_pitcher(pitcher_id)
 
-    def losing_pitcher(self, pitcher_id, is_away_team=False):
+    def losing_pitcher(self, pitcher_id: int, is_away_team: bool = False):
         """Notes down the losing pitcher for the game.
 
         Args:
@@ -119,7 +127,7 @@ class Scorecard:
         else:
             self.__home.losing_pitcher(pitcher_id)
 
-    def save_pitcher(self, pitcher_id, is_away_team=False):
+    def save_pitcher(self, pitcher_id: int, is_away_team: bool = False):
         """Notes down the save pitcher for the game.
 
         Args:
@@ -140,6 +148,7 @@ class Scorecard:
 
         builder = MetapostBuilder(
             self.__output_dir,
+            self.__template_dir,
             self.__game_info,
             self.__away,
             self.__home,

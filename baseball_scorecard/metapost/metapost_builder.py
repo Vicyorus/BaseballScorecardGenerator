@@ -1,12 +1,27 @@
 import os
 
+from baseball_scorecard.misc.game_info import GameInfo
+from baseball_scorecard.team.team import Team
+from baseball_scorecard.plays.inning import Inning
+from baseball_scorecard.misc.umpire import Umpire
+
 
 class MetapostBuilder:
 
     min_innings = 15
 
-    def __init__(self, output_dir, game_info, away_team, home_team, umpires, innings):
+    def __init__(
+        self,
+        output_dir: str,
+        template_dir: str,
+        game_info: GameInfo,
+        away_team: Team,
+        home_team: Team,
+        umpires: list[Umpire],
+        innings: list[Inning],
+    ):
         self.output_dir = output_dir
+        self.template_dir = template_dir
         self.game_info = game_info
         self.away_team = away_team
         self.home_team = home_team
@@ -21,17 +36,18 @@ class MetapostBuilder:
                 self.bottom_innings.append(inning)
 
         # Set the templates folder location.
-        self.template_dir = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)), "templates"
-        )
+        if not self.template_dir:
+            self.template_dir = os.path.join(
+                os.path.dirname(os.path.abspath(__file__)), "templates"
+            )
 
     def generate_away_scorecard(self):
-        self.__generate_team_scorecard(True)
+        self.__generate_team_scorecard(is_away_team=True)
 
     def generate_home_scorecard(self):
-        self.__generate_team_scorecard(False)
+        self.__generate_team_scorecard(is_away_team=False)
 
-    def __generate_team_scorecard(self, is_away_team):
+    def __generate_team_scorecard(self, is_away_team: bool = False):
         if is_away_team:
             batting_team = self.away_team
             fielding_team = self.home_team
