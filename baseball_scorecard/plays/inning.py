@@ -28,13 +28,19 @@ class Inning:
             self.__fielding_team = away_team
             self.__batting_team = home_team
 
-    def new_ab(self):
-        """Generates a new at-bat."""
+    def new_ab(self, is_risp: bool = False):
+        """Generates a new at-bat.
+
+        Args:
+            is_risp (bool, optional): Result of this at-bat counts for the
+                team's batting average with runners in scoring position stat.
+                Default is False."""
         ab = AtBat(
             self.__batting_team.lineup.current_batter,
             self.__batting_team.get_batter(),
             self.__fielding_team.get_current_pitcher(),
             self.__stats,
+            is_risp,
         )
         self.__batting_team.next_batter()
         self.__events.append(ab)
@@ -156,6 +162,10 @@ class Inning:
         if "SF" in play:
             self.__batting_team.get_stats().sac_flys += 1
 
+        # If this was an AB with RISP, add it to the team stats.
+        if self.__current_ab.is_risp and self.__is_at_bat_out(play):
+            self.__batting_team.get_stats().risp_at_bats += 1
+
         self.__current_ab.out(play, out_added, rbis=rbis)
 
     def hit(self, bases: str | int, rbis: int = 0):
@@ -187,6 +197,11 @@ class Inning:
         if hit_type == 4:
             self.__batting_team.stats.runs += 1
 
+        # If this was an AB with RISP, add it to the team stats.
+        if self.__current_ab.is_risp:
+            self.__batting_team.get_stats().risp_at_bats += 1
+            self.__batting_team.get_stats().risp_hits += 1
+
         self.__current_ab.hit(bases, rbis=rbis_to_add)
 
     def reach(self, play: str, end_base: int = 1, rbis: int = 0):
@@ -211,7 +226,28 @@ class Inning:
         # If they get thrown out or advance to home, they will be removed.
         self.__batting_team.stats.left_on_base += 1
         self.__stats.left_on_base += 1
+
+        # If this was an AB with RISP, check if it needs to be counted.
+        # Cases where this would not count include:
+        # - Walks
+        # - Hit by pitch
+        # - Catcher's interference
+        if self.__current_ab.is_risp and self.__is_at_bat_reach(play):
+            self.__batting_team.get_stats().risp_at_bats += 1
+
         self.__current_ab.reach(play, end_base=end_base, rbis=rbis)
+
+    def __is_at_bat_out(self, play: str):
+        if "SF" in play.upper() or "SAC" in play.upper():
+            return False
+
+        return True
+
+    def __is_at_bat_reach(self, play: str):
+        if play.upper() in ["BB", "IBB", "HBP", "HP", "CI"]:
+            return False
+
+        return True
 
     # Runner results.
     def advance(self, end_base: str | int, play: str):

@@ -159,12 +159,12 @@ t1.advance(2, "13 SB")
 t1.advance(4, "28 1B")
 
 # 3. BOS #13 Hanley Ramirez (X - X - 16)
-t1.new_ab()
+t1.new_ab(is_risp=True)
 t1.pitch_list("b c f b f")
 t1.out("F7")
 
 # 4. BOS #28 J.D. Martinez (X - 16 - X)
-t1.new_ab()
+t1.new_ab(is_risp=True)
 t1.pitch_list("b b d")
 t1.hit(1, rbis=1)
 
@@ -336,7 +336,7 @@ b4.pitch_list("b c s")
 b4.hit(2, rbis=1)
 
 # 6. MIA #1  Cameron Maybin (X - 41 - X)
-b4.new_ab()
+b4.new_ab(is_risp=True)
 b4.pitch_list("c c b b s")
 b4.out("K")
 
@@ -355,7 +355,7 @@ t5.hit(2)
 t5.thrown_out(3, "7 FC1-5", 1, 62)
 
 # 7. BOS #7  Christian Vázquez (X - 11 - X)
-t5.new_ab()
+t5.new_ab(is_risp=True)
 t5.reach("FC1-5")
 
 # 8. BOS #19 Jackie Bradley Jr. (X - X - 7)
@@ -414,7 +414,7 @@ t6.hit(1)
 t6.thrown_out(2, "28 DP6-4-3", 2, 62)
 
 # 4. BOS #28 J.D. Martinez (X - 16 - 13)
-t6.new_ab()
+t6.new_ab(is_risp=True)
 t6.pitch_list("s b b f f")
 t6.out("DP6-4-3")
 
@@ -491,7 +491,7 @@ b7.pitching_substitution(39)
 b7.defensive_substitution(9, 39, "1")
 
 # 7. MIA #19 Miguel Rojas (X - X - 1)
-b7.new_ab()
+b7.new_ab(is_risp=True)
 b7.pitch_list("1 1 c 1 b c f s")
 b7.out("K")
 
@@ -518,12 +518,12 @@ t8.thrown_out(4, "36 FC4-2", 2, 71)
 t8.offensive_substitution(9, 18, "PH")
 
 # 9. BOS #18 Mitch Moreland (X - 19 - X)
-t8.new_ab()
+t8.new_ab(is_risp=True)
 t8.pitch_list("b b f 2 f b")
 t8.out("F8")
 
 # 1. BOS #36 Eduardo Núñez (19 - X - X)
-t8.new_ab()
+t8.new_ab(is_risp=True)
 t8.reach("FC4-2")
 t8.thrown_out(2, "16 CS", 3, 71)
 
@@ -669,12 +669,12 @@ b10.out("K")
 b10.offensive_substitution(9, 2, "PH")
 
 # 9. MIA #2  Yadiel Rivera (X - X - 19)
-b10.new_ab()
+b10.new_ab(is_risp=True)
 b10.pitch_list("b s b f b b")
 b10.reach("BB")
 
 # 1. MIA #9  Lewis Brinson (X - 19 - 2)
-b10.new_ab()
+b10.new_ab(is_risp=True)
 b10.pitch_list("b b")
 b10.out("F9")
 
@@ -705,18 +705,18 @@ t11.hit(2)
 t11.advance(4, "16 1B")
 
 # 2. BOS #16 Andrew Benintendi (X - 36 - X)
-t11.new_ab()
+t11.new_ab(is_risp=True)
 t11.pitch_list("t")
 t11.hit(1, rbis=1)
 t11.advance(2, "T")
 
 # 3. BOS #13 Hanley Ramirez (X - 16 - X)
-t11.new_ab()
+t11.new_ab(is_risp=True)
 t11.pitch_list("s")
 t11.out("L1")
 
 # 4. BOS #28 J.D. Martinez (X - 16 - X)
-t11.new_ab()
+t11.new_ab(is_risp=True)
 t11.pitch_list("s s b b s")
 t11.out("K")
 
@@ -753,11 +753,11 @@ b11.advance(4, "1 2B")
 b11.new_ab()
 b11.pitch_list("b s b b c b")
 b11.reach("BB")
-b11.thrown_out(4, "1 7-6-2", 3, 32)
 b11.advance(3, "1 2B")
+b11.thrown_out(4, "1 7-6-2", 3, 32)
 
 # 6. MIA #1  Cameron Maybin (X - 15 - 41)
-b11.new_ab()
+b11.new_ab(is_risp=True)
 b11.pitch_list("b")
 b11.hit(2, rbis=1)
 
@@ -845,24 +845,24 @@ t13.pitch_list("1 f f 1")
 t13.out("G5-3")
 
 # 2. BOS #16 Andrew Benintendi (X - 50 - X)
-t13.new_ab()
+t13.new_ab(is_risp=True)
 t13.pitch_list("b b v v")
 t13.reach("IBB")
 t13.advance(4, "13 2B")
 
 # 3. BOS #13 Hanley Ramirez (X - 50 - 16)
-t13.new_ab()
+t13.new_ab(is_risp=True)
 t13.pitch_list("b f")
 t13.hit(2, rbis=2)
 t13.advance(3, "3 1B")
 
 # 4. BOS #3  Sandy León (X - 13 - X)
-t13.new_ab()
+t13.new_ab(is_risp=True)
 t13.pitch_list("c f")
 t13.hit(1)
 
 # 5. BOS #2  Xander Bogaerts (13 - X - 3)
-t13.new_ab()
+t13.new_ab(is_risp=True)
 t13.out("L9")
 
 

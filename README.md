@@ -178,8 +178,13 @@ To start a new at-bat, call the `new_ab` method. This will automatically start
 an at-bat for the next batter on the batting team.
 
 ```
-inn.new_ab()
+inn.new_ab([IS_RISP])
 ```
+
+Arguments:
+- `IS_RISP` (bool, optional): Indicates to the scorecard generator that the
+  result of this at-bat should be counted for the batting average with runners
+  in scoring position statistic shown for the team.
 
 Once an at-bat is started, the following methods can be called:
 

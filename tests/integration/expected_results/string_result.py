@@ -42,6 +42,7 @@ PO: 0
 PB: 0
 E: 1
 LOB: 5
+RISP: 2-5
 
 
 Home team: Bar Foos
@@ -81,6 +82,7 @@ PO: 0
 PB: 1
 E: 1
 LOB: 3
+RISP: 7-9
 
 
 Umpires:

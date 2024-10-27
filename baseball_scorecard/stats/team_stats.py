@@ -1,3 +1,6 @@
+from baseball_scorecard.stats.pitcher_stats import PitcherStats
+
+
 class TeamStats:
 
     def __init__(self):
@@ -19,6 +22,8 @@ class TeamStats:
         self.triple_plays: int = 0
         self.errors: int = 0
         self.left_on_base: int = 0
+        self.risp_at_bats: int = 0
+        self.risp_hits: int = 0
 
         # At-bats to be calculated from the team's totals.
         self.at_bats: int = 0
@@ -34,7 +39,9 @@ class TeamStats:
         self.pitches: int = 0
         self.strikes: int = 0
 
-    def get_metapost_data(self, total_at_bats, pitching_stats):
+    def get_metapost_data(
+        self, total_at_bats: int, pitching_stats: PitcherStats
+    ) -> str:
         # Add the pitching stats to the team stats.
         self.__add_pitching_stats(pitching_stats)
 
@@ -50,7 +57,7 @@ class TeamStats:
         result += self.__get_basepath_metapost_data()
         return result
 
-    def __add_pitching_stats(self, pitching_stats):
+    def __add_pitching_stats(self, pitching_stats: PitcherStats):
         self.outs = pitching_stats.outs
         self.hit_by_pitch = pitching_stats.hits_by_pitch
         self.walks = pitching_stats.walks
@@ -61,7 +68,7 @@ class TeamStats:
         self.pitches = pitching_stats.pitches
         self.strikes = pitching_stats.strikes
 
-    def __get_game_total_metapost_data(self):
+    def __get_game_total_metapost_data(self) -> str:
         # Calculate the hits.
         hits = 0
         for _, hit_count in self.hits.items():
@@ -81,7 +88,8 @@ class TeamStats:
         )
         return result
 
-    def __get_basepath_metapost_data(self):
+    def __get_basepath_metapost_data(self) -> str:
+
         # Calculate the total bases.
         total_bases = 0
         for i in range(1, 5):
@@ -110,7 +118,7 @@ class TeamStats:
             f"    label.urt(btex {{\\sf {self.picked_off}}} etex, basepath_po_label) withcolor clr;\n"
             f"    label.urt(btex {{\\sf {self.double_plays}}} etex, basepath_dp_label) withcolor clr;\n"
             f"    label.urt(btex {{\\sf {self.triple_plays}}} etex, basepath_tp_label) withcolor clr;\n"
-            f"    label.urt(btex {{\\sf {self.errors}}} etex, basepath_e_label) withcolor clr;\n"
+            f"    label(btex {{\\sf {self.risp_hits}-{self.risp_at_bats}}} etex, basepath_risp_label) withcolor clr;\n"
             "\n"
         )
 
@@ -158,6 +166,7 @@ class TeamStats:
             f"PB: {self.passed_balls}\n"
             f"E: {self.errors}\n"
             f"LOB: {self.left_on_base}\n"
+            f"RISP: {self.risp_hits}-{self.risp_at_bats}\n"
         )
 
         return result

@@ -251,6 +251,10 @@ etex
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+%   Sun Oct 20 12:41 UTC-6 2024
+%       * Removed the basepath error stat, replaced it with RISP.
+%       * Vicyorus
+%
 %   Tue Sep 11 15:33 UTC-6 2024
 %       * Rewrote the scorecard function to allow for a variable
 %         number of innings.
@@ -777,7 +781,7 @@ def set_basepath_total_vars(expr innings) =
 
         pair basepath_first_label,basepath_second_label,basepath_third_label,basepath_hr_label,basepath_sf_label,basepath_sac_label;
         pair basepath_tb_label,basepath_hbp_label,basepath_ibb_label,basepath_blk_label,basepath_wp_label,basepath_pb_label;
-        pair basepath_sb_label,basepath_cs_label,basepath_po_label,basepath_dp_label,basepath_tp_label,basepath_e_label;
+        pair basepath_sb_label,basepath_cs_label,basepath_po_label,basepath_dp_label,basepath_tp_label,basepath_risp_label;
         pair basepath_totals_label,basepath_run_lob_opo_label;
 
         basepath_first_label  := (xstart + nudge, ystart - nudge);
@@ -799,7 +803,7 @@ def set_basepath_total_vars(expr innings) =
         basepath_po_label := (xstart + xoffset * 2 + nudge, ystart - (yoffset * 2) - nudge);
         basepath_dp_label := (xstart + xoffset * 2 + nudge, ystart - (yoffset * 3) - nudge);
         basepath_tp_label := (xstart + xoffset * 2 + nudge, ystart - (yoffset * 4) - nudge);
-        basepath_e_label  := (xstart + xoffset * 2 + nudge, ystart - (yoffset * 5) - nudge);
+        basepath_risp_label  := (xstart + xoffset * 2 + nudge * 2, ystart - (yoffset * 5) + 1.5);
 
         xstart := (ab_box_size * innings) + (stat_box_size * 6);
         basepath_totals_label      := (xstart + nudge, ystart - (yoffset * 6) - nudge);
@@ -1306,7 +1310,7 @@ def draw_full_scorecard(expr innings) =
         label.urt(btex {\sf PO} etex,  (xstart + xoffset * 2 + nudge, ystart - (yoffset * 2) - nudge)) withcolor clr;
         label.urt(btex {\sf DP} etex,  (xstart + xoffset * 2 + nudge, ystart - (yoffset * 3) - nudge)) withcolor clr;
         label.urt(btex {\sf TP} etex,  (xstart + xoffset * 2 + nudge, ystart - (yoffset * 4) - nudge)) withcolor clr;
-        label.urt(btex {\sf E} etex,  (xstart + xoffset * 2 + nudge, ystart - (yoffset * 5) - nudge)) withcolor clr;
+        label.urt(btex {\sf RISP} etex,  (xstart + xoffset * 2 + nudge, ystart - (yoffset * 5) - nudge)) withcolor clr;
 
         % Proof
         label.urt(btex {\sf AB+BB+HBP+SAC+SF} etex, (xstart + nudge, ystart - (yoffset * 6) - nudge)) withcolor clr;

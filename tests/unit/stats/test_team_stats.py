@@ -35,6 +35,8 @@ from baseball_scorecard.stats.pitcher_stats import PitcherStats
                 "wild_pitches": 1,
                 "pitches": 1,
                 "strikes": 1,
+                "risp_abs": 2,
+                "risp_hits": 1,
             },
             (
                 "    %% game totals\n"
@@ -69,7 +71,7 @@ from baseball_scorecard.stats.pitcher_stats import PitcherStats
                 "    label.urt(btex {\\sf 1} etex, basepath_po_label) withcolor clr;\n"
                 "    label.urt(btex {\\sf 1} etex, basepath_dp_label) withcolor clr;\n"
                 "    label.urt(btex {\\sf 1} etex, basepath_tp_label) withcolor clr;\n"
-                "    label.urt(btex {\\sf 1} etex, basepath_e_label) withcolor clr;\n"
+                "    label(btex {\\sf 1-2} etex, basepath_risp_label) withcolor clr;\n"
                 "\n"
                 "    label.urt(btex {\\sf 33+2+1+1+1~~=~~38} etex, basepath_totals_label) withcolor clr;\n"
                 "    label.urt(btex {\\sf 1+1+1~~=~~3} etex, basepath_run_lob_opo_label) withcolor clr;\n"
@@ -90,6 +92,7 @@ from baseball_scorecard.stats.pitcher_stats import PitcherStats
                 "PB: 1\n"
                 "E: 1\n"
                 "LOB: 1\n"
+                "RISP: 1-2\n"
             ),
         ),
     ],
@@ -116,6 +119,8 @@ class TestTeamStats:
         team_stats.triple_plays = data["triple_plays"]
         team_stats.errors = data["errors"]
         team_stats.left_on_base = data["left_on_base"]
+        team_stats.risp_at_bats = data["risp_abs"]
+        team_stats.risp_hits = data["risp_hits"]
 
         team_stats.at_bats = data["at_bats"]
 
@@ -150,5 +155,7 @@ class TestTeamStats:
         team_stats.triple_plays = data["triple_plays"]
         team_stats.errors = data["errors"]
         team_stats.left_on_base = data["left_on_base"]
+        team_stats.risp_at_bats = data["risp_abs"]
+        team_stats.risp_hits = data["risp_hits"]
 
         assert str(team_stats) == expected_str

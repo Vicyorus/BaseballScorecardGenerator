@@ -15,11 +15,13 @@ class AtBat:
         batter: Player,
         pitcher: Player,
         inning_stats: InningStats,
+        is_risp: bool = False,
     ):
         self.lineup_position: int = lineup_position
         self.batter: Player = batter
         self.pitcher: Player = pitcher
         self.inning_stats: InningStats = inning_stats
+        self.is_risp = is_risp
 
         # Add a batter faced to the pitcher.
         self.pitcher.pitcher_stats.batters_faced += 1

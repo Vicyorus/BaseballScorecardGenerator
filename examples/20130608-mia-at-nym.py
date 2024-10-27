@@ -188,7 +188,7 @@ b1.pitch_list("1 1 b f b f f b f")
 b1.hit(1)
 
 # 5. NYM #6  Marlon Byrd (28 - X - 21)
-b1.new_ab()
+b1.new_ab(is_risp=True)
 b1.pitch_list("c f c")
 b1.out("!K")
 
@@ -237,12 +237,12 @@ b2.pitch_list("b b c f f")
 b2.hit(2, rbis=1)
 
 # 9. NYM #33 Matt Harvey (X - 12 - X)
-b2.new_ab()
+b2.new_ab(is_risp=True)
 b2.pitch_list("f f s")
 b2.out("K")
 
 # 1. NYM #3  Omar Quintanilla (X - 12 - X)
-b2.new_ab()
+b2.new_ab(is_risp=True)
 b2.out("F7")
 
 
@@ -322,7 +322,7 @@ t4.hit(1)
 t4.thrown_out(2, "30 POCS", 3, 33)
 
 # 5. MIA #8  Chris Coghlan (51 - X - 48)
-t4.new_ab()
+t4.new_ab(is_risp=True)
 t4.pitch_list("b b")
 t4.out("SF9", rbis=1)
 
@@ -375,17 +375,17 @@ t5.thrown_out(3, "16 FC1-5", 2, 33)
 t5.new_ab()
 t5.hit(1)
 t5.advance(2, "16 FC1-5")
-t5.thrown_out(4, "9 8-2", 3, 33)
 t5.advance(3, "9 1B")
+t5.thrown_out(4, "9 8-2", 3, 33)
 
 # 9. MIA #16 José Fernández (X - 19 - 3)
-t5.new_ab()
+t5.new_ab(is_risp=True)
 t5.pitch_list("m")
 t5.reach("FC1-5")
 t5.advance(2, "9 8-2")
 
 # 1. MIA #9  Juan Pierre (X - 3 - 16)
-t5.new_ab()
+t5.new_ab(is_risp=True)
 t5.pitch_list("c b b b")
 t5.hit(1)
 
@@ -533,7 +533,7 @@ t8.thrown_out(3, "9 POCS", 1, 34)
 t8.offensive_substitution(9, 29, "PH")
 
 # 9. MIA #29 Greg Dobbs (X - X - 3)
-t8.new_ab()
+t8.new_ab(is_risp=True)
 t8.pitch_list("f 1 f b d b f b")
 t8.reach("BB")
 t8.thrown_out(2, "9 DP4-6-3", 2, 34)
@@ -568,7 +568,7 @@ b8.pitch_list("1 b s b c f f f 1 b s")
 b8.out("K")
 
 # 5. NYM #6  Marlon Byrd (X - 5 - X)
-b8.new_ab()
+b8.new_ab(is_risp=True)
 b8.pitch_list("i i i i")
 b8.reach("IBB")
 
@@ -580,7 +580,7 @@ b8.defensive_substitution(9, 58, "1")
 b8.offensive_substitution(6, 2, "PH")
 
 # 6. NYM #2  Justin Turner (X - 5 - 6)
-b8.new_ab()
+b8.new_ab(is_risp=True)
 b8.pitch_list("c b b f")
 b8.out("F8")
 
@@ -648,17 +648,17 @@ b9.defensive_substitution(9, 20, "8")
 b9.offensive_substitution(9, 20, "PH")
 
 # 9. NYM #20 Anthony Recker (X - 44 - X)
-b9.new_ab()
+b9.new_ab(is_risp=True)
 b9.pitch_list("c b c s")
 b9.out("K")
 
 # 1. NYM #3  Omar Quintanilla (X - 44 - X)
-b9.new_ab()
+b9.new_ab(is_risp=True)
 b9.pitch_list("b b b c b")
 b9.reach("BB")
 
 # 2. NYM #28 Daniel Murphy (X - 44 - 3)
-b9.new_ab()
+b9.new_ab(is_risp=True)
 b9.pitch_list("f")
 b9.out("G4-3")
 
@@ -700,7 +700,7 @@ t10.pitching_substitution(56)
 t10.defensive_substitution(9, 56, "1")
 
 # 1. MIA #9  Juan Pierre (3 - X - 20)
-t10.new_ab()
+t10.new_ab(is_risp=True)
 t10.pitch_list("l")
 t10.out("F7")
 
@@ -741,7 +741,7 @@ b10.defensive_switch(59, "7")
 b10.defensive_substitution(5, 18, "3")
 
 # 7. NYM #44 John Buck (X - 6 - 2)
-b10.new_ab()
+b10.new_ab(is_risp=True)
 b10.pitch_list("b")
 b10.out("(F)P5")
 
@@ -845,11 +845,11 @@ b12.pitch_list("s")
 b12.reach("FC5")
 
 # 4. NYM #21 Lucas Duda (X - 28 - 5)
-b12.new_ab()
+b12.new_ab(is_risp=True)
 b12.out("L8")
 
 # 5. NYM #6  Marlon Byrd (28 - X - 5)
-b12.new_ab()
+b12.new_ab(is_risp=True)
 b12.pitch_list("s f f")
 b12.out("DP9-2")
 
@@ -911,12 +911,12 @@ b13.pitch_list("c f")
 b13.hit(1)
 
 # 9. NYM #16 Rick Ankiel (X - 2 - 12)
-b13.new_ab()
+b13.new_ab(is_risp=True)
 b13.pitch_list("b c")
 b13.out("(F)P5")
 
 # 1. NYM #3  Omar Quintanilla (X - 2 - 12)
-b13.new_ab()
+b13.new_ab(is_risp=True)
 b13.pitch_list("c f b f t")
 b13.out("KT")
 
@@ -976,7 +976,7 @@ b14.reach("HBP")
 b14.thrown_out(2, "2 FC5-4", 3, 45)
 
 # 6. NYM #2  Justin Turner (X - 5 - 38)
-b14.new_ab()
+b14.new_ab(is_risp=True)
 b14.pitch_list("c b")
 b14.reach("FC5-4")
 
@@ -1024,12 +1024,12 @@ b15.new_ab()
 b15.out("G4-3")
 
 # 9. NYM #16 Rick Ankiel (X - 44 - X)
-b15.new_ab()
+b15.new_ab(is_risp=True)
 b15.pitch_list("b s s d f s")
 b15.out("K")
 
 # 1. NYM #3  Omar Quintanilla (X - 44 - X)
-b15.new_ab()
+b15.new_ab(is_risp=True)
 b15.pitch_list("c d s c")
 b15.out("!K")
 
@@ -1112,16 +1112,16 @@ b17.pitch_list("c f f f f f")
 b17.hit(2)
 
 # 7. NYM #44 John Buck (X - 2 - X)
-b17.new_ab()
+b17.new_ab(is_risp=True)
 b17.out("F9")
 
 # 8. NYM #12 Juan Lagares (X - 2 - X)
-b17.new_ab()
+b17.new_ab(is_risp=True)
 b17.pitch_list("c f")
 b17.out("P3")
 
 # 9. NYM #16 Rick Ankiel (X - 2 - X)
-b17.new_ab()
+b17.new_ab(is_risp=True)
 b17.pitch_list("b f b s s")
 b17.out("K")
 
@@ -1168,12 +1168,12 @@ b18.new_ab()
 b18.hit(1)
 
 # 4. NYM #21 Lucas Duda (X - 3 - 5)
-b18.new_ab()
+b18.new_ab(is_risp=True)
 b18.pitch_list("s f s")
 b18.out("K")
 
 # 5. NYM #6  Marlon Byrd (X - 3 - 5)
-b18.new_ab()
+b18.new_ab(is_risp=True)
 b18.pitch_list("f b")
 b18.out("(F)F9")
 
@@ -1242,11 +1242,11 @@ t20.advance(4, "3 1B")
 # 7. MIA #19 Rob Brantly (X - X - 30)
 t20.new_ab()
 t20.hit(1)
-t20.thrown_out(3, "3 8-5", 2, 38)
 t20.advance(2, "3 1B")
+t20.thrown_out(3, "3 8-5", 2, 38)
 
 # 8. MIA #3  Adeiny Hechavarría (X - 30 - 19)
-t20.new_ab()
+t20.new_ab(is_risp=True)
 t20.pitch_list("c")
 t20.hit(1, rbis=1)
 

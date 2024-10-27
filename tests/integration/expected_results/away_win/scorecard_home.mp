@@ -330,7 +330,7 @@ beginfig(0);
     label.urt(btex {\sf 0} etex, basepath_po_label) withcolor clr;
     label.urt(btex {\sf 0} etex, basepath_dp_label) withcolor clr;
     label.urt(btex {\sf 0} etex, basepath_tp_label) withcolor clr;
-    label.urt(btex {\sf 0} etex, basepath_e_label) withcolor clr;
+    label(btex {\sf 0-0} etex, basepath_risp_label) withcolor clr;
 
     label.urt(btex {\sf 0+0+0+0+0~~=~~0} etex, basepath_totals_label) withcolor clr;
     label.urt(btex {\sf 0+0+0~~=~~0} etex, basepath_run_lob_opo_label) withcolor clr;

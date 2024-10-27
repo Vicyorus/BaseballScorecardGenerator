@@ -149,22 +149,22 @@ t1.advance(3, "5 G6-3")
 t1.advance(4, "18 2B")
 
 # 2. TBR #5  Matt Duffy (X - 0 - X)
-t1.new_ab()
+t1.new_ab(is_risp=True)
 t1.pitch_list("c b")
 t1.out("G6-3")
 
 # 3. TBR #18 Joey Wendle (0 - X - X)
-t1.new_ab()
+t1.new_ab(is_risp=True)
 t1.pitch_list("d d c s f f")
 t1.hit(2, rbis=1)
 
 # 4. TBR #44 C.J. Cron (X - 18 - X)
-t1.new_ab()
+t1.new_ab(is_risp=True)
 t1.pitch_list("b b f s s")
 t1.out("K")
 
 # 5. TBR #26 Ji Man Choi (X - 18 - X)
-t1.new_ab()
+t1.new_ab(is_risp=True)
 t1.pitch_list("b c")
 t1.out("L9")
 
@@ -206,7 +206,7 @@ t2.advance(3, "1 SB")
 t2.advance("U", "1 G6-3")
 
 # 7. TBR #1  Willy Adames (X - 39 - X)
-t2.new_ab()
+t2.new_ab(is_risp=True)
 t2.pitch_list("d s b f d")
 t2.out("G6-3", rbis=1)
 
@@ -231,13 +231,13 @@ b2.hit(2)
 b2.advance(3, "55 HBP")
 
 # 5. TOR #8  Kendrys Morales (X - 37 - X)
-b2.new_ab()
+b2.new_ab(is_risp=True)
 b2.pitch_list("b b d c d")
 b2.reach("BB")
 b2.advance(2, "55 HBP")
 
 # 6. TOR #7  Richard Urena (X - 37 - 8)
-b2.new_ab()
+b2.new_ab(is_risp=True)
 b2.pitch_list("c f d b f f f f f f s")
 b2.out("K")
 
@@ -249,17 +249,17 @@ b2.offensive_substitution(6, 7, "PH")
 b2.pitching_substitution(63)
 
 # 7. TOR #55 Russell Martin (X - 37 - 8)
-b2.new_ab()
+b2.new_ab(is_risp=True)
 b2.pitch_list("b s")
 b2.reach("HBP")
 
 # 8. TOR #1  Aledmys Díaz (37 - 8 - 55)
-b2.new_ab()
+b2.new_ab(is_risp=True)
 b2.pitch_list("b f b b s")
 b2.out("(F)P2")
 
 # 9. TOR #11 Kevin Pillar (37 - 8 - 55)
-b2.new_ab()
+b2.new_ab(is_risp=True)
 b2.pitch_list("c")
 b2.out("G4-3")
 
@@ -334,17 +334,17 @@ t4.hit(2)
 t4.advance(3, "39 F9")
 
 # 6. TBR #39 Kevin Kiermaier (X - 26 - X)
-t4.new_ab()
+t4.new_ab(is_risp=True)
 t4.pitch_list("b c l f f f b b f")
 t4.out("F9")
 
 # 7. TBR #1  Willy Adames (26 - X - X)
-t4.new_ab()
+t4.new_ab(is_risp=True)
 t4.pitch_list("s f d d s")
 t4.out("K")
 
 # 8. TBR #35 Brandon Lowe (26 - X - X)
-t4.new_ab()
+t4.new_ab(is_risp=True)
 t4.pitch_list("f")
 t4.out("L3")
 
@@ -506,12 +506,12 @@ t7.pitch_list("c 1 f t")
 t7.out("KT")
 
 # 1. TBR #0  Mallex Smith (X - X - 1)
-t7.new_ab()
+t7.new_ab(is_risp=True)
 t7.pitch_list("b b b b")
 t7.reach("BB")
 
 # 2. TBR #5  Matt Duffy (X - 1 - 0)
-t7.new_ab()
+t7.new_ab(is_risp=True)
 t7.pitch_list("b")
 t7.out("P3")
 
@@ -567,12 +567,12 @@ t8.pitch_list("c")
 t8.hit(2)
 
 # 5. TBR #26 Ji Man Choi (X - 44 - X)
-t8.new_ab()
+t8.new_ab(is_risp=True)
 t8.pitch_list("b f c s")
 t8.out("K")
 
 # 6. TBR #39 Kevin Kiermaier (X - 44 - X)
-t8.new_ab()
+t8.new_ab(is_risp=True)
 t8.pitch_list("s b")
 t8.out("G4-3")
 
@@ -632,7 +632,7 @@ t9.pitch_list("d b s")
 t9.out("G4-3")
 
 # 9. TBR #45 Jesús Sucre (X - 1 - X)
-t9.new_ab()
+t9.new_ab(is_risp=True)
 t9.hit(1, rbis=1)
 t9.thrown_out(2, "8-2-6", 2, 52)
 

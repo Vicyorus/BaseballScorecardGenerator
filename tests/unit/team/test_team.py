@@ -535,7 +535,7 @@ class TestTeam:
             "    label.urt(btex {\\sf 0} etex, basepath_po_label) withcolor clr;\n"
             "    label.urt(btex {\\sf 0} etex, basepath_dp_label) withcolor clr;\n"
             "    label.urt(btex {\\sf 0} etex, basepath_tp_label) withcolor clr;\n"
-            "    label.urt(btex {\\sf 0} etex, basepath_e_label) withcolor clr;\n"
+            "    label(btex {\\sf 0-0} etex, basepath_risp_label) withcolor clr;\n"
             "\n"
             "    label.urt(btex {\\sf 27+0+0+0+0~~=~~27} etex, basepath_totals_label) withcolor clr;\n"
             "    label.urt(btex {\\sf 0+0+0~~=~~0} etex, basepath_run_lob_opo_label) withcolor clr;\n"
@@ -588,6 +588,7 @@ class TestTeam:
             "PB: 0\n"
             "E: 0\n"
             "LOB: 0\n"
+            "RISP: 0-0\n"
             "\n\n"
         )
         assert str(team) == expected_str

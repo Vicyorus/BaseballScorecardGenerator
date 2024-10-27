@@ -7,4 +7,3 @@ mpost -tex=latex scorecard_home.mp
 mptopdf scorecard_home.*
 
 pdflatex scorecard.tex
-rm mpxerr.tex

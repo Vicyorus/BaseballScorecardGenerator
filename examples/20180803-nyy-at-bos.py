@@ -175,7 +175,7 @@ b1.hit(2)
 b1.advance(4, "25 HR")
 
 # 3. BOS #25 Steve Pearce (X - 16 - X)
-b1.new_ab()
+b1.new_ab(is_risp=True)
 b1.pitch_list("b")
 b1.hit(4, rbis=2)
 
@@ -192,7 +192,7 @@ b1.advance(2, "36 SB")
 b1.advance(4, "36 1B")
 
 # 6. BOS #36 Eduardo Núñez (X - X - 5)
-b1.new_ab()
+b1.new_ab(is_risp=True)
 b1.pitch_list("b c b")
 b1.hit(1, rbis=1)
 
@@ -254,13 +254,13 @@ b2.pitch_list("s")
 b2.hit(2)
 
 # 2. BOS #16 Andrew Benintendi (X - 50 - X)
-b2.new_ab()
+b2.new_ab(is_risp=True)
 b2.pitch_list("b b f b d")
 b2.reach("BB")
 b2.thrown_out(2, "25 FC6-4", 3, 40)
 
 # 3. BOS #25 Steve Pearce (X - 50 - 16)
-b2.new_ab()
+b2.new_ab(is_risp=True)
 b2.pitch_list("f")
 b2.reach("FC6-4")
 
@@ -404,7 +404,7 @@ b5.hit(2)
 b5.advance(4, "18 1B")
 
 # 5. BOS #18 Mitch Moreland (X - 28 - X)
-b5.new_ab()
+b5.new_ab(is_risp=True)
 b5.pitch_list("c")
 b5.hit(1, rbis=1)
 
