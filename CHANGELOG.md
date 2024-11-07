@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Optional argument, `template_dir` in the `Scorecard` class, used to specify a custom folder where different templates for the scorecard may be added.
-- Optional argument, `template_dir` in the `Inning.new_ab` method, used to specify that the result of the new at-bat counts for the team's batting average with runners in scoring position statistic.
+- Optional argument, `is_risp` in the `Inning.new_ab` method, used to specify that the result of the new at-bat counts for the team's batting average with runners in scoring position statistic.
 
 ### Changed
 
@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Issue where not specifying the RBIs in a solo home run caused the batter to not get assigned the RBI.
 - Issue with reaching on a strikeout adding an additional strike to the pitch count.
+- Issue with sacrifice bunts, sacrifice flys and double plays not being tallied when the batter reaches base.
+- Issue with sacrifice bunts and sacrifice flys counting as at-bats when tallying at-bats with RISP.
 
 ## [0.1.1] - 2024-09-09
 

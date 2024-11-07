@@ -270,6 +270,9 @@ Arguments:
   - `HBP`: Hit by pitch.
   - `CI`: Catcher's interference.
   - `K`: Strikeout.
+  - `SAC`: Sacrifice bunt.
+  - `SF`: Sacrifice fly.
+  - `DP`: Double play.
 - `END_BASE` (int, optional): If the batter-runner reached past 1B, use this
   argument. Default is 1 for 1B.
 - `RBIS` (int, optional): If the play resulted in runs batted in, set the

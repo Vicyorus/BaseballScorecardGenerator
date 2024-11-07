@@ -7,18 +7,18 @@ Scorer: Sco Rer
 
 Away team: Foo Bars
 
-P #1 John Doe (1) 5 AB 2 SO
+P #1 John Doe (1) 4 AB 2 SO
 C #2 John Doe (1) 5 AB 2 R 2 H 1 RBI 2 SO
 1B #3 John Doe (1) 4 AB 2 R 2 H 1 RBI 1 SO
 2B #4 John Doe (1) 2 AB 1 H 1 RBI 1 SO
     2B #11 John Doe (6) 1 AB 1 R 1 H
 3B #5 John Doe (1) 3 AB 1 R 1 H 1 BB 1 SO
-SS #6 John Doe (1) 4 AB 1 R 1 H 2 RBI
+SS #6 John Doe (1) 4 AB 2 R 1 H 2 RBI
 LF #7 John Doe (1) 4 AB 1 H 1 RBI 2 SO
 CF #8 John Doe (1) 4 AB 1 H 2 SO
 RF #9 John Doe (1) 3 AB 2 H 1 BB 1 SO
 
-#1 John Doe (1) L 5.0 IP 29 BF 14 H 12 R 11 ER 6 SO 1 WP 2 HR 117 P 79 S
+#1 John Doe (1) L 5.0 IP 29 BF 13 H 12 R 11 ER 6 SO 1 WP 2 HR 117 P 79 S
 #10 John Doe (6) 3.0 IP 12 BF 2 H 2 R 2 ER 1 BB 3 SO 1 HR 44 P 27 S
 
 ~~#11 John Doe (1B)~~
@@ -27,12 +27,12 @@ RF #9 John Doe (1) 3 AB 2 H 1 BB 1 SO
 
 ~~#10 John Doe (P)~~
 
-R: 7
+R: 8
 1B: 8
 2B: 2
 3B: 0
 HR: 2
-SAC: 1
+SAC: 2
 SF: 1
 DP: 1
 TP: 1
@@ -40,14 +40,14 @@ SB: 0
 CS: 0
 PO: 0
 PB: 0
-E: 1
-LOB: 5
-RISP: 2-5
+E: 2
+LOB: 4
+RISP: 2-4
 
 
 Home team: Bar Foos
 
-P #21 Jack Doe (1) 5 AB 2 R 2 H 1 RBI 2 SO
+P #21 Jack Doe (1) 4 AB 2 R 1 H 2 SO
 C #22 Jack Doe (1) 5 AB 2 R 2 H 2 RBI 2 SO
 1B #23 Jack Doe (1) 5 AB 2 R 3 H 4 RBI
 2B #24 Jack Doe (1) 3 AB 1 R 1 H
@@ -58,7 +58,7 @@ LF #27 Jack Doe (1) 4 AB 1 R 2 H 1 RBI 1 SO
 CF #28 Jack Doe (1) 4 AB 1 SO
 RF #29 Jack Doe (1) 4 AB 2 R 2 H
 
-#21 Jack Doe (1) W 8.0 IP 35 BF 11 H 7 R 7 ER 2 BB 11 SO 1 BLK 1 WP 2 HR 145 P 92 S
+#21 Jack Doe (1) W 8.0 IP 35 BF 11 H 8 R 8 ER 2 BB 11 SO 1 BLK 1 WP 2 HR 145 P 92 S
 #30 Jack Doe (9) S 1.0 IP 4 BF 1 H 1 SO 7 P 7 S
 
 ~~#31 Jack Doe (2B)~~
@@ -69,18 +69,18 @@ RF #29 Jack Doe (1) 4 AB 2 R 2 H
 
 R: 14
 1B: 5
-2B: 8
+2B: 7
 3B: 0
 HR: 3
 SAC: 0
-SF: 0
+SF: 1
 DP: 0
 TP: 0
-SB: 1
+SB: 2
 CS: 1
 PO: 0
 PB: 1
-E: 1
+E: 2
 LOB: 3
 RISP: 7-9
 
@@ -330,19 +330,19 @@ Pitches: f b X
 
 9. #29 Jack Doe vs #1 John Doe
 Pitches: c c R
-    Advance (0 to 1): Error on E4
-    Advance (1 to 3): Advance on 21 2B
-    Advance (3 to U): Advance on 21 2B
+    Advance (0 to 2): Error on E4
+    Advance (2 to 3): Advance on 21 SB
+    Advance (3 to U): Advance on 21 SF7
 
 1. #21 Jack Doe vs #1 John Doe
-Pitches: f b H
-    Advance (0 to 2): Hit on 2
+Pitches: f b R
+    Advance (0 to 1): Reach on SF7
 
 2. #22 Jack Doe vs #1 John Doe
 Pitches: c f b d b s
     Out #3: K
 
-Inning totals: 2 R 2 H 1 E 1 LOB 2 K 24 P 17 S
+Inning totals: 2 R 1 H 2 E 1 LOB 2 K 24 P 17 S
 
 Top of the 6th
 1. #1 John Doe vs #21 Jack Doe
@@ -397,9 +397,9 @@ Inning totals: 2 R 2 H 2 K 21 P 13 S
 Top of the 7th
 6. #6 John Doe vs #21 Jack Doe
 Pitches: ab f f R
-    Advance (0 to 1): Error on E5
-    Advance (1 to 2): Advance on 9 DI
-    Out #3: Thrown out (2 to 3), 1 FC5
+    Advance (0 to 2): Error on E5
+    Advance (2 to 3): Advance on 9 DI
+    Advance (3 to 4): Advance on 1 SAC1
 
 7. #7 John Doe vs #21 Jack Doe
 Pitches: c f f s
@@ -415,9 +415,10 @@ Pitches: d b b c b
 
 1. #1 John Doe vs #21 Jack Doe
 Pitches: f f b b R
-    Advance (0 to 1): Reach on FC5
+    Advance (0 to 1): Reach on SAC1
+    Out #3: Thrown out (1 to 2), 1-4
 
-Inning totals: 1 E 2 LOB 1 BB 1 K 25 P 16 S
+Inning totals: 1 R 2 E 1 LOB 1 BB 1 K 25 P 16 S
 
 Bottom of the 7th
 8. #28 Jack Doe vs #10 John Doe

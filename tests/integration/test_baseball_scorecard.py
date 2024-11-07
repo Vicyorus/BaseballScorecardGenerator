@@ -412,14 +412,15 @@ class TestBaseballScorecard:
         b5.new_ab()
         b5.pitch_list("c c")
         b5.error(4)
-        b5.reach("E4")
-        b5.advance(3, "21 2B")
-        b5.advance("U", "21 2B")
+        b5.reach("E4", 2)
+        b5.advance(3, "21 SB")
+        b5.advance("U", "21 SF7")
 
         # 1. BAR #21 Jack Doe
-        b5.new_ab()
+        b5.new_ab(is_risp=True)
         b5.pitch_list("f b")
-        b5.hit(2, rbis=1)
+        b5.error(7)
+        b5.reach("SF7")
 
         # 2. BAR #22 Jack Doe
         b5.new_ab(is_risp=True)
@@ -507,9 +508,9 @@ class TestBaseballScorecard:
         t7.new_ab()
         t7.pitch_list("ab f pv f")
         t7.error(5)
-        t7.reach("E5")
-        t7.advance(2, "9 DI")
-        t7.thrown_out(3, "1 FC5", 3, 21)
+        t7.reach("E5", 2)
+        t7.advance(3, "9 DI")
+        t7.advance(4, "1 SAC1")
 
         # 7. FOO #7 John Doe
         t7.new_ab()
@@ -529,7 +530,9 @@ class TestBaseballScorecard:
         # 1. FOO #1 John Doe
         t7.new_ab(is_risp=True)
         t7.pitch_list("f f b b")
-        t7.reach("FC5")
+        t7.error(1)
+        t7.reach("SAC1")
+        t7.thrown_out(2, "1-4", 3, 21)
 
         # Bot 7th
         b7 = scorecard.new_inning()

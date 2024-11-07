@@ -213,6 +213,14 @@ class AtBat:
             add_at_bat = False
             add_strike = False
 
+        # Sacrifice bunt.
+        if "SAC" in play.upper():
+            add_at_bat = False
+
+        # Sacrifice fly.
+        if "SF" in play.upper():
+            add_at_bat = False
+
         # Check if the at-bat needs to be added to the batter's stats.
         # For catcher's interference, hit by pitch and walks, no at-bat
         # is to be granted.

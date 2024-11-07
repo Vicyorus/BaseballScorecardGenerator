@@ -598,13 +598,13 @@ beginfig(0);
     draw_strike_circle(striketwo, clr);
     % end pitches
     draw_cross(rundot, clr);
-    label.lrt(btex {\sf E4} etex, wayfirst) withcolor clr;
-    draw(single) withcolor error;
-    label.ulft(btex {\sf 2B} etex, waythird) withcolor clr;
+    label.urt(btex {\sf E4} etex, waysecond) withcolor clr;
+    draw(double) withcolor error;
+    label.ulft(btex {\sf SB} etex, waythird) withcolor clr;
     label.ulft(btex {\sf 21} etex, waythird+(0,10)) withcolor clr;
-    draw(firstthird) withcolor clr;
+    draw(secondthird) withcolor clr;
     label.lft(btex {\sf 21} etex, wayhome+(-1,-2)) withcolor clr;
-    label.llft(btex {\sf 2B} etex, wayhome+(-1,-5)) withcolor clr;
+    label.llft(btex {\sf SF7} etex, wayhome+(-1,-5)) withcolor clr;
     draw(thirdhome) withcolor clr;
 
     %% inning 5, batter 1
@@ -614,9 +614,8 @@ beginfig(0);
     label(btex {\tiny X} etex, strikeone) withcolor clr;
     draw_strike_dot(ballone, clr);
     % end pitches
-    draw_diamond(rbione, clr);
-    label(btex {\midsf 2B} etex, playloc) withcolor hit;
-    draw(double) withcolor hit;
+    label.lrt(btex {\sf SF7} etex, wayfirst) withcolor clr;
+    draw(single) withcolor clr;
 
     %% inning 5, batter 2
     ystart := 896;
@@ -636,8 +635,8 @@ beginfig(0);
     % inning stats
     set_inning_total_vars(xstart);
     label(btex {\bigsf 2} etex, inn_run) withcolor clr;
-    label(btex {\bigsf 2} etex, inn_hit) withcolor clr;
-    label(btex {\bigsf 1} etex, inn_err) withcolor clr;
+    label(btex {\bigsf 1} etex, inn_hit) withcolor clr;
+    label(btex {\bigsf 2} etex, inn_err) withcolor clr;
     label(btex {\bigsf 1} etex, inn_lob) withcolor clr;
     label(btex {\bigsf 0} etex, inn_bb) withcolor clr;
     label(btex {\bigsf 2} etex, inn_so) withcolor clr;
@@ -845,10 +844,10 @@ beginfig(0);
     % batter stats
     %% batter 1-1
     set_batter_total_vars(1, 1, innings);
-    label(btex {\bigsf 5} etex, batter_ab) withcolor clr;
+    label(btex {\bigsf 4} etex, batter_ab) withcolor clr;
     label(btex {\bigsf 2} etex, batter_r) withcolor clr;
-    label(btex {\bigsf 2} etex, batter_h) withcolor clr;
-    label(btex {\bigsf 1} etex, batter_rbi) withcolor clr;
+    label(btex {\bigsf 1} etex, batter_h) withcolor clr;
+    label(btex {\bigsf 0} etex, batter_rbi) withcolor clr;
     label(btex {\bigsf 0} etex, batter_bb) withcolor clr;
     label(btex {\bigsf 2} etex, batter_so) withcolor clr;
 
@@ -935,10 +934,10 @@ beginfig(0);
 
     %% batter 10-1
     set_batter_total_vars(10, 1, innings);
-    label(btex {\bigsf 40} etex, batter_ab) withcolor clr;
+    label(btex {\bigsf 39} etex, batter_ab) withcolor clr;
     label(btex {\bigsf 14} etex, batter_r) withcolor clr;
-    label(btex {\bigsf 16} etex, batter_h) withcolor clr;
-    label(btex {\bigsf 13} etex, batter_rbi) withcolor clr;
+    label(btex {\bigsf 15} etex, batter_h) withcolor clr;
+    label(btex {\bigsf 12} etex, batter_rbi) withcolor clr;
     label(btex {\bigsf 1} etex, batter_bb) withcolor clr;
     label(btex {\bigsf 9} etex, batter_so) withcolor clr;
 
@@ -947,7 +946,7 @@ beginfig(0);
     label(btex {\bigsf L} etex, pitcher_wls) withcolor clr;
     label(btex {\bigsf 29} etex, pitcher_bf) withcolor clr;
     label(btex {\bigsf 5.0} etex, pitcher_ip) withcolor clr;
-    label(btex {\bigsf 14} etex, pitcher_h) withcolor clr;
+    label(btex {\bigsf 13} etex, pitcher_h) withcolor clr;
     label(btex {\bigsf 12} etex, pitcher_r) withcolor clr;
     label(btex {\bigsf 11} etex, pitcher_er) withcolor clr;
     label(btex {\bigsf 0} etex, pitcher_bb) withcolor clr;
@@ -979,7 +978,7 @@ beginfig(0);
     set_pitcher_total_vars(13);
     label(btex {\bigsf 41} etex, pitcher_bf) withcolor clr;
     label(btex {\bigsf 8.0} etex, pitcher_ip) withcolor clr;
-    label(btex {\bigsf 16} etex, pitcher_h) withcolor clr;
+    label(btex {\bigsf 15} etex, pitcher_h) withcolor clr;
     label(btex {\bigsf 14} etex, pitcher_r) withcolor clr;
     label(btex {\bigsf 13} etex, pitcher_er) withcolor clr;
     label(btex {\bigsf 1} etex, pitcher_bb) withcolor clr;
@@ -996,8 +995,8 @@ beginfig(0);
     %% game totals
     set_game_total_vars(innings);
     label(btex {\bigsf 14} etex, inn_run) withcolor clr;
-    label(btex {\bigsf 16} etex, inn_hit) withcolor clr;
-    label(btex {\bigsf 1} etex, inn_err) withcolor clr;
+    label(btex {\bigsf 15} etex, inn_hit) withcolor clr;
+    label(btex {\bigsf 2} etex, inn_err) withcolor clr;
     label(btex {\bigsf 3} etex, inn_lob) withcolor clr;
     label(btex {\bigsf 1} etex, inn_bb) withcolor clr;
     label(btex {\bigsf 9} etex, inn_so) withcolor clr;
@@ -1007,27 +1006,27 @@ beginfig(0);
     %% basepaths totals
     set_basepath_total_vars(innings);
     label.urt(btex {\sf 5} etex, basepath_first_label) withcolor clr;
-    label.urt(btex {\sf 8} etex, basepath_second_label) withcolor clr;
+    label.urt(btex {\sf 7} etex, basepath_second_label) withcolor clr;
     label.urt(btex {\sf 0} etex, basepath_third_label) withcolor clr;
     label.urt(btex {\sf 3} etex, basepath_hr_label) withcolor clr;
-    label.urt(btex {\sf 0} etex, basepath_sf_label) withcolor clr;
+    label.urt(btex {\sf 1} etex, basepath_sf_label) withcolor clr;
     label.urt(btex {\sf 0} etex, basepath_sac_label) withcolor clr;
 
-    label.urt(btex {\sf 33} etex, basepath_tb_label) withcolor clr;
+    label.urt(btex {\sf 31} etex, basepath_tb_label) withcolor clr;
     label.urt(btex {\sf 0} etex, basepath_hbp_label) withcolor clr;
     label.urt(btex {\sf 0} etex, basepath_ibb_label) withcolor clr;
     label.urt(btex {\sf 0} etex, basepath_blk_label) withcolor clr;
     label.urt(btex {\sf 1} etex, basepath_wp_label) withcolor clr;
     label.urt(btex {\sf 1} etex, basepath_pb_label) withcolor clr;
 
-    label.urt(btex {\sf 1} etex, basepath_sb_label) withcolor clr;
+    label.urt(btex {\sf 2} etex, basepath_sb_label) withcolor clr;
     label.urt(btex {\sf 1} etex, basepath_cs_label) withcolor clr;
     label.urt(btex {\sf 0} etex, basepath_po_label) withcolor clr;
     label.urt(btex {\sf 0} etex, basepath_dp_label) withcolor clr;
     label.urt(btex {\sf 0} etex, basepath_tp_label) withcolor clr;
     label(btex {\sf 7-9} etex, basepath_risp_label) withcolor clr;
 
-    label.urt(btex {\sf 40+1+0+0+0~~=~~41} etex, basepath_totals_label) withcolor clr;
+    label.urt(btex {\sf 39+1+0+0+1~~=~~41} etex, basepath_totals_label) withcolor clr;
     label.urt(btex {\sf 14+3+24~~=~~41} etex, basepath_run_lob_opo_label) withcolor clr;
 endfig;
 end

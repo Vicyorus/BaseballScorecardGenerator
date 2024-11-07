@@ -153,13 +153,13 @@ class Inning:
             raise Exception("More than 3 outs in inning")
 
         # Add team stats for the batting team.
-        if "DP" in play:
+        if "DP" in play.upper():
             self.__batting_team.get_stats().double_plays += 1
-        if "TP" in play:
+        if "TP" in play.upper():
             self.__batting_team.get_stats().triple_plays += 1
-        if "SAC" in play:
+        if "SAC" in play.upper():
             self.__batting_team.get_stats().sac_bunts += 1
-        if "SF" in play:
+        if "SF" in play.upper():
             self.__batting_team.get_stats().sac_flys += 1
 
         # If this was an AB with RISP, add it to the team stats.
@@ -217,6 +217,9 @@ class Inning:
                 - HBP: Hit by pitch.
                 - CI: Catcher's interference.
                 - K: Strikeout.
+                - SAC: Sacrifice bunt.
+                - SF: Sacrifice fly.
+                - DP: Double play.
             end_base (int, optional): If the batter-runner reached past 1B,
                 use this argument. Default is 1 for 1B.
             rbis (int, optional): If the play resulted in runs batted in, set
@@ -235,6 +238,13 @@ class Inning:
         if self.__current_ab.is_risp and self.__is_at_bat_reach(play):
             self.__batting_team.get_stats().risp_at_bats += 1
 
+        if "DP" in play.upper():
+            self.__batting_team.get_stats().double_plays += 1
+        if "SAC" in play.upper():
+            self.__batting_team.get_stats().sac_bunts += 1
+        if "SF" in play.upper():
+            self.__batting_team.get_stats().sac_flys += 1
+
         self.__current_ab.reach(play, end_base=end_base, rbis=rbis)
 
     def __is_at_bat_out(self, play: str):
@@ -245,6 +255,9 @@ class Inning:
 
     def __is_at_bat_reach(self, play: str):
         if play.upper() in ["BB", "IBB", "HBP", "HP", "CI"]:
+            return False
+
+        if "SAC" in play.upper() or "SF" in play.upper():
             return False
 
         return True
@@ -272,7 +285,7 @@ class Inning:
 
         # Check if the batter stole a base, and if so, add a stolen base for
         # the batting team.
-        if "SB" in play:
+        if "SB" in play.upper():
             self.__batting_team.stats.stolen_bases += 1
 
         self.__current_ab.advance(end_base, play)
@@ -309,10 +322,10 @@ class Inning:
 
         # Add stats to the team if the batter was thrown out caught
         # stealing or picked off.
-        if "PO" in play:
+        if "PO" in play.upper():
             self.__batting_team.stats.picked_off += 1
 
-        if "CS" in play:
+        if "CS" in play.upper():
             self.__batting_team.stats.caught_stealing += 1
 
         # Record the out in either the first available out, or in
