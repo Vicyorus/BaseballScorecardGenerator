@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Issue with reaching on a strikeout adding an additional strike to the pitch count.
 - Issue with sacrifice bunts, sacrifice flys and double plays not being tallied when the batter reaches base.
 - Issue with sacrifice bunts and sacrifice flys counting as at-bats when tallying at-bats with RISP.
+- Issue with minimum of inning columns not being calculated properly, as it didn't account overflowing at-bats that required using the next inning column.
 
 ## [0.1.1] - 2024-09-09
 

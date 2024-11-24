@@ -448,6 +448,9 @@ class Inning:
         self.__batting_team.no_ab()
         self.__current_ab.no_ab(label)
 
+    def get_at_bat_amount(self):
+        return len([at_bat for at_bat in self.__events if isinstance(at_bat, AtBat)])
+
     def get_metapost_data(self, overflow: int):
         result = f"    % inning #{self.__number}\n"
 

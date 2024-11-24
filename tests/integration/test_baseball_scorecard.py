@@ -841,3 +841,42 @@ class TestBaseballScorecard:
 
         self._nine_inning_game_calls(scorecard)
         assert str(scorecard) == EXPECTED_STR_RESULT
+
+    def test_baseball_scorecard_exceed_minimum_inn_columns(self, tmp_path):
+        """Tests the scenario where a game uses more than the default minimum
+        number of inning columns."""
+
+        self._write_empty_templates(tmp_path)
+
+        expected_results_folder = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            "expected_results",
+            "exceed_minimum_inn_columns",
+        )
+
+        scorecard = Scorecard(
+            output_dir=tmp_path,
+            template_dir=tmp_path,
+            data=self._game_data,
+        )
+
+        # Create a game that requires 16 inning columns
+        t1 = scorecard.new_inning()
+        for i in range(10):
+            t1.new_ab()
+
+        for j in range(14):
+            scorecard.new_inning()
+            scorecard.new_inning()
+
+        scorecard.generate_scorecard()
+
+        assert filecmp.cmp(
+            os.path.join(expected_results_folder, "scorecard_home.mp"),
+            tmp_path / "scorecard_home.mp",
+        )
+
+        assert filecmp.cmp(
+            os.path.join(expected_results_folder, "scorecard_away.mp"),
+            tmp_path / "scorecard_away.mp",
+        )

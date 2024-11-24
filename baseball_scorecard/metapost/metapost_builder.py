@@ -1,3 +1,4 @@
+import math
 import os
 
 from baseball_scorecard.misc.game_info import GameInfo
@@ -26,8 +27,8 @@ class MetapostBuilder:
         self.away_team = away_team
         self.home_team = home_team
         self.umpires = umpires
-        self.top_innings = []
-        self.bottom_innings = []
+        self.top_innings: list[Inning] = []
+        self.bottom_innings: list[Inning] = []
 
         for inning in innings:
             if inning.top:
@@ -71,12 +72,25 @@ class MetapostBuilder:
             scorecard_fd.write(scorecard_template)
             scorecard_fd.write("\n\n")
 
-            # Obtain the number of innings required for the scorecard.
-            # It is the maximum number between 15, or the amount of innings of the away team.
-            inning_num = (
-                len(self.top_innings)
-                if len(self.top_innings) > MetapostBuilder.min_innings
-                else MetapostBuilder.min_innings
+            # Obtain the number of inning columns required for the scorecard.
+            # It is the maximum number between the sum of columns used by either
+            # the away or home team, or the minimum of inning columns as set in min_innings.
+            top_inning_cols = len(self.top_innings) + sum(
+                [
+                    math.floor(inning.get_at_bat_amount() / 9)
+                    for inning in self.top_innings
+                ]
+            )
+
+            bot_inning_cols = len(self.bottom_innings) + sum(
+                [
+                    math.floor(inning.get_at_bat_amount() / 9)
+                    for inning in self.bottom_innings
+                ]
+            )
+
+            inning_num = max(
+                MetapostBuilder.min_innings, top_inning_cols, bot_inning_cols
             )
 
             # Open the figure where the scorecard is to be drawn.
